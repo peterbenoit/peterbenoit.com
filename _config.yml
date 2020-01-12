@@ -20,7 +20,7 @@ description: Pete's never ending battle with a portfolio
 
 # List of links in the navigation bar
 navbar-links:
-  About Me: "aboutme"
+  About Pete: "aboutme"
   Resources:
     - Learn markdown: "http://www.markdowntutorial.com/"
 
