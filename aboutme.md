@@ -1,16 +1,18 @@
 ---
 layout: page
-title: About me
-subtitle: Why you'd want to go on a date with me
+title: About Pete
+subtitle: Or, why you'd want to hang with me
 ---
 
-My name is Inigo Montoya. I have the following qualities:
+My name is Peter Benoit, but I go by Pete. That's much better. All the best Peter's are Pete's.
 
-- I rock a great mustache
-- I'm extremely loyal to my family
+I have the following qualities:
+
+- I rock an awesome beard
+- I love my dogs
 
 What else do you need?
 
 ### my history
 
-To be honest, I'm having some trouble remembering right now, so why don't you just watch [my movie](http://en.wikipedia.org/wiki/The_Princess_Bride_%28film%29) and it will answer **all** your questions.
+To be honest, I'm having some trouble remembering right now. There's so much history to be had. I've worked at a few places, made a few friends, and learned a thing or two along the way. I can't say I'm the greatest developer you'll ever meet, I'll leave that to every other developer with an inferiority complex to try to convince you of.
