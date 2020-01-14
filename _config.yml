@@ -71,19 +71,9 @@ social-network-links:
   email: "peteongithub@gmail.com?subject=I'd like to hang out with you!&body=Hey Pete, you seem like a cool guy. Can I get more info?"
 #  facebook: peterbenoit
   github: peterbenoit
-#  twitter: daattali
 #  reddit: yourname
-#  linkedin: daattali
-#  xing: yourname
+  linkedin: peterbenoit
 #  stackoverflow: "3943160/daattali"
-#  snapchat: deanat78
-#  instagram: deanat78
-#  youtube: user/deanat78
-#  spotify: yourname
-#  telephone: +14159998888
-#  steam: deanat78
-#  twitch: yourname
-#  yelp: yourname
 
 # Select which share links to show in posts
 share-links-active:
