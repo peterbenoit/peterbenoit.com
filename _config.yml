@@ -68,7 +68,7 @@ author:
 # If you want to add a new link that isn't here, you'll need to also edit the file _data/SocialNetworks.yml
 social-network-links:
   rss: true
-  email: "peteongithub@gmail.com"
+  email: "peteongithub@gmail.com?subject=I'd like to hang out with you!&body=Hey Pete, you seem like a cool guy. Can I get more info?"
 #  facebook: peterbenoit
   github: peterbenoit
 #  twitter: daattali
