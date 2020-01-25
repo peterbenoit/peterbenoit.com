@@ -181,13 +181,22 @@ img {
   -webkit-box-shadow: 0 0 5px rgba(0, 0, 0, .8);
   -moz-box-shadow: 0 0 8px rgba(0, 0, 0, .8);
 }
+
+@keyframes intro {
+  0% {
+    transform: rotateY(360deg);
+  }
+  100% {
+    transform: rotateY(0);
+  }
+}
+
 .navbar-custom .avatar-container .avatar-img {
   width: 100%;
   border-radius: 50%;
   display: block;
-	transition: all 0.65s;
-	transform: rotateY(360deg);  
-}
+  animation: 1s intro;  
+}  
 
 .navbar-custom.top-nav-expanded .avatar-container {
   display: none;
@@ -799,7 +808,7 @@ p.lead:first-of-type:first-letter {
   float: left !important;
   font-size: 6rem !important;
   line-height: 0.75 !important;
-  padding-right: 0.05em !important;
+  padding-right: 0.25em !important;
   color: #330 !important;
   font-weight: normal;
 }
