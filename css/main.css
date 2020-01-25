@@ -786,3 +786,19 @@ pre {
   font-style: italic;
   font-size: 16px;
 }
+
+
+
+p.lead:first-of-type:first-line {
+  font-weight: bold !important;
+}
+
+p.lead:first-of-type:first-letter {
+  float: left !important;
+  font-size: 6rem !important;
+  line-height: 0.75 !important;
+  padding-right: 0.05em !important;
+  color: #330 !important;
+  font-weight: normal;
+}
+
