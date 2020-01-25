@@ -91,7 +91,7 @@ url-pretty: "peterbenoit.com"
 #gtag: "UA-156894454-1"
 
 # Fill in your Google Analytics ID to track your website using GA
-#google_analytics: ""
+#google_analytics: "156894454"
 
 # Google Tag Manager ID
 #gtm: ""
