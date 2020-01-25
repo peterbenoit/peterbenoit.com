@@ -185,6 +185,8 @@ img {
   width: 100%;
   border-radius: 50%;
   display: block;
+	transition: all 0.65s;
+	transform: rotateY(360deg);  
 }
 
 .navbar-custom.top-nav-expanded .avatar-container {
