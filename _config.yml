@@ -20,7 +20,7 @@ description: Portfolio
 
 # List of links in the navigation bar
 navbar-links:
-  About Pete: "aboutme"
+#   About Pete: "aboutme"
   Resources:
     - Code: "https://peterbenoit.github.io/code/"
     - Github: "https://github.com/peterbenoit"
