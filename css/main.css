@@ -798,7 +798,9 @@ pre {
   font-size: 16px;
 }
 
-
+p.lead {
+ font-size: 19px;
+}
 
 p.lead:first-of-type:first-line {
   font-weight: bold !important;
