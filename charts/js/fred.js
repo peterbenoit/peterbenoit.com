@@ -44,13 +44,13 @@ class HousingMarket {
         const section = document.createElement('section');
         const heading = document.createElement('h2');
         heading.textContent = series.name;
-        
+
         const description = document.createElement('p');
         description.textContent = series.description;
 
         const canvas = document.createElement('canvas');
         canvas.id = series.canvasId;
-        canvas.width = window.innerWidth * 0.9;  //400;
+        canvas.width = 400;
         canvas.height = 200;
 
         section.appendChild(heading);
