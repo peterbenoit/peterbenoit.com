@@ -6,12 +6,12 @@ subtitle: Or, why you'd want to hang with me
 
 My name is Peter Benoit, but I go by Pete. That's much better. All the best Peters are Petes.
 
-I live in Atlanta, but I'm not from here. Very few of us are, and we're growing every day.
+I used to live in Atlanta, but I'm not from there. Now I'm somewhere else.
 
 I have the following qualities:
 
 - I rock an awesome beard
-- I love my dogs
+- I love my dog
 
 What else do you need?
 
