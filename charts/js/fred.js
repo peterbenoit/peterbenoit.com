@@ -42,7 +42,6 @@ class HousingMarket {
     createCanvasElement(series) {
         const container = document.getElementById('chart-container');
         const section = document.createElement('section');
-        
         const heading = document.createElement('h2');
         heading.textContent = series.name;
 
@@ -103,7 +102,7 @@ class HousingMarket {
 // Load the configuration and initialize the HousingMarket class
 document.addEventListener('DOMContentLoaded', () => {
     const configName = document.querySelector('script[data-config]').getAttribute('data-config');
-    fetch(`/config/${configName}.config.json`)
+    fetch(`config/${configName}.config.json`)
         .then(response => response.json())
         .then(config => {
             const housingMarket = new HousingMarket(config);
