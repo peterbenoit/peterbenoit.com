@@ -1,0 +1,5 @@
+{
+    "apiKey": "xxx",
+    "apiUrl": "https://api.census.gov/data/2021/acs/acs1",
+    "fields": "NAME,B25001_001E"
+}
