@@ -34,7 +34,7 @@ class HousingMarket {
 		} catch (error) {
 			console.error('Error fetching data from API, falling back to local data:', error);
 			try {
-				const localData = await fetch(`API/${seriesId}.json`).then(res => res.json());
+				const localData = await fetch(`../API/${seriesId}.json`).then(res => res.json());
 				return localData.observations;
 			} catch (localError) {
 				console.error('Error fetching data from local fallback:', localError);
