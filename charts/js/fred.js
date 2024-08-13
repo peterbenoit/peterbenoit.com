@@ -3,7 +3,6 @@ class HousingMarket {
         this.baseUrl = config.baseUrl;
         this.apiKey = config.apiKey;
         this.series = config.series;
-        this.apiCacheDir = 'API'; // Directory for caching API results
     }
 
     // Method to build the FRED API URL
@@ -11,64 +10,16 @@ class HousingMarket {
         return `${this.baseUrl}?series_id=${seriesId}&api_key=${this.apiKey}&file_type=json`;
     }
 
-    // Method to get the cache file path
-    getCacheFilePath(seriesId) {
-        return `${this.apiCacheDir}/${seriesId}.json`;
-    }
-
-    // Method to fetch data from local cache
-    async fetchLocalData(seriesId) {
-        try {
-            const response = await fetch(this.getCacheFilePath(seriesId));
-            if (response.ok) {
-                return await response.json();
-            }
-        } catch (error) {
-            console.error('Error fetching local data:', error);
-        }
-        return null;
-    }
-
-    // Method to save data to local cache
-    async saveToLocalCache(seriesId, data) {
-        try {
-            const response = await fetch(`/save-cache?seriesId=${seriesId}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify(data)
-            });
-            return response.ok;
-        } catch (error) {
-            console.error('Error saving to local cache:', error);
-        }
-    }
-
-    // Method to fetch data from FRED API, with a fallback to local cache
+    // Method to fetch data from FRED API
     async fetchData(seriesId) {
         const url = this.buildUrl(seriesId);
         try {
-            // Attempt to fetch data from the API first
             const response = await fetch(url);
             const data = await response.json();
-            if (data.observations) {
-                // Save the fetched data to local cache
-                this.saveToLocalCache(seriesId, data);
-                return data.observations;
-            }
+            return data.observations;  // FRED returns an array of observations
         } catch (error) {
-            console.error('Error fetching data from FRED API:', error);
-
-            // If the API request fails, try fetching from the local cache
-            const localData = await this.fetchLocalData(seriesId);
-            if (localData) {
-                console.warn('Using cached data due to API failure.');
-                return localData.observations;
-            }
+            console.error('Error fetching data:', error);
         }
-
-        return null; // Return null if both API and local cache fail
     }
 
     // Method to process the data for Chart.js
@@ -89,7 +40,7 @@ class HousingMarket {
 
     // Method to create and append a canvas element along with a description
     createCanvasElement(series) {
-        const container = document.getElementById('chart-container'); // Ensure you have a container in your HTML
+        const container = document.getElementById('chart-container');
         const section = document.createElement('section');
         
         const heading = document.createElement('h2');
@@ -122,7 +73,7 @@ class HousingMarket {
                     label: series.name,
                     data: values,
                     backgroundColor: series.color,
-                    borderColor: series.color.replace('0.2', '1'),  // Adjust border color to be opaque
+                    borderColor: series.color.replace('0.2', '1'),
                     borderWidth: 1,
                     fill: false
                 }]
@@ -140,7 +91,7 @@ class HousingMarket {
     // Method to initialize the data fetching, chart creation, and chart rendering
     async init() {
         for (const series of this.series) {
-            this.createCanvasElement(series); // Dynamically add the canvas element
+            this.createCanvasElement(series);
             const data = await this.fetchData(series.id);
             if (data) {
                 this.renderChart(data, series);
@@ -150,10 +101,13 @@ class HousingMarket {
 }
 
 // Load the configuration and initialize the HousingMarket class
-fetch('config/florida.json')
-    .then(response => response.json())
-    .then(config => {
-        const housingMarket = new HousingMarket(config);
-        housingMarket.init();
-    })
-    .catch(error => console.error('Error loading config:', error));
+document.addEventListener('DOMContentLoaded', () => {
+    const configName = document.querySelector('script[data-config]').getAttribute('data-config');
+    fetch(`/config/${configName}.config.json`)
+        .then(response => response.json())
+        .then(config => {
+            const housingMarket = new HousingMarket(config);
+            housingMarket.init();
+        })
+        .catch(error => console.error('Error loading config:', error));
+});
