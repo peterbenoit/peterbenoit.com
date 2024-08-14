@@ -1,26 +1,24 @@
 class HousingMarket {
 	constructor(config) {
-		this.baseUrl = config.baseUrl;
-		this.apiKey = config.apiKey;
+		this.baseUrl = "https://api.stlouisfed.org/fred/series/observations",
+		this.apiKey = null;
 		this.series = config.series;
 	}
+
+	async fetchApiKey() {
+        try {
+            const response = await fetch('/api/get-fred-api-key');
+            const data = await response.json();
+            this.apiKey = data.apiKey;
+        } catch (error) {
+            console.error('Error fetching API key:', error);
+        }
+    }
 
 	// Method to build the FRED API URL
 	buildUrl(seriesId) {
 		return `${this.baseUrl}?series_id=${seriesId}&api_key=${this.apiKey}&file_type=json`;
 	}
-
-	// // Method to fetch data from FRED API
-	// async fetchData(seriesId) {
-	//     const url = this.buildUrl(seriesId);
-	//     try {
-	//         const response = await fetch(url);
-	//         const data = await response.json();
-	//         return data.observations;  // FRED returns an array of observations
-	//     } catch (error) {
-	//         console.error('Error fetching data:', error);
-	//     }
-	// }
 
 	async fetchData(seriesId) {
 		const url = this.buildUrl(seriesId);
@@ -35,7 +33,6 @@ class HousingMarket {
 			console.error('Error fetching data from API, falling back to local data:', error);
 			try {
 				const localData = await fetch(`API/${seriesId}.json`).then(res => res.json());
-				console.log(localData);
 				return localData.observations;
 			} catch (localError) {
 				console.error('Error fetching data from local fallback:', localError);
@@ -64,14 +61,8 @@ class HousingMarket {
 	createCanvasElement(series) {
 		const container = document.getElementById('chart-container');
 		const section = document.createElement('section');
-
 		const heading = document.createElement('h2');
-		const headingLink = document.createElement('a');
-		headingLink.href = `https://fred.stlouisfed.org/series/${series.id}`;
-		headingLink.textContent = ' [more info]';
-		headingLink.target = '_blank';
 		heading.textContent = series.name;
-		heading.appendChild(headingLink);
 
 		const description = document.createElement('p');
 		description.textContent = series.description;
