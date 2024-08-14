@@ -64,9 +64,14 @@ class HousingMarket {
 	createCanvasElement(series) {
 		const container = document.getElementById('chart-container');
 		const section = document.createElement('section');
-		
+
 		const heading = document.createElement('h2');
+		const headingLink = document.createElement('a');
+		headingLink.href = `https://fred.stlouisfed.org/series/${series.id}`;
+		headingLink.textContent = ' [more info]';
+		headingLink.target = '_blank';
 		heading.textContent = series.name;
+		heading.appendChild(headingLink);
 
 		const description = document.createElement('p');
 		description.textContent = series.description;
