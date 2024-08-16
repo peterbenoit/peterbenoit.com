@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Map Demo 1: Vaccination Rates by State</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="../app.css">
+</head>
+<body>
+
+    <section class="hero is-info">
+        <div class="hero-body">
+            <div class="container">
+                <h1 class="title">
+                    Vaccination Rates by State
+                </h1>
+                <h2 class="subtitle">
+                    Explore vaccination rates across the United States.
+                </h2>
+            </div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <div id="map" style="height: 600px;"></div>
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h3 class="title is-4">Vaccination Rates Data</h3>
+            <table id="vaccination-table" class="display">
+                <thead>
+                    <tr>
+                        <th>State</th>
+                        <th>Vaccination Rate (%)</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Data will be dynamically inserted here -->
+                </tbody>
+            </table>
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="content has-text-centered">
+            <p>
+                <strong>CDC Data Visualization Project</strong> by <a href="#">Your Name</a>. The source code is licensed under <a href="http://opensource.org/licenses/mit-license.php">MIT</a>.
+            </p>
+        </div>
+    </footer>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+    <script src="../app.js"></script>
+    <script>
+        // Initialize the map
+        var map = L.map('map').setView([37.8, -96], 4);  // Center on the US
+
+        // Load and display the map tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 10,
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Placeholder for geoJSON data of states and vaccination rates
+        var stateData = {
+            // This is where the state geoJSON data with vaccination rates will go
+        };
+
+        // Function to style each state based on vaccination rate
+        function style(feature) {
+            return {
+                fillColor: getColor(feature.properties.vaccinationRate),
+                weight: 2,
+                opacity: 1,
+                color: 'white',
+                dashArray: '3',
+                fillOpacity: 0.7
+            };
+        }
+
+        // Function to determine color based on vaccination rate
+        function getColor(rate) {
+            return rate > 70 ? '#006837' :
+                   rate > 50 ? '#31a354' :
+                   rate > 30 ? '#78c679' :
+                   rate > 10 ? '#c2e699' :
+                               '#ffffcc';
+        }
+
+        // Adding GeoJSON layer to the map
+        L.geoJson(stateData, {style: style}).addTo(map);
+
+        // Initialize DataTable
+        $(document).ready(function() {
+            var vaccinationData = [
+                // Example data, replace with actual data
+                { state: "Alabama", rate: 60 },
+                { state: "Alaska", rate: 55 },
+                { state: "Arizona", rate: 62 }
+                // Add more data here
+            ];
+
+            $('#vaccination-table').DataTable({
+                data: vaccinationData,
+                columns: [
+                    { data: 'state', title: 'State' },
+                    { data: 'rate', title: 'Vaccination Rate (%)' }
+                ],
+                paging: true,
+                searching: true,
+                ordering: true
+            });
+        });
+    </script>
+</body>
+</html>
