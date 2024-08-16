@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Map with Simple Data</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+    <style>
+        #map {
+            height: 600px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Test Map with Simple Data</h1>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        // Initialize the map centered on the United States
+        var map = L.map('map').setView([37.8, -96], 4);
+
+        // Load and display the map tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 10,
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Simple GeoJSON data with three points
+        var geojsonData = {
+            "type": "FeatureCollection",
+            "features": [
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [-77.0369, 38.9072]  // Washington, D.C.
+                    },
+                    "properties": {
+                        "name": "Washington, D.C.",
+                        "description": "The capital of the United States."
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [-122.4194, 37.7749]  // San Francisco, CA
+                    },
+                    "properties": {
+                        "name": "San Francisco",
+                        "description": "Known for the Golden Gate Bridge."
+                    }
+                },
+                {
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",
+                        "coordinates": [-74.0060, 40.7128]  // New York, NY
+                    },
+                    "properties": {
+                        "name": "New York City",
+                        "description": "The largest city in the United States."
+                    }
+                }
+            ]
+        };
+
+        // Add GeoJSON data to the map
+        L.geoJson(geojsonData, {
+            pointToLayer: function (feature, latlng) {
+                return L.circleMarker(latlng, {
+                    radius: 8,
+                    fillColor: "#0077ff",
+                    color: "#000",
+                    weight: 1,
+                    opacity: 1,
+                    fillOpacity: 0.8
+                });
+            },
+            onEachFeature: function (feature, layer) {
+                layer.bindPopup(
+                    `<strong>${feature.properties.name}</strong><br>` +
+                    `${feature.properties.description}`
+                );
+            }
+        }).addTo(map);
+    </script>
+</body>
+</html>

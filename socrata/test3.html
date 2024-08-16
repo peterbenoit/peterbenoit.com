@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Map with States and Territories Highlighted</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+    <style>
+        #map {
+            height: 600px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Test Map with U.S. States and Territories Highlighted</h1>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        // Initialize the map centered on the United States
+        var map = L.map('map').setView([37.8, -96], 4);
+
+        // Load and display the map tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 10,
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Color palette for states and territories
+        const colors = [
+            "#ff7800", "#6a51a3", "#31a354", "#3182bd", "#e6550d",
+            "#756bb1", "#636363", "#fdae6b", "#9e9ac8", "#74c476",
+            "#fd8d3c", "#bcbddc", "#c7e9c0", "#6baed6", "#fdbe85",
+            "#9ecae1", "#fdd0a2", "#dadaeb", "#d7b5d8", "#2ca25f",
+            "#67a9cf", "#99d8c9", "#6b6ecf", "#c994c7", "#c6dbef",
+            "#fdbb84", "#dd3497", "#fa9fb5", "#a1d99b", "#9ecae1",
+            "#c994c7", "#deebf7", "#f768a1", "#41b6c4", "#bcbddc",
+            "#9e9ac8", "#6baed6", "#fdbe85", "#c994c7", "#dadaeb",
+            "#9ecae1", "#d7b5d8", "#2ca25f", "#67a9cf", "#c6dbef",
+            "#756bb1", "#fdae6b", "#9ecae1", "#31a354", "#ff7800"
+        ];
+
+        // Replace this URL with the direct link to the selected GeoJSON file from the GitHub repository
+        fetch('https://raw.githubusercontent.com/georgique/world-geojson/develop/areas/usa/puerto_rico.json')
+            .then(response => response.json())
+            .then(geojsonData => {
+                // Assign a color to each state and territory based on index
+                let colorIndex = 0;
+
+                L.geoJson(geojsonData, {
+                    style: function(feature) {
+                        const color = colors[colorIndex % colors.length];
+                        colorIndex++;
+
+                        return {
+                            fillColor: color,
+                            weight: 2,
+                            opacity: 1,
+                            color: "white",
+                            fillOpacity: 0.7
+                        };
+                    },
+                    onEachFeature: function(feature, layer) {
+                        layer.bindPopup(`<strong>${feature.properties.name}</strong>`);
+                    }
+                }).addTo(map);
+            })
+            .catch(error => console.error('Error fetching GeoJSON:', error));
+    </script>
+</body>
+</html>

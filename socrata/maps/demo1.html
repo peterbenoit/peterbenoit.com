@@ -3,10 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Map Demo 1: Vaccination Rates by State</title>
+    <title>Map Demo 1: Unintentional Injuries and Violence by State</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.3/css/bulma.min.css">
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css">
     <link rel="stylesheet" href="../app.css">
 </head>
 <body>
@@ -15,10 +14,10 @@
         <div class="hero-body">
             <div class="container">
                 <h1 class="title">
-                    Vaccination Rates by State
+                    Unintentional Injuries and Violence by State
                 </h1>
                 <h2 class="subtitle">
-                    Explore vaccination rates across the United States.
+                    Explore data related to unintentional injuries and violence across the United States.
                 </h2>
             </div>
         </div>
@@ -27,23 +26,6 @@
     <section class="section">
         <div class="container">
             <div id="map" style="height: 600px;"></div>
-        </div>
-    </section>
-
-    <section class="section">
-        <div class="container">
-            <h3 class="title is-4">Vaccination Rates Data</h3>
-            <table id="vaccination-table" class="display">
-                <thead>
-                    <tr>
-                        <th>State</th>
-                        <th>Vaccination Rate (%)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <!-- Data will be dynamically inserted here -->
-                </tbody>
-            </table>
         </div>
     </section>
 
@@ -57,127 +39,83 @@
 
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
-    <script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
     <script src="../app.js"></script>
     <script>
-   // Full stateCoordinates dictionary
-const stateCoordinates = {
-    "Alabama": [32.806671, -86.791130],
-    "Alaska": [61.370716, -152.404419],
-    "Arizona": [33.729759, -111.431221],
-    "Arkansas": [34.969704, -92.373123],
-    "California": [36.116203, -119.681564],
-    "Colorado": [39.059811, -105.311104],
-    "Connecticut": [41.597782, -72.755371],
-    "Delaware": [39.318523, -75.507141],
-    "Florida": [27.766279, -81.686783],
-    "Georgia": [33.040619, -83.643074],
-    "Hawaii": [21.094318, -157.498337],
-    "Idaho": [44.240459, -114.478828],
-    "Illinois": [40.349457, -88.986137],
-    "Indiana": [39.849426, -86.258278],
-    "Iowa": [42.011539, -93.210526],
-    "Kansas": [38.526600, -96.726486],
-    "Kentucky": [37.668140, -84.670067],
-    "Louisiana": [31.169546, -91.867805],
-    "Maine": [44.693947, -69.381927],
-    "Maryland": [39.063946, -76.802101],
-    "Massachusetts": [42.230171, -71.530106],
-    "Michigan": [43.326618, -84.536095],
-    "Minnesota": [45.694454, -93.900192],
-    "Mississippi": [32.741646, -89.678696],
-    "Missouri": [38.456085, -92.288368],
-    "Montana": [46.921925, -110.454353],
-    "Nebraska": [41.125370, -98.268082],
-    "Nevada": [38.313515, -117.055374],
-    "New Hampshire": [43.452492, -71.563896],
-    "New Jersey": [40.298904, -74.521011],
-    "New Mexico": [34.840515, -106.248482],
-    "New York": [42.165726, -74.948051],
-    "North Carolina": [35.630066, -79.806419],
-    "North Dakota": [47.528912, -99.784012],
-    "Ohio": [40.388783, -82.764915],
-    "Oklahoma": [35.565342, -96.928917],
-    "Oregon": [44.572021, -122.070938],
-    "Pennsylvania": [40.590752, -77.209755],
-    "Rhode Island": [41.680893, -71.511780],
-    "South Carolina": [33.856892, -80.945007],
-    "South Dakota": [44.299782, -99.438828],
-    "Tennessee": [35.747845, -86.692345],
-    "Texas": [31.054487, -97.563461],
-    "Utah": [40.150032, -111.862434],
-    "Vermont": [44.045876, -72.710686],
-    "Virginia": [37.769337, -78.169968],
-    "Washington": [47.400902, -121.490494],
-    "West Virginia": [38.491226, -80.954456],
-    "Wisconsin": [44.268543, -89.616508],
-    "Wyoming": [42.755966, -107.302490]
-};
+        // Initialize the map
+        var map = L.map('map').setView([37.8, -96], 4);  // Center on the US
 
-// Fetch data from the Socrata API
-fetch('https://data.cdc.gov/resource/q6p7-56au.json?$limit=10')
-    .then(response => response.json())
-    .then(data => {
-        const features = data.map(item => {
-            const coords = stateCoordinates[item.locationdesc];
-            if (coords) {
-                return {
-                    "type": "Feature",
-                    "geometry": {
-                        "type": "Point",
-                        "coordinates": [coords[1], coords[0]]  // Leaflet expects [lng, lat]
-                    },
-                    "properties": {
-                        "name": item.locationdesc,
-                        "vaccinationRate": parseFloat(item.series_complete_pop_pct)
+        // Load and display the map tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 10,
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Fetch data from the Socrata API
+        fetch('https://data.cdc.gov/resource/q6p7-56au.json')
+            .then(response => response.json())
+            .then(data => {
+                // Transform data into GeoJSON format
+                const features = data.map(item => {
+                    const latitude = parseFloat(item.geolocation.latitude);
+                    const longitude = parseFloat(item.geolocation.longitude);
+                    if (!isNaN(latitude) && !isNaN(longitude)) {
+                        return {
+                            "type": "Feature",
+                            "geometry": {
+                                "type": "Point",
+                                "coordinates": [longitude, latitude]  // Leaflet expects [lng, lat]
+                            },
+                            "properties": {
+                                "name": item.locationdesc,
+                                "greaterRiskDataValue": parseFloat(item.greater_risk_data_value),
+                                "description": item.description
+                            }
+                        };
                     }
+                    return null;  // Skip entries without valid coordinates
+                }).filter(feature => feature !== null);  // Remove null entries
+
+                const geojson = {
+                    "type": "FeatureCollection",
+                    "features": features
                 };
-            }
-            return null;  // Ignore entries without coordinates
-        }).filter(feature => feature !== null);
 
-        const geojson = {
-            "type": "FeatureCollection",
-            "features": features
-        };
+                // Function to style each point based on greater risk data value
+                function style(feature) {
+                    return {
+                        radius: 8,
+                        fillColor: getColor(feature.properties.greaterRiskDataValue),
+                        color: "#000",
+                        weight: 1,
+                        opacity: 1,
+                        fillOpacity: 0.8
+                    };
+                }
 
-        // Function to style each point based on vaccination rate
-        function style(feature) {
-            return {
-                fillColor: getColor(feature.properties.vaccinationRate),
-                weight: 2,
-                opacity: 1,
-                color: 'white',
-                dashArray: '3',
-                fillOpacity: 0.7
-            };
-        }
+                // Function to determine color based on greater risk data value
+                function getColor(value) {
+                    return value > 10 ? '#800026' :
+                           value > 5 ? '#BD0026' :
+                           value > 3 ? '#E31A1C' :
+                           value > 1 ? '#FC4E2A' :
+                                       '#FFEDA0';
+                }
 
-        // Function to determine color based on vaccination rate
-        function getColor(rate) {
-            return rate > 70 ? '#006837' :
-                   rate > 50 ? '#31a354' :
-                   rate > 30 ? '#78c679' :
-                   rate > 10 ? '#c2e699' :
-                               '#ffffcc';
-        }
-
-        // Add GeoJSON layer to the map
-        L.geoJson(geojson, {style: style}).addTo(map);
-
-        // Populate DataTable
-        $('#vaccination-table').DataTable({
-            data: data,
-            columns: [
-                { data: 'locationdesc', title: 'State' },
-                { data: 'series_complete_pop_pct', title: 'Vaccination Rate (%)' }
-            ],
-            paging: true,
-            searching: true,
-            ordering: true
-        });
-    })
-    .catch(error => console.error('Error fetching data:', error));
+                // Add the GeoJSON layer to the map
+                L.geoJson(geojson, {
+                    pointToLayer: function (feature, latlng) {
+                        return L.circleMarker(latlng, style(feature));
+                    },
+                    onEachFeature: function (feature, layer) {
+                        layer.bindPopup(
+                            `<strong>${feature.properties.name}</strong><br>` +
+                            `Greater Risk Data Value: ${feature.properties.greaterRiskDataValue}%<br>` +
+                            `${feature.properties.description}`
+                        );
+                    }
+                }).addTo(map);
+            })
+            .catch(error => console.error('Error fetching data:', error));
     </script>
 </body>
 </html>
