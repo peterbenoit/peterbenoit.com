@@ -69,56 +69,64 @@
             attribution: '&copy; OpenStreetMap contributors'
         }).addTo(map);
 
-        // Placeholder for geoJSON data of states and vaccination rates
-        var stateData = {
-            // This is where the state geoJSON data with vaccination rates will go
-        };
+        // Fetch data from the Socrata API
+        fetch('https://data.cdc.gov/resource/q6p7-56au.json?$limit=10')
+            .then(response => response.json())
+            .then(data => {
+                const features = data.map(item => ({
+                    "type": "Feature",
+                    "geometry": {
+                        "type": "Point",  // Assuming the data includes latitude and longitude
+                        "coordinates": [parseFloat(item.longitude), parseFloat(item.latitude)]
+                    },
+                    "properties": {
+                        "name": item.locationdesc,
+                        "vaccinationRate": parseFloat(item.series_complete_pop_pct)
+                    }
+                }));
 
-        // Function to style each state based on vaccination rate
-        function style(feature) {
-            return {
-                fillColor: getColor(feature.properties.vaccinationRate),
-                weight: 2,
-                opacity: 1,
-                color: 'white',
-                dashArray: '3',
-                fillOpacity: 0.7
-            };
-        }
+                const geojson = {
+                    "type": "FeatureCollection",
+                    "features": features
+                };
 
-        // Function to determine color based on vaccination rate
-        function getColor(rate) {
-            return rate > 70 ? '#006837' :
-                   rate > 50 ? '#31a354' :
-                   rate > 30 ? '#78c679' :
-                   rate > 10 ? '#c2e699' :
-                               '#ffffcc';
-        }
+                // Function to style each point based on vaccination rate
+                function style(feature) {
+                    return {
+                        fillColor: getColor(feature.properties.vaccinationRate),
+                        weight: 2,
+                        opacity: 1,
+                        color: 'white',
+                        dashArray: '3',
+                        fillOpacity: 0.7
+                    };
+                }
 
-        // Adding GeoJSON layer to the map
-        L.geoJson(stateData, {style: style}).addTo(map);
+                // Function to determine color based on vaccination rate
+                function getColor(rate) {
+                    return rate > 70 ? '#006837' :
+                           rate > 50 ? '#31a354' :
+                           rate > 30 ? '#78c679' :
+                           rate > 10 ? '#c2e699' :
+                                       '#ffffcc';
+                }
 
-        // Initialize DataTable
-        $(document).ready(function() {
-            var vaccinationData = [
-                // Example data, replace with actual data
-                { state: "Alabama", rate: 60 },
-                { state: "Alaska", rate: 55 },
-                { state: "Arizona", rate: 62 }
-                // Add more data here
-            ];
+                // Add GeoJSON layer to the map
+                L.geoJson(geojson, {style: style}).addTo(map);
 
-            $('#vaccination-table').DataTable({
-                data: vaccinationData,
-                columns: [
-                    { data: 'state', title: 'State' },
-                    { data: 'rate', title: 'Vaccination Rate (%)' }
-                ],
-                paging: true,
-                searching: true,
-                ordering: true
-            });
-        });
+                // Populate DataTable
+                $('#vaccination-table').DataTable({
+                    data: data,
+                    columns: [
+                        { data: 'locationdesc', title: 'State' },
+                        { data: 'series_complete_pop_pct', title: 'Vaccination Rate (%)' }
+                    ],
+                    paging: true,
+                    searching: true,
+                    ordering: true
+                });
+            })
+            .catch(error => console.error('Error fetching data:', error));
     </script>
 </body>
 </html>
