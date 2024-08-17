@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Test Map with States and Territories Highlighted</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+    <style>
+        #map {
+            height: 600px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Test Map with U.S. States and Territories Highlighted</h1>
+    <div id="map"></div>
+
+    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <script>
+        // Initialize the map centered on the United States
+        var map = L.map('map').setView([37.8, -96], 4);
+
+        // Load and display the map tiles
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            maxZoom: 10,
+            attribution: '&copy; OpenStreetMap contributors'
+        }).addTo(map);
+
+        // Color palette for states and territories
+        let colors = [
+            "#ff7800", "#6a51a3", "#31a354", "#3182bd", "#e6550d",
+            "#756bb1", "#636363", "#fdae6b", "#9e9ac8", "#74c476",
+            "#fd8d3c", "#bcbddc", "#c7e9c0", "#6baed6", "#fdbe85",
+            "#9ecae1", "#fdd0a2", "#dadaeb", "#d7b5d8", "#2ca25f",
+            "#67a9cf", "#99d8c9", "#6b6ecf", "#c994c7", "#c6dbef",
+            "#fdbb84", "#dd3497", "#fa9fb5", "#a1d99b", "#9ecae1",
+            "#c994c7", "#deebf7", "#f768a1", "#41b6c4", "#bcbddc",
+            "#9e9ac8", "#6baed6", "#fdbe85", "#c994c7", "#dadaeb",
+            "#9ecae1", "#d7b5d8", "#2ca25f", "#67a9cf", "#c6dbef",
+            "#756bb1", "#fdae6b", "#9ecae1", "#31a354", "#ff7800"
+        ];
+
+        // List of GeoJSON files to load individually
+        const geojsonFiles = [
+            'geojson/alabama.json',
+            'geojson/alaska.json',
+            'geojson/american_samoa.json',
+            'geojson/arizona.json',
+            'geojson/arkansas.json',
+            'geojson/bajo_nuevo_bank.json',
+            'geojson/baker_island.json',
+            'geojson/california.json',
+            'geojson/colorado.json',
+            'geojson/connecticut.json',
+            'geojson/delaware.json',
+            'geojson/district_of_columbia.json',
+            'geojson/florida.json',
+            'geojson/georgia.json',
+            'geojson/guam.json',
+            'geojson/howland_island.json',
+            'geojson/idaho.json',
+            'geojson/illinois.json',
+            'geojson/indiana.json',
+            'geojson/iowa.json',
+            'geojson/jarvis_island.json',
+            'geojson/johnston_atoll.json',
+            'geojson/kansas.json',
+            'geojson/kentucky.json',
+            'geojson/kingman_reef.json',
+            'geojson/louisiana.json',
+            'geojson/maine.json',
+            'geojson/hawaii.json',
+            'geojson/maryland.json',
+            'geojson/massachusetts.json',
+            'geojson/michigan.json',
+            'geojson/midway_atoll.json',
+            'geojson/minnesota.json',
+            'geojson/mississippi.json',
+            'geojson/missouri.json',
+            'geojson/montana.json',
+            'geojson/navassa_island.json',
+            'geojson/nebraska.json',
+            'geojson/nevada.json',
+            'geojson/new_hampshire.json',
+            'geojson/new_jersey.json',
+            'geojson/new_mexico.json',
+            'geojson/new_york.json',
+            'geojson/north_carolina.json',
+            'geojson/north_dakota.json',
+            'geojson/northern_mariana_islands.json',
+            'geojson/ohio.json',
+            'geojson/oklahoma.json',
+            'geojson/oregon.json',
+            'geojson/palmyra_atoll.json',
+            'geojson/pennsylvania.json',
+            'geojson/puerto_rico.json',
+            'geojson/rhode_island.json',
+            'geojson/seranilla_bank.json',
+            'geojson/south_carolina.json',
+            'geojson/south_dakota.json',
+            'geojson/tennessee.json',
+            'geojson/texas.json',
+            'geojson/us_virgin_islands.json',
+            'geojson/utah.json',
+            'geojson/vermont.json',
+            'geojson/virginia.json',
+            'geojson/wake_island.json',
+            'geojson/washington.json',
+            'geojson/west_virginia copy.json',
+            'geojson/west_virginia.json',
+            'geojson/wisconsin copy.json',
+            'geojson/wisconsin.json',
+            'geojson/wyoming.json',
+        ];
+
+        geojsonFiles.forEach(file => {
+            fetch(file)
+                .then(response => response.json())
+                .then(geojsonData => {
+                    // Select and remove a color to ensure it's not reused
+                    const color = colors.splice(Math.floor(Math.random() * colors.length), 1)[0];
+
+                    L.geoJson(geojsonData, {
+                        style: function(feature) {
+                            return {
+                                fillColor: color,
+                                weight: 2,
+                                opacity: 1,
+                                color: "white",
+                                fillOpacity: 0.7
+                            };
+                        },
+                        onEachFeature: function(feature, layer) {
+                            layer.bindPopup(`<strong>${feature.properties.name}</strong>`);
+                        }
+                    }).addTo(map);
+                })
+                .catch(error => console.error('Error loading GeoJSON file:', error));
+        });
+    </script>
+</body>
+</html>
