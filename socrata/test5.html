@@ -134,6 +134,7 @@
                             };
                         },
                         onEachFeature: function(feature, layer) {
+							console.log("feature", feature, layer)
                             layer.bindPopup(`<strong>${feature.properties.name}</strong>`);
                         }
                     }).addTo(map);
