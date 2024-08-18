@@ -5,11 +5,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Test Map with States and Territories Highlighted</title>
     <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
-    <style>
+<style>
+    /* Make the map container fill the available space */
+    html, body {
+        height: 100%;
+        margin: 0;
+    }
+
+    #map {
+        width: 100%;
+        height: 100vh; /* Set height to 100% of the viewport height */
+    }
+
+    @media (max-width: 768px) {
         #map {
-            height: 600px;
+            height: 50vh; /* Set height to 50% of the viewport height on smaller screens */
         }
-    </style>
+    }
+</style>
+
 </head>
 <body>
 
@@ -18,14 +32,73 @@
 
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <script>
-        // Initialize the map centered on the United States
-        var map = L.map('map').setView([37.8, -96], 4);
+    // Function to get the appropriate zoom level based on screen width
+    // function getZoomLevel() {
+    //     const screenWidth = window.innerWidth;
 
-        // Load and display the map tiles
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-            maxZoom: 10,
-            attribution: '&copy; OpenStreetMap contributors'
-        }).addTo(map);
+    //     if (screenWidth < 576) {
+    //         return 3;  // Zoom out for small screens
+    //     } else if (screenWidth < 1140) {
+    //         return 3;  // Slightly zoomed in for medium screens
+    //     } else {
+    //         return 5;  // Default zoom level for larger screens
+    //     }
+    // }
+
+    // // Update map zoom on window resize
+    // window.addEventListener('resize', function() {
+    //     map.setZoom(getZoomLevel());
+    // });
+
+    // // Initialize the map with dynamic zoom based on screen size
+    // var map = L.map('map').setView([37.8, -96], getZoomLevel());
+
+    //     // Load and display the map tiles
+    //     L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    //         maxZoom: 10,
+    //         attribution: '&copy; OpenStreetMap contributors'
+    //     }).addTo(map);
+
+
+
+
+    function getZoomLevel() {
+        const screenWidth = window.innerWidth;
+
+        if (screenWidth < 576) {
+            return 3;
+        } else if (screenWidth < 768) {
+            return 3;
+        } else {
+            return 5;
+        }
+    }
+
+    // Initialize the map and center it on the US
+    var map = L.map('map').setView([37.8, -96], getZoomLevel());
+
+    // Define bounds for the contiguous United States (including Alaska and Hawaii)
+    var bounds = [
+        [49.38, -124.85],  // Northwest corner
+        [24.396308, -66.93457]  // Southeast corner
+    ];
+
+    // Fit the map to the defined bounds
+    map.fitBounds(bounds);
+
+    // Load and display the map tiles
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+        maxZoom: 10,
+        attribution: '&copy; OpenStreetMap contributors'
+    }).addTo(map);
+
+    // Update map zoom and recenter on window resize
+    window.addEventListener('resize', function() {
+        map.setView([37.8, -96], getZoomLevel());
+        map.fitBounds(bounds);
+    });
+
+
 
         // Color palette for states and territories
 const colors = [
@@ -140,11 +213,8 @@ const colors = [
                     // Select and remove a color to ensure it's not reused
                     const color = colors.splice(Math.floor(Math.random() * colors.length), 1)[0];
 
-
-
                     L.geoJson(geojsonData, {
                         style: function(feature) {
-							console.log('color', color, colors.length, feature.properties.name)
                             return {
                                 fillColor: color,
                                 weight: 2,
