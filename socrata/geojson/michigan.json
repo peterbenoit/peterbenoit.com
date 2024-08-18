@@ -256,7 +256,9 @@
     },
     {
       "type": "Feature",
-      "properties": {},
+      "properties": {
+        "name": "Michigan"
+      },
       "geometry": {
         "coordinates": [
           [
@@ -547,7 +549,9 @@
     },
     {
       "type": "Feature",
-      "properties": {},
+      "properties": {
+        "name": "Michigan"
+      },
       "geometry": {
         "coordinates": [
           [
@@ -590,7 +594,9 @@
     },
     {
       "type": "Feature",
-      "properties": {},
+      "properties": {
+        "name": "Michigan"
+      },
       "geometry": {
         "coordinates": [
           [
