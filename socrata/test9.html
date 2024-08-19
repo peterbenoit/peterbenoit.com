@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Interactive U.S. Map</title>
+	<link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css">
+	<link rel="stylesheet" href="app.css">
+</head>
+<body class="bg-gray-100 text-gray-900 font-sans">
+
+	<!-- Page Container -->
+	<div class="flex h-screen">
+
+		<!-- Sidebar -->
+		<aside class="bg-gray-700 text-white w-64 flex flex-col h-full p-4">
+			<nav class="flex-1">
+				<ul class="space-y-2">
+					<li><a href="#" class="flex items-center p-2 rounded hover:bg-gray-700">Dashboard</a></li>
+					<li><a href="#" class="flex items-center p-2 rounded hover:bg-gray-700">Team</a></li>
+					<li><a href="#" class="flex items-center p-2 rounded hover:bg-gray-700">Projects</a></li>
+					<li><a href="#" class="flex items-center p-2 rounded hover:bg-gray-700">Calendar</a></li>
+					<li><a href="#" class="flex items-center p-2 rounded hover:bg-gray-700">Documents</a></li>
+					<li><a href="#" class="flex items-center p-2 rounded hover:bg-gray-700">Reports</a></li>
+				</ul>
+			</nav>
+			<div class="flex items-center p-4">
+				<img src="https://peterbenoit.github.io/img/pete.jpg" alt="Profile" class="w-10 h-10 rounded-full">
+				<div class="ml-3">
+					<p class="text-sm font-medium">Pete Benoit</p>
+				</div>
+			</div>
+		</aside>
+
+
+		<!-- Main Content -->
+		<div class="flex-1 flex flex-col">
+			<!-- Map Section -->
+			<main class="flex-1 flex justify-center items-center p-4">
+				<div id="map" class="w-4/5 rounded-lg shadow-lg"></div>
+			</main>
+		</div>
+
+		<!-- Right Sidebar (Info Section) -->
+		<aside class="w-64 bg-white p-4 shadow-lg text-gray-700">
+			<p class="text-xs mb-4 mt-4">
+				This interactive map showcases U.S. states and territories, providing key details such as population, year founded, capital, and area. The map is powered by <a href="https://leafletjs.com/" class="text-blue-600 hover:underline" target="_blank">Leaflet.js</a>, styled with <a href="https://tailwindcss.com/" class="text-blue-600 hover:underline" target="_blank">Tailwind CSS</a>, and uses <abbr title="Comma-Separated Values" class="cursor-help">CSV</abbr> data files. The geographical data is stored in <a href="https://geojson.org/" class="text-blue-600 hover:underline" target="_blank">GeoJSON</a> format and processed using <a href="https://mapshaper.org/" class="text-blue-600 hover:underline" target="_blank">Mapshaper</a>. Additional data is provided through a <abbr title="Comma-Separated Values">CSV</abbr> file, which is dynamically loaded and displayed in the popups.
+			</p>
+		</aside>
+
+	</div>
+
+	<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+	<script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+	html, body {
+		height: 100%;
+		margin: 0;
+		font-family: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";;
+	}
+
+	 #map {
+		height: 80vh;
+	}
+
+	@media (max-width: 768px) {
+		#map {
+			height: 50vh;
+		}
+	}
