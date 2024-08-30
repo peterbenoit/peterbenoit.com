@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Choose Your Adventure</title>
+	<link href="https://fonts.googleapis.com/css2?family=IM+Fell+English+SC&display=swap" rel="stylesheet">
+	<style>
+		/* Base styles for the body */
+		body {
+			background: url('https://www.transparenttextures.com/patterns/paper.png');
+			/* Old paper texture */
+			color: #4b2e23;
+			/* Dark brown text color */
+			font-family: 'IM Fell English SC', serif;
+			/* Old-timey font */
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			justify-content: center;
+			height: 100vh;
+			margin: 0;
+			padding: 20px;
+			text-align: center;
+			background-size: cover;
+			background-color: #f4ecd8;
+			/* Light parchment background color */
+		}
+
+		/* Header styles */
+		h1 {
+			font-size: 3rem;
+			margin-bottom: 30px;
+			color: #4b2e23;
+			/* Dark brown for a classic look */
+			text-shadow: 1px 1px 2px #b08d57;
+			/* Subtle shadow for a 3D effect */
+		}
+
+		/* Button styles */
+		.button {
+			padding: 15px 30px;
+			font-size: 1.8rem;
+			color: #4b2e23;
+			background-color: #f4ecd8;
+			border: 3px solid #4b2e23;
+			border-radius: 12px;
+			text-transform: capitalize;
+			cursor: pointer;
+			margin: 15px;
+			transition: background-color 0.3s, transform 0.3s;
+			text-decoration: none;
+			/* Remove underline */
+		}
+
+		.button:hover {
+			background-color: #e5d8c2;
+			/* Slightly darker paper color on hover */
+			transform: scale(1.05);
+			/* Slightly increase size on hover */
+		}
+
+		/* TV glitch animation for the 2024 button */
+		.button-2024:hover {
+			animation: tvFocus 0.5s steps(5) 2;
+			/* Adds TV glitch effect */
+		}
+
+		/* Keyframes for the TV glitch effect */
+		@keyframes tvFocus {
+
+			0%,
+			100% {
+				transform: none;
+				filter: none;
+			}
+
+			5% {
+				transform: skewX(10deg);
+				filter: blur(2px) contrast(200%);
+			}
+
+			10% {
+				transform: scale(1.1) translateX(-10px);
+				filter: brightness(150%) hue-rotate(30deg);
+			}
+
+			15% {
+				transform: skewY(10deg);
+				filter: blur(1px) saturate(200%);
+			}
+
+			20% {
+				transform: scale(0.95) translateX(10px);
+				filter: contrast(150%) hue-rotate(-20deg);
+			}
+
+			25% {
+				transform: none;
+				filter: none;
+			}
+		}
+	</style>
+</head>
+
+<body>
+	<h1>Choose Your Adventure</h1>
+	<a href="2020.html" class="button">Visit the 2020 Timeline</a>
+	<a href="2024.html" class="button button-2024">Embark on the 2024 Journey</a>
+</body>
+
+</html>

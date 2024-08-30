@@ -1,0 +1,647 @@
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<title>CDC Over the Years</title>
+	<meta content="width=device-width, initial-scale=1" name="viewport" />
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.1.3/css/bootstrap.min.css"
+		rel="stylesheet" />
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css" rel="stylesheet" />
+	<link href="https://fonts.googleapis.com/css?family=Montserrat|Nunito&display=swap" rel="stylesheet" />
+	<style>
+		.timeline {
+			position: relative;
+			-webkit-transition: all 0.4s ease 0s;
+			transition: all 0.4s ease 0s;
+		}
+
+		.timeline:before {
+			content: '';
+			width: 1px;
+			height: 100%;
+			background: rgba(0, 0, 0, 0.1);
+			position: absolute;
+			top: 0;
+			left: 50%;
+		}
+
+		.timeline .timeline-card {
+			position: relative;
+		}
+
+		.timeline .timeline-card:before,
+		.timeline .timeline-card:after {
+			content: '';
+			display: block;
+			width: 100%;
+			clear: both;
+		}
+
+		.timeline .timeline-icon {
+			width: 20px;
+			height: 20px;
+			border-radius: 50%;
+			background: #fff;
+			border: 2px solid #005eaa;
+			position: absolute;
+			top: 0;
+			left: 3px;
+			right: 0;
+			margin: 0 auto;
+			overflow: hidden;
+		}
+
+		.timeline .timeline-content {
+			font-family: 'Montserrat', sans-serif;
+			width: 45%;
+			padding: 20px;
+			border-radius: 5px;
+			text-align: right;
+			-webkit-transition: all 0.3s ease 0s;
+			transition: all 0.3s ease 0s;
+			border: 1px solid rgba(0, 0, 0, 0.1);
+		}
+
+		.timeline .title {
+			font-size: 24px;
+			font-weight: 500;
+			color: #5c5151;
+			margin-top: 30px;
+			font-family: 'Nunito', sans-serif;
+		}
+
+		.timeline .description {
+			color: #242424;
+			line-height: 2;
+		}
+
+		.timeline .timeline-card:nth-child(even) .timeline-content {
+			float: right;
+			text-align: left;
+		}
+
+		.timeline .timeline-image {
+			width: 100%;
+			overflow: hidden;
+			cursor: pointer;
+		}
+
+		.timeline .timeline-card:nth-child(-n + 3) .timeline-image img {
+			height: 200px;
+		}
+
+		.timeline .timeline-image img {
+			height: 350px;
+			width: 100%;
+			-o-object-fit: cover;
+			object-fit: cover;
+			-o-object-position: 100% 0;
+			object-position: 100% 0;
+			font-family: 'object-fit: cover; object-position: 100% 0';
+		}
+
+		@media only screen and (min-width: 768px) {
+			.timeline .timeline-card:nth-child(even) {
+				margin-top: -500px;
+			}
+		}
+
+		@media only screen and (min-width: 992px) {
+			.timeline .timeline-card:nth-child(even) {
+				margin-top: -300px;
+			}
+		}
+
+		@media only screen and (max-width: 767px) {
+			.timeline:before {
+				left: 0;
+			}
+
+			.timeline .timeline-icon {
+				left: -8px;
+				margin: 0;
+			}
+
+			.timeline .timeline-content {
+				width: 90%;
+				float: right;
+				text-align: left;
+			}
+
+			.modal-body .modal-notice {
+				display: none;
+			}
+
+			.timeline .timeline-card {
+				margin-top: 1rem;
+			}
+		}
+
+		.modal {
+			-webkit-animation-duration: 0.3s;
+			animation-duration: 0.3s;
+			-webkit-animation-delay: 0s;
+			animation-delay: 0s;
+			padding-right: 0 !important;
+			font-family: 'Roboto', sans-serif;
+		}
+
+		.modal-body {
+			padding: 0;
+		}
+
+		.modal-body .modal-notice {
+			background-color: rgba(0, 0, 0, 0.9);
+			border-radius: 30px;
+			padding: 20px;
+			color: white;
+			position: absolute;
+			left: 45%;
+			top: 100px;
+			-webkit-animation-duration: 2s;
+			animation-duration: 2s;
+			-webkit-animation-delay: 1s;
+			animation-delay: 1s;
+			box-shadow: 0px 0px 18px 0px rgba(255, 127, 0, 0.75);
+		}
+	</style>
+</head>
+
+<body translate="no">
+	<div class="container">
+		<h1 class="display-3 mb-5" style="border-bottom: 1px solid aliceblue">
+			CDC Over the Years
+		</h1>
+		<div class="row">
+			<div class="col-md-12">
+				<div class="timeline">
+					<div class="timeline-card">
+						<div class="timeline-icon"></div>
+						<div class="timeline-content">
+							<div class="timeline-image">
+								<img alt=""
+									src="https://raw.githubusercontent.com/peterbenoit/cdn/master/images/CDC/over-the-years/www.cdc.gov_1997.jpg" />
+							</div>
+							<h4 class="title">1997</h4>
+							<p class="description">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit.
+							</p>
+						</div>
+					</div>
+					<div class="timeline-card">
+						<div class="timeline-icon"></div>
+						<div class="timeline-content">
+							<div class="timeline-image">
+								<img alt=""
+									src="https://raw.githubusercontent.com/peterbenoit/cdn/master/images/CDC/over-the-years/www.cdc.gov_1998.jpg" />
+							</div>
+							<h4 class="title">1998</h4>
+							<p class="description">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
+								vitae eleifend ex. Praesent magna justo, bibendum id ante ut,
+								vulputate tincidunt ipsum. Curabitur at rhoncus sem, eu feugiat
+								sapien. Duis in libero cursus, dapibus sem ac, ornare mauris.
+								Cras nunc lectus, porta quis metus vestibulum, pellentesque
+								gravida erat.
+							</p>
+						</div>
+					</div>
+					<div class="timeline-card">
+						<div class="timeline-icon"></div>
+						<div class="timeline-content">
+							<div class="timeline-image">
+								<img alt=""
+									src="https://raw.githubusercontent.com/peterbenoit/cdn/master/images/CDC/over-the-years/www.cdc.gov_1999.jpg" />
+							</div>
+							<h4 class="title">1999</h4>
+							<p class="description">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
+								vitae eleifend ex. Praesent magna justo, bibendum id ante ut,
+								vulputate tincidunt ipsum. Curabitur at rhoncus sem, eu feugiat
+								sapien. Duis in libero cursus, dapibus sem ac, ornare mauris.
+								Cras nunc lectus, porta quis metus vestibulum, pellentesque
+								gravida erat.
+							</p>
+						</div>
+					</div>
+					<div class="timeline-card">
+						<div class="timeline-icon"></div>
+						<div class="timeline-content">
+							<div class="timeline-image">
+								<img alt=""
+									src="https://raw.githubusercontent.com/peterbenoit/cdn/master/images/CDC/over-the-years/www.cdc.gov_2000.jpg" />
+							</div>
+							<h4 class="title">2000</h4>
+							<p class="description">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
+								vitae eleifend ex. Praesent magna justo, bibendum id ante ut,
+								vulputate tincidunt ipsum. Curabitur at rhoncus sem, eu feugiat
+								sapien. Duis in libero cursus, dapibus sem ac, ornare mauris.
+								Cras nunc lectus, porta quis metus vestibulum, pellentesque
+								gravida erat. Lorem ipsum dolor sit amet, consectetur adipiscing
+								elit. Aliquam vitae eleifend ex. Praesent magna justo, bibendum
+								id ante ut, vulputate tincidunt ipsum. Curabitur at rhoncus sem,
+								eu feugiat sapien. Duis in libero cursus, dapibus sem ac, ornare
+								mauris. Cras nunc lectus, porta quis metus vestibulum,
+								pellentesque gravida erat.
+							</p>
+						</div>
+					</div>
+					<div class="timeline-card">
+						<div class="timeline-icon"></div>
+						<div class="timeline-content">
+							<div class="timeline-image">
+								<img alt=""
+									src="https://raw.githubusercontent.com/peterbenoit/cdn/master/images/CDC/over-the-years/www.cdc.gov_2001.jpg" />
+							</div>
+							<h4 class="title">2001</h4>
+							<p class="description">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
+								vitae eleifend ex. Praesent magna justo, bibendum id ante ut,
+								vulputate tincidunt ipsum. Curabitur at rhoncus sem, eu feugiat
+								sapien. Duis in libero cursus, dapibus sem ac, ornare mauris.
+								Cras nunc lectus, porta quis metus vestibulum, pellentesque
+								gravida erat.
+							</p>
+						</div>
+					</div>
+					<div class="timeline-card">
+						<div class="timeline-icon"></div>
+						<div class="timeline-content">
+							<div class="timeline-image">
+								<img alt=""
+									src="https://raw.githubusercontent.com/peterbenoit/cdn/master/images/CDC/over-the-years/www.cdc.gov_2002.jpg" />
+							</div>
+							<h4 class="title">2002</h4>
+							<p class="description">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
+								vitae eleifend ex. Praesent magna justo, bibendum id ante ut,
+								vulputate tincidunt ipsum. Curabitur at rhoncus sem, eu feugiat
+								sapien. Duis in libero cursus, dapibus sem ac, ornare mauris.
+								Cras nunc lectus, porta quis metus vestibulum, pellentesque
+								gravida erat.
+							</p>
+						</div>
+					</div>
+					<div class="timeline-card">
+						<div class="timeline-icon"></div>
+						<div class="timeline-content">
+							<div class="timeline-image">
+								<img alt=""
+									src="https://raw.githubusercontent.com/peterbenoit/cdn/master/images/CDC/over-the-years/www.cdc.gov_2003.jpg" />
+							</div>
+							<h4 class="title">2003</h4>
+							<p class="description">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
+								vitae eleifend ex.
+							</p>
+						</div>
+					</div>
+					<div class="timeline-card">
+						<div class="timeline-icon"></div>
+						<div class="timeline-content">
+							<div class="timeline-image">
+								<img alt=""
+									src="https://raw.githubusercontent.com/peterbenoit/cdn/master/images/CDC/over-the-years/www.cdc.gov_2004.jpg" />
+							</div>
+							<h4 class="title">2004</h4>
+							<p class="description">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
+								vitae eleifend ex. Praesent magna justo, bibendum id ante ut,
+								vulputate tincidunt ipsum. Curabitur at rhoncus sem, eu feugiat
+								sapien. Duis in libero cursus, dapibus sem ac, ornare mauris.
+								Cras nunc lectus, porta quis metus vestibulum, pellentesque
+								gravida erat.
+							</p>
+						</div>
+					</div>
+					<div class="timeline-card">
+						<div class="timeline-icon"></div>
+						<div class="timeline-content">
+							<div class="timeline-image">
+								<img alt=""
+									src="https://raw.githubusercontent.com/peterbenoit/cdn/master/images/CDC/over-the-years/www.cdc.gov_2005.jpg" />
+							</div>
+							<h4 class="title">2005</h4>
+							<p class="description">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
+								vitae eleifend ex. Praesent magna justo, bibendum id ante ut,
+								vulputate tincidunt ipsum. Curabitur at rhoncus sem, eu feugiat
+								sapien. Duis in libero cursus, dapibus sem ac, ornare mauris.
+								Cras nunc lectus, porta quis metus vestibulum, pellentesque
+								gravida erat.
+							</p>
+						</div>
+					</div>
+					<div class="timeline-card">
+						<div class="timeline-icon"></div>
+						<div class="timeline-content">
+							<div class="timeline-image">
+								<img alt=""
+									src="https://raw.githubusercontent.com/peterbenoit/cdn/master/images/CDC/over-the-years/www.cdc.gov_2006.jpg" />
+							</div>
+							<h4 class="title">2006</h4>
+							<p class="description">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
+								vitae eleifend ex. Praesent magna justo, bibendum id ante ut,
+								vulputate tincidunt ipsum. Curabitur at rhoncus sem, eu feugiat
+								sapien. Duis in libero cursus, dapibus sem ac, ornare mauris.
+								Cras nunc lectus, porta quis metus vestibulum, pellentesque
+								gravida erat.
+							</p>
+						</div>
+					</div>
+					<div class="timeline-card">
+						<div class="timeline-icon"></div>
+						<div class="timeline-content">
+							<div class="timeline-image">
+								<img alt=""
+									src="https://raw.githubusercontent.com/peterbenoit/cdn/master/images/CDC/over-the-years/www.cdc.gov_2007.jpg" />
+							</div>
+							<h4 class="title">2007</h4>
+							<p class="description">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
+								vitae eleifend ex. Praesent magna justo, bibendum id ante ut,
+								vulputate tincidunt ipsum. Curabitur at rhoncus sem, eu feugiat
+								sapien. Duis in libero cursus, dapibus sem ac, ornare mauris.
+								Cras nunc lectus, porta quis metus vestibulum, pellentesque
+								gravida erat.
+							</p>
+						</div>
+					</div>
+					<div class="timeline-card">
+						<div class="timeline-icon"></div>
+						<div class="timeline-content">
+							<div class="timeline-image">
+								<img alt=""
+									src="https://raw.githubusercontent.com/peterbenoit/cdn/master/images/CDC/over-the-years/www.cdc.gov_2008.jpg" />
+							</div>
+							<h4 class="title">2008</h4>
+							<p class="description">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
+								vitae eleifend ex. Praesent magna justo, bibendum id ante ut,
+								vulputate tincidunt ipsum. Curabitur at rhoncus sem, eu feugiat
+								sapien. Duis in libero cursus, dapibus sem ac, ornare mauris.
+								Cras nunc lectus, porta quis metus vestibulum, pellentesque
+								gravida erat.
+							</p>
+						</div>
+					</div>
+					<div class="timeline-card">
+						<div class="timeline-icon"></div>
+						<div class="timeline-content">
+							<div class="timeline-image">
+								<img alt=""
+									src="https://raw.githubusercontent.com/peterbenoit/cdn/master/images/CDC/over-the-years/www.cdc.gov_2009.jpg" />
+							</div>
+							<h4 class="title">2009</h4>
+							<p class="description">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
+								vitae eleifend ex. Praesent magna justo, bibendum id ante ut,
+								vulputate tincidunt ipsum. Curabitur at rhoncus sem, eu feugiat
+								sapien. Duis in libero cursus, dapibus sem ac, ornare mauris.
+								Cras nunc lectus, porta quis metus vestibulum, pellentesque
+								gravida erat.
+							</p>
+						</div>
+					</div>
+					<div class="timeline-card">
+						<div class="timeline-icon"></div>
+						<div class="timeline-content">
+							<div class="timeline-image">
+								<img alt=""
+									src="https://raw.githubusercontent.com/peterbenoit/cdn/master/images/CDC/over-the-years/www.cdc.gov_2010.jpg" />
+							</div>
+							<h4 class="title">2010</h4>
+							<p class="description">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
+								vitae eleifend ex. Praesent magna justo, bibendum id ante ut,
+								vulputate tincidunt ipsum. Curabitur at rhoncus sem, eu feugiat
+								sapien. Duis in libero cursus, dapibus sem ac, ornare mauris.
+								Cras nunc lectus, porta quis metus vestibulum, pellentesque
+								gravida erat.
+							</p>
+						</div>
+					</div>
+					<div class="timeline-card">
+						<div class="timeline-icon"></div>
+						<div class="timeline-content">
+							<div class="timeline-image">
+								<img alt=""
+									src="https://raw.githubusercontent.com/peterbenoit/cdn/master/images/CDC/over-the-years/www.cdc.gov_2011.jpg" />
+							</div>
+							<h4 class="title">2011</h4>
+							<p class="description">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
+								vitae eleifend ex. Praesent magna justo, bibendum id ante ut,
+								vulputate tincidunt ipsum.
+							</p>
+						</div>
+					</div>
+					<div class="timeline-card">
+						<div class="timeline-icon"></div>
+						<div class="timeline-content">
+							<div class="timeline-image">
+								<img alt=""
+									src="https://raw.githubusercontent.com/peterbenoit/cdn/master/images/CDC/over-the-years/www.cdc.gov_2012.jpg" />
+							</div>
+							<h4 class="title">2012</h4>
+							<p class="description">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
+								vitae eleifend ex.
+							</p>
+						</div>
+					</div>
+					<div class="timeline-card">
+						<div class="timeline-icon"></div>
+						<div class="timeline-content">
+							<div class="timeline-image">
+								<img alt=""
+									src="https://raw.githubusercontent.com/peterbenoit/cdn/master/images/CDC/over-the-years/www.cdc.gov_2013.jpg" />
+							</div>
+							<h4 class="title">2013</h4>
+							<p class="description">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
+								vitae eleifend ex. Praesent magna justo, bibendum id ante ut,
+								vulputate tincidunt ipsum. Curabitur at rhoncus sem, eu feugiat
+								sapien. Duis in libero cursus, dapibus sem ac, ornare mauris.
+								Cras nunc lectus, porta quis metus vestibulum, pellentesque
+								gravida erat. Lorem ipsum dolor sit amet, consectetur adipiscing
+								elit. Aliquam vitae eleifend ex. Praesent magna justo, bibendum
+								id ante ut, vulputate tincidunt ipsum. Curabitur at rhoncus sem,
+								eu feugiat sapien. Duis in libero cursus, dapibus sem ac, ornare
+								mauris. Cras nunc lectus, porta quis metus vestibulum,
+								pellentesque gravida erat.
+							</p>
+						</div>
+					</div>
+					<div class="timeline-card">
+						<div class="timeline-icon"></div>
+						<div class="timeline-content">
+							<div class="timeline-image">
+								<img alt=""
+									src="https://raw.githubusercontent.com/peterbenoit/cdn/master/images/CDC/over-the-years/www.cdc.gov_2014.jpg" />
+							</div>
+							<h4 class="title">2014</h4>
+							<p class="description">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
+								vitae eleifend ex. Praesent magna justo, bibendum id ante ut,
+								vulputate tincidunt ipsum. Curabitur at rhoncus sem, eu feugiat
+								sapien. Duis in libero cursus, dapibus sem ac, ornare mauris.
+								Cras nunc lectus, porta quis metus vestibulum, pellentesque
+								gravida erat.
+							</p>
+						</div>
+					</div>
+					<div class="timeline-card">
+						<div class="timeline-icon"></div>
+						<div class="timeline-content">
+							<div class="timeline-image">
+								<img alt=""
+									src="https://raw.githubusercontent.com/peterbenoit/cdn/master/images/CDC/over-the-years/www.cdc.gov_2015.jpg" />
+							</div>
+							<h4 class="title">2015</h4>
+							<p class="description">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
+								vitae eleifend ex. Praesent magna justo, bibendum id ante ut,
+								vulputate tincidunt ipsum. Curabitur at rhoncus sem, eu feugiat
+								sapien. Duis in libero cursus, dapibus sem ac, ornare mauris.
+								Cras nunc lectus, porta quis metus vestibulum, pellentesque
+								gravida erat.
+							</p>
+						</div>
+					</div>
+					<div class="timeline-card">
+						<div class="timeline-icon"></div>
+						<div class="timeline-content">
+							<div class="timeline-image">
+								<img alt=""
+									src="https://raw.githubusercontent.com/peterbenoit/cdn/master/images/CDC/over-the-years/www.cdc.gov_2016.jpg" />
+							</div>
+							<h4 class="title">2016</h4>
+							<p class="description">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
+								vitae eleifend ex. Praesent magna justo, bibendum id ante ut,
+								vulputate tincidunt ipsum. Curabitur at rhoncus sem, eu feugiat
+								sapien. Duis in libero cursus, dapibus sem ac, ornare mauris.
+								Cras nunc lectus, porta quis metus vestibulum, pellentesque
+								gravida erat.
+							</p>
+						</div>
+					</div>
+					<div class="timeline-card">
+						<div class="timeline-icon"></div>
+						<div class="timeline-content">
+							<div class="timeline-image">
+								<img alt=""
+									src="https://raw.githubusercontent.com/peterbenoit/cdn/master/images/CDC/over-the-years/www.cdc.gov_2017.jpg" />
+							</div>
+							<h4 class="title">2017</h4>
+							<p class="description">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
+								vitae eleifend ex. Praesent magna justo, bibendum id ante ut,
+								vulputate tincidunt ipsum. Curabitur at rhoncus sem, eu feugiat
+								sapien. Duis in libero cursus, dapibus sem ac, ornare mauris.
+								Cras nunc lectus, porta quis metus vestibulum, pellentesque
+								gravida erat.
+							</p>
+						</div>
+					</div>
+					<div class="timeline-card">
+						<div class="timeline-icon"></div>
+						<div class="timeline-content">
+							<div class="timeline-image">
+								<img alt=""
+									src="https://raw.githubusercontent.com/peterbenoit/cdn/master/images/CDC/over-the-years/www.cdc.gov_2018.jpg" />
+							</div>
+							<h4 class="title">2018</h4>
+							<p class="description">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
+								vitae eleifend ex. Praesent magna justo, bibendum id ante ut,
+								vulputate tincidunt ipsum. Curabitur at rhoncus sem, eu feugiat
+								sapien. Duis in libero cursus, dapibus sem ac, ornare mauris.
+								Cras nunc lectus, porta quis metus vestibulum, pellentesque
+								gravida erat.
+							</p>
+						</div>
+					</div>
+					<div class="timeline-card">
+						<div class="timeline-icon"></div>
+						<div class="timeline-content">
+							<div class="timeline-image">
+								<img alt=""
+									src="https://raw.githubusercontent.com/peterbenoit/cdn/master/images/CDC/over-the-years/www.cdc.gov_2019.jpg" />
+							</div>
+							<h4 class="title">2019</h4>
+							<p class="description">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
+								vitae eleifend ex. Praesent magna justo, bibendum id ante ut,
+								vulputate tincidunt ipsum. Curabitur at rhoncus sem, eu feugiat
+								sapien. Duis in libero cursus, dapibus sem ac, ornare mauris.
+								Cras nunc lectus, porta quis metus vestibulum, pellentesque
+								gravida erat.
+							</p>
+						</div>
+					</div>
+					<div class="timeline-card">
+						<div class="timeline-icon"></div>
+						<div class="timeline-content">
+							<div class="timeline-image">
+								<img alt=""
+									src="https://raw.githubusercontent.com/peterbenoit/cdn/master/images/CDC/over-the-years/www.cdc.gov_2020.jpg" />
+							</div>
+							<h4 class="title">2020</h4>
+							<p class="description">
+								Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam
+								vitae eleifend ex. Praesent magna justo, bibendum id ante ut,
+								vulputate tincidunt ipsum. Curabitur at rhoncus sem, eu feugiat
+								sapien. Duis in libero cursus, dapibus sem ac, ornare mauris.
+								Cras nunc lectus, porta quis metus vestibulum, pellentesque
+								gravida erat. Lorem ipsum dolor sit amet, consectetur adipiscing
+								elit. Aliquam vitae eleifend ex. Praesent magna justo, bibendum
+								id ante ut, vulputate tincidunt ipsum. Curabitur at rhoncus sem,
+								eu feugiat sapien. Duis in libero cursus, dapibus sem ac, ornare
+								mauris. Cras nunc lectus, porta quis metus vestibulum,
+								pellentesque gravida erat.
+							</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.4.1/js/bootstrap.min.js"></script>
+
+	<!-- object-fit for IE	 -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/object-fit-images/3.2.4/ofi.min.js"></script>
+	<script>
+		$(function () {
+			var modal =
+				'<div class="modal animated zoomIn" id="modal_zoom" role="dialog" tabindex="-1">' +
+				'<div class="modal-dialog modal-lg modal-dialog-centered" role="document"><div class="modal-content">' +
+				'<div class="modal-body"></div>' +
+				'</div></div></div>';
+
+			$('body').append(modal);
+
+			$('.timeline-image img').on('click', function () {
+				var t = $(this);
+
+				$('#modal_zoom')
+					.modal('show')
+					.find('.modal-body')
+					.empty()
+					.append(
+						'<div class="modal-notice animated fadeOut">Press ESC to close</div><img src="' +
+						t[0].src +
+						'" class="img-fluid" />'
+					);
+			});
+
+			objectFitImages();
+		});
+	</script>
+</body>
+
+</html>

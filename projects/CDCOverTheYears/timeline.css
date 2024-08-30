@@ -1,0 +1,255 @@
+body {
+	margin: 0;
+	font-family: 'Orbitron', sans-serif;
+	background-color: #0f0f0f;
+	color: #00ffff;
+	overflow-x: hidden;
+	position: relative;
+}
+
+canvas#backgroundCanvas {
+	position: fixed;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	z-index: -1;
+	pointer-events: none;
+}
+
+.timeline {
+	position: relative;
+	padding: 100px 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.timeline-line {
+	position: absolute;
+	top: 0;
+	bottom: 0;
+	width: 2px;
+	background-color: #00ffea;
+	z-index: 1;
+}
+
+.timeline-entry {
+	position: relative;
+	margin: 50px 0;
+	display: flex;
+	align-items: center;
+	width: 80%;
+}
+
+.timeline-entry {
+	position: relative;
+	margin: 80px 0;
+	display: flex;
+	align-items: center;
+	width: 70%;
+	justify-content: space-between;
+}
+
+/* Default layout for odd entries (image left, text right) */
+.timeline-entry:nth-child(odd) .timeline-image {
+	order: 1;
+	flex: 0 0 48%;
+	border-top-left-radius: 30px;
+	border-bottom-left-radius: 30px;
+}
+
+.timeline-entry:nth-child(odd) .timeline-content {
+	order: 2;
+	flex: 0 0 47%;
+	padding-left: 37px;
+	text-align: left;
+}
+
+/* Alternate layout for even entries (text left, image right) */
+.timeline-entry:nth-child(even) {
+	justify-content: space-between;
+}
+
+.timeline-entry:nth-child(even) .timeline-image {
+	order: 2;
+	flex: 0 0 47%;
+	margin-left: 37px;
+	border-top-right-radius: 30px;
+	border-bottom-right-radius: 30px;
+}
+
+.timeline-entry:nth-child(even) .timeline-content {
+	order: 1;
+	flex: 0 0 47%;
+	padding-right: 37px;
+	text-align: right;
+}
+
+.timeline-dot {
+	width: 20px;
+	height: 20px;
+	background-color: #ff00ff;
+	border-radius: 50%;
+	position: absolute;
+	top: 0;
+	left: calc(50% - 10px);
+	z-index: 2;
+	animation: dotGlow 1.5s infinite alternate;
+}
+
+@keyframes dotGlow {
+	0% {
+		box-shadow: 0 0 10px #ff00ff, 0 0 20px #ff00ff, 0 0 30px #ff00ff;
+		background-color: #ff00ff;
+	}
+
+	100% {
+		box-shadow: 0 0 20px #00ffff, 0 0 40px #00ffff, 0 0 60px #00ffff;
+		background-color: #00ffff;
+	}
+}
+
+
+.timeline-card {
+	background: rgba(0, 0, 0, 0.7);
+	padding: 20px;
+	border: 1px solid #00ffff;
+	border-radius: 30px;
+	display: flex;
+	align-items: center;
+	width: 100%;
+	margin: 10px;
+	animation: fadeInUp 1s ease-out;
+	z-index: 1;
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+@keyframes pulse {
+	0% {
+		box-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff;
+	}
+
+	50% {
+		box-shadow: 0 0 20px #ff00ff, 0 0 40px #ff00ff, 0 0 60px #ff00ff;
+	}
+
+	100% {
+		box-shadow: 0 0 10px #00ffff, 0 0 20px #00ffff, 0 0 30px #00ffff;
+	}
+}
+
+.timeline-card:hover {
+	animation: pulse 1s infinite;
+	/* Adds a pulsing effect on hover */
+	border-color: #ff00ff;
+}
+
+.timeline-image {
+	flex: 0 0 48%;
+	height: 350px;
+	overflow: hidden;
+	position: relative;
+}
+
+.timeline-image img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: top;
+	display: block;
+}
+
+.timeline-image img:hover {
+	box-shadow: 0 0 30px #00ffff;
+}
+
+/* Base styles for images */
+.timeline-image img {
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+	object-position: top;
+	display: block;
+	transition: filter 0.5s ease, transform 0.5s ease;
+}
+
+/* Keyframes for TV monitor focus effect */
+@keyframes tvFocus {
+	0%,
+	100% {
+		transform: none;
+		filter: none;
+	}
+
+	5% {
+		transform: skewX(10deg);
+		filter: blur(2px) contrast(200%);
+	}
+
+	10% {
+		transform: scale(1.1) translateX(-10px);
+		filter: brightness(150%) hue-rotate(30deg);
+	}
+
+	15% {
+		transform: skewY(10deg);
+		filter: blur(1px) saturate(200%);
+	}
+
+	20% {
+		transform: scale(0.95) translateX(10px);
+		filter: contrast(150%) hue-rotate(-20deg);
+	}
+
+	25% {
+		transform: none;
+		filter: none;
+	}
+}
+
+/* Apply animation on hover */
+.timeline-image img:hover {
+	animation: tvFocus 0.5s steps(5) 2;
+}
+
+.timeline-content {
+	flex: 2;
+	color: #fff;
+}
+
+/* Base styles for h2 */
+.timeline-content h2 {
+	font-size: 2rem;
+	margin-bottom: 10px;
+	position: relative;
+	display: inline-block;
+	background: linear-gradient(90deg, #ff00ff, #00ffff, #ffae00, #00ff00, #ff00ff);
+	background-size: 300%;
+	-webkit-background-clip: text;
+	background-clip: text;
+	color: transparent;
+	animation: slideColor 5s linear infinite alternate;
+}
+
+@keyframes slideColor {
+	0% {
+		background-position: 0%;
+	}
+
+	100% {
+		background-position: 100%;
+	}
+}
+
+@keyframes fadeInUp {
+	0% {
+		opacity: 0;
+		transform: translateY(20px);
+	}
+
+	100% {
+		opacity: 1;
+		transform: translateY(0);
+	}
+}
