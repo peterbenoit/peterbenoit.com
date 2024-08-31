@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+	<title>Style Guide - Top Navigation</title>
+	<meta charset="UTF-8">
+<meta name="robots" content="noindex">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link rel="shortcut icon" href="img/guide/blue/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="img/guide/white/favicon-32x32.png">
+
+<link rel="stylesheet" href="libs/bootstrap/5/bootstrap.min.css">
+<link rel="stylesheet" href="libs/highlightjs/atom-one-light.min.css">
+<link rel="stylesheet" href="libs/highlightjs/highlightjs-copy.min.css">
+<link rel="stylesheet" href="https://www.cdc.gov/TemplatePackage/contrib/libs/fontawesome/6x/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<link rel="stylesheet" href="css/guide.css">
+
+
+
+</head>
+
+<body>
+  <div class="progress-container d-none">
+    <div class="progress-bar" id="myBar"></div>
+</div>
+  <div class="d-flex" id="wrapper">
+	<!-- Sidebar-->
+<div class="border-end d-flex flex-column flex-shrink-0" id="sidebar-wrapper">
+    <div class="sidebar-heading border-bottom">
+        <a id="top"></a>
+        <img src="img/guide/white/favicon-32x32.png" alt="DFE Style Guide">  DFE Style Guide
+    </div>
+    <div class="list-group list-group-flush flex-column mb-auto">
+        <a class="list-group-item list-group-item-light p-3" href="index.html">Introduction</a>
+        <a class="list-group-item list-group-item-action list-group-item-light p-3 d-flex justify-content-between" data-bs-toggle="collapse" href="#item-1-1">Foundation <i class="fa-solid fa-chevron-right mt-1"></i></a>
+        <div class="list-group collapse" id="item-1-1">
+            <a class="list-group-item" href="ui-colors.html">UI Colors</a>
+            <a class="list-group-item" href="typography.html">Typography</a>
+        </div>
+        <a class="list-group-item list-group-item-action list-group-item-light p-3 d-flex justify-content-between" data-bs-toggle="collapse" href="#item-1-2">Components <i class="fa-solid fa-chevron-right mt-1"></i></a>
+        <div class="list-group collapse" id="item-1-2">
+            <a class="list-group-item" href="buttons.html">Standard Buttons</a>
+            <a class="list-group-item" href="text-link.html">Text Links</a>
+            <a class="list-group-item" href="button-text.html">Text Buttons</a>
+            <a class="list-group-item" href="button-icon-with-text.html">Icon with Text Buttons</a>
+            <a class="list-group-item" href="button-icon.html">Icon Buttons</a>
+            <a class="list-group-item" href="tabs.html">Tabs</a>
+            <a class="list-group-item" href="menus-button.html">Button Menus</a>
+            <a class="list-group-item" href="menus-tripledot.html">Triple Dot Menus</a>
+            <a class="list-group-item" href="radiobuttons.html">Radio Buttons</a>
+            <a class="list-group-item" href="checkboxes.html">Checkboxes</a>
+            <a class="list-group-item" href="dropdowns.html">Dropdowns</a>
+            <a class="list-group-item" href="modals.html">Modals</a>
+            <a class="list-group-item" href="form-fields.html">Form Fields</a>
+            <a class="list-group-item" href="dividers.html">Dividers</a>
+            <a class="list-group-item" href="cards.html">Cards</a>
+            <a class="list-group-item" href="badges.html">Badges</a>
+            <a class="list-group-item" href="alerts.html">Alerts</a>
+            <a class="list-group-item" href="toggles.html">Toggles</a>
+        </div>
+        <a class="list-group-item list-group-item-action list-group-item-light p-3 d-flex justify-content-between" data-bs-toggle="collapse" href="#item-1-3">Component Groups <i class="fa-solid fa-chevron-right mt-1"></i></a>
+        <div class="list-group collapse" id="item-1-3">
+            <a class="list-group-item" href="top-nav.html">Top Nav</a>
+            <a class="list-group-item" href="left-nav.html">Left Nav</a>
+            <a class="list-group-item" href="selection-modal.html">Selection Modal</a>
+        </div>
+    </div>
+    <div class="list-group list-group-flush">
+        <a class="list-group-item list-group-item-light p-3" href="#top">Back to Top<i class="fa-solid fa-arrow-up ms-2"></i></a>
+    </div>
+</div>
+	<!-- Page content wrapper-->
+	<div id="page-content-wrapper">
+		<!-- Top navigation-->
+<nav class="navbar navbar-expand-lg border-bottom">
+	<div class="container-fluid">
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+				<li class="nav-item active">
+					<a class="nav-link" href="#!">DFE</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#!">WCMS</a>
+				</li>
+				<!-- <li class="nav-item dropdown">
+					<button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="Toggle theme (light)">
+					  <svg class="bi my-1 theme-icon-active"><use href="#sun-fill"></use></svg>
+					  <span class="d-lg-none ms-2" id="bd-theme-text">Toggle theme</span>
+					</button>
+					<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
+					  <li>
+						<button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="light" aria-pressed="true">
+						  <svg class="bi me-2 opacity-50 theme-icon"><use href="#sun-fill"></use></svg>
+						  Light
+						  <svg class="bi ms-auto d-none"><use href="#check2"></use></svg>
+						</button>
+					  </li>
+					  <li>
+						<button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
+						  <svg class="bi me-2 opacity-50 theme-icon"><use href="#moon-stars-fill"></use></svg>
+						  Dark
+						  <svg class="bi ms-auto d-none"><use href="#check2"></use></svg>
+						</button>
+					  </li>
+					  <li>
+						<button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto" aria-pressed="false">
+						  <svg class="bi me-2 opacity-50 theme-icon"><use href="#circle-half"></use></svg>
+						  Auto
+						  <svg class="bi ms-auto d-none"><use href="#check2"></use></svg>
+						</button>
+					  </li>
+					</ul>
+				</li> -->
+				<li class="nav-item dropdown">
+					<a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="navbarDropdown" role="button">More</a>
+					<div aria-labelledby="navbarDropdown" class="dropdown-menu dropdown-menu-end">
+						<a class="dropdown-item" href="contributing.html">Contributing</a>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" href="about.html">About</a>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+</nav>
+		<!-- Page content-->
+		<div class="container">
+			<h1 class="mt-4">Top Navigation</h1>
+			<h2>How to use</h2>
+			<pre><code class="hljs language-js">let x = 1;</code></pre>
+			<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Beatae recusandae amet consequatur quaerat eligendi deleniti eius quae iure? Saepe assumenda dignissimos temporibus voluptas non officia corrupti? Aspernatur unde dolore saepe.</p>
+			<p>Molestiae, quasi? Quos iste aliquam, non velit ut pariatur atque consequatur alias, soluta repellendus autem optio voluptate earum sed quasi, aut corrupti nobis exercitationem amet nulla minus ullam voluptatum eos.</p>
+			<p>Quaerat ex quibusdam aut. Aperiam dolores nisi perferendis sunt consequuntur, neque iste eius praesentium. Beatae nulla odit, repellendus numquam quae obcaecati possimus totam sint illo perspiciatis eaque tenetur suscipit error.</p>
+			<p>Autem veritatis possimus facere dolores at quo fuga repellendus! Necessitatibus doloremque amet ad delectus eveniet? Doloribus voluptates perspiciatis suscipit, ab corporis magnam dolor quo. Quasi voluptates laboriosam ducimus rerum nostrum!</p>
+			<p>Iure placeat iusto libero quasi ipsam, expedita quas omnis error explicabo cupiditate sunt voluptatem nobis? Libero nesciunt rem sapiente sunt vel asperiores quod perferendis, hic, ab facilis, exercitationem delectus illum.</p>
+			<p>Ipsam illo dolor a praesentium adipisci perferendis quam nobis ex quidem minus. Soluta, explicabo tempore porro consequatur voluptatibus qui ab corrupti temporibus? Cumque sunt reprehenderit enim ad exercitationem dicta repellat!</p>
+			<p>Minima dicta alias illo placeat explicabo velit illum nobis, tenetur tempora voluptatum minus saepe quisquam magnam, architecto nostrum veniam deleniti assumenda laborum ratione incidunt ipsum. Corporis nesciunt distinctio a aliquid.</p>
+			<p>Explicabo eum sequi, dolor nobis pariatur blanditiis, magnam ullam necessitatibus temporibus quia, porro sint. Quos tempore unde autem aperiam. Nemo, quos id necessitatibus soluta facere vitae quo modi a quisquam.</p>
+			<p>Sapiente odio deserunt quaerat, et a ullam animi nesciunt quod exercitationem ex labore quasi possimus quas numquam vel asperiores minus quos cupiditate ratione natus! Delectus corporis eius iste maxime. Reprehenderit.</p>
+			<p>Itaque aliquid harum voluptatum voluptas eius, eaque nisi maiores ex sed officia molestiae corrupti omnis, at placeat suscipit iusto, sit earum nemo. In voluptas ad, natus eaque aut saepe hic.</p>
+		</div>
+	</div>
+</div>
+
+<script async src="libs/codepen/ei.js"></script>
+<script src="libs/bootstrap/5/bootstrap.bundle.min.js"></script>
+<script src="libs/jquery/jquery.slim.min.js"></script>
+<script src="libs/highlightjs/highlight.min.js"></script>
+<script src="libs/highlightjs/highlightjs-line-numbers.min.js"></script>
+<script src="libs/highlightjs/highlightjs-copy.min.js"></script>
+<script src="js/guide.js" ></script>
+
+</body>
+
+</html>

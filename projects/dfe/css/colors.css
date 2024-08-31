@@ -1,0 +1,167 @@
+.box {
+    width: 120px;
+    height: 120px;
+    border-radius: 8px;
+    text-align: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-size: 14px;
+    padding: 1rem;
+}
+
+#colors + ul {
+    margin-bottom: 50px;
+}
+
+table td,
+table th {
+    padding-bottom: 40px;
+    padding-right: 50px;
+}
+
+.btn {
+    border-radius: 8px !important;
+}
+
+
+/* neutrals */
+.color-ui-background {
+    background-color: #F3F6F8;
+    color: #727272;
+}
+
+.color-white-gray {
+    background-color: #F5F5F5;
+    color: #000;
+}
+
+.color-medium-gray {
+    background-color: #757575;
+    color: #fff;
+}
+
+.color-medium-light-gray {
+    background-color: #BDBDBD;
+    color: #727272;
+}
+
+.color-charcoal-gray {
+    background-color: #555555;
+    color: #fff;
+}
+
+.color-light-gray {
+    background-color: #E0E0E0;
+    color: #727272;
+}
+
+.color-dark-gray {
+    background-color: #333;
+    color: #fff;
+}
+
+.color-modal-overlay {
+    background-color: rgba(0,0,0, 0.4);
+    color: #fff;
+}
+
+.color-focus-black {
+    border: 1px dashed #000;
+}
+
+/* Dropshadows*/
+
+/* UI Colors */
+.color-primary, .blue {
+    background-color: #0073AA;
+    color: #fff;
+}
+
+.light-blue {
+    background-color: #E0F6FF;
+}
+
+.dark-blue {
+    background-color: #005280;
+    color: #fff;
+}
+
+.bright-blue {
+    background-color: #7DD3FC;
+}
+
+.medium-blue {
+    background-color: #005EAA;
+    color: #fff;
+}
+
+.medium-light-blue {
+    background-color: #75C1FF;
+}
+
+.lightest-blue {
+    background-color: #EFF7FF;
+}
+
+
+
+
+
+.purple {
+    background-color: #835B91;
+    color: #fff;
+}
+
+.light-purple {
+    background-color: #FAF0FF;
+}
+
+.dark-purple {
+    background-color: #664672;
+    color: #fff;
+}
+
+.orange {
+    background-color: #E07800;
+    color: #fff;
+}
+
+.light-orange {
+    background-color: #FEE7CD;
+}
+
+.red {
+    background-color: #D20000;
+    color: #fff;
+}
+
+.light-red {
+    background-color: #FCE3E3;
+}
+
+.green {
+    background-color: #4B830D !important;
+    color: #fff !important;
+}
+
+.light-green {
+    background-color: #F7FFF0;
+}
+
+.dark-green {
+    background-color: #2D5A00;
+    color: #fff !important;
+}
+
+.bright-green {
+    background-color: #A9DB5C;
+}
+
+
+.white-box {
+    background-color: #FFF;
+    color: #000;
+    box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.1);
+}

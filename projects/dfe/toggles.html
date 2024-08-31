@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+	<title>Style Guide - Toggles</title>
+	<meta charset="UTF-8">
+<meta name="robots" content="noindex">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link rel="shortcut icon" href="img/guide/blue/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="img/guide/white/favicon-32x32.png">
+
+<link rel="stylesheet" href="libs/bootstrap/5/bootstrap.min.css">
+<link rel="stylesheet" href="libs/highlightjs/atom-one-light.min.css">
+<link rel="stylesheet" href="libs/highlightjs/highlightjs-copy.min.css">
+<link rel="stylesheet" href="https://www.cdc.gov/TemplatePackage/contrib/libs/fontawesome/6x/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<link rel="stylesheet" href="css/guide.css">
+
+
+
+</head>
+
+<body>
+  <div class="progress-container d-none">
+    <div class="progress-bar" id="myBar"></div>
+</div>
+  <div class="d-flex" id="wrapper">
+	<!-- Sidebar-->
+<div class="border-end d-flex flex-column flex-shrink-0" id="sidebar-wrapper">
+    <div class="sidebar-heading border-bottom">
+        <a id="top"></a>
+        <img src="img/guide/white/favicon-32x32.png" alt="DFE Style Guide">  DFE Style Guide
+    </div>
+    <div class="list-group list-group-flush flex-column mb-auto">
+        <a class="list-group-item list-group-item-light p-3" href="index.html">Introduction</a>
+        <a class="list-group-item list-group-item-action list-group-item-light p-3 d-flex justify-content-between" data-bs-toggle="collapse" href="#item-1-1">Foundation <i class="fa-solid fa-chevron-right mt-1"></i></a>
+        <div class="list-group collapse" id="item-1-1">
+            <a class="list-group-item" href="ui-colors.html">UI Colors</a>
+            <a class="list-group-item" href="typography.html">Typography</a>
+        </div>
+        <a class="list-group-item list-group-item-action list-group-item-light p-3 d-flex justify-content-between" data-bs-toggle="collapse" href="#item-1-2">Components <i class="fa-solid fa-chevron-right mt-1"></i></a>
+        <div class="list-group collapse" id="item-1-2">
+            <a class="list-group-item" href="buttons.html">Standard Buttons</a>
+            <a class="list-group-item" href="text-link.html">Text Links</a>
+            <a class="list-group-item" href="button-text.html">Text Buttons</a>
+            <a class="list-group-item" href="button-icon-with-text.html">Icon with Text Buttons</a>
+            <a class="list-group-item" href="button-icon.html">Icon Buttons</a>
+            <a class="list-group-item" href="tabs.html">Tabs</a>
+            <a class="list-group-item" href="menus-button.html">Button Menus</a>
+            <a class="list-group-item" href="menus-tripledot.html">Triple Dot Menus</a>
+            <a class="list-group-item" href="radiobuttons.html">Radio Buttons</a>
+            <a class="list-group-item" href="checkboxes.html">Checkboxes</a>
+            <a class="list-group-item" href="dropdowns.html">Dropdowns</a>
+            <a class="list-group-item" href="modals.html">Modals</a>
+            <a class="list-group-item" href="form-fields.html">Form Fields</a>
+            <a class="list-group-item" href="dividers.html">Dividers</a>
+            <a class="list-group-item" href="cards.html">Cards</a>
+            <a class="list-group-item" href="badges.html">Badges</a>
+            <a class="list-group-item" href="alerts.html">Alerts</a>
+            <a class="list-group-item" href="toggles.html">Toggles</a>
+        </div>
+        <a class="list-group-item list-group-item-action list-group-item-light p-3 d-flex justify-content-between" data-bs-toggle="collapse" href="#item-1-3">Component Groups <i class="fa-solid fa-chevron-right mt-1"></i></a>
+        <div class="list-group collapse" id="item-1-3">
+            <a class="list-group-item" href="top-nav.html">Top Nav</a>
+            <a class="list-group-item" href="left-nav.html">Left Nav</a>
+            <a class="list-group-item" href="selection-modal.html">Selection Modal</a>
+        </div>
+    </div>
+    <div class="list-group list-group-flush">
+        <a class="list-group-item list-group-item-light p-3" href="#top">Back to Top<i class="fa-solid fa-arrow-up ms-2"></i></a>
+    </div>
+</div>
+	<!-- Page content wrapper-->
+	<div id="page-content-wrapper">
+		<!-- Top navigation-->
+<nav class="navbar navbar-expand-lg border-bottom">
+	<div class="container-fluid">
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+				<li class="nav-item active">
+					<a class="nav-link" href="#!">DFE</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#!">WCMS</a>
+				</li>
+				<!-- <li class="nav-item dropdown">
+					<button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="Toggle theme (light)">
+					  <svg class="bi my-1 theme-icon-active"><use href="#sun-fill"></use></svg>
+					  <span class="d-lg-none ms-2" id="bd-theme-text">Toggle theme</span>
+					</button>
+					<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
+					  <li>
+						<button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="light" aria-pressed="true">
+						  <svg class="bi me-2 opacity-50 theme-icon"><use href="#sun-fill"></use></svg>
+						  Light
+						  <svg class="bi ms-auto d-none"><use href="#check2"></use></svg>
+						</button>
+					  </li>
+					  <li>
+						<button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
+						  <svg class="bi me-2 opacity-50 theme-icon"><use href="#moon-stars-fill"></use></svg>
+						  Dark
+						  <svg class="bi ms-auto d-none"><use href="#check2"></use></svg>
+						</button>
+					  </li>
+					  <li>
+						<button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto" aria-pressed="false">
+						  <svg class="bi me-2 opacity-50 theme-icon"><use href="#circle-half"></use></svg>
+						  Auto
+						  <svg class="bi ms-auto d-none"><use href="#check2"></use></svg>
+						</button>
+					  </li>
+					</ul>
+				</li> -->
+				<li class="nav-item dropdown">
+					<a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="navbarDropdown" role="button">More</a>
+					<div aria-labelledby="navbarDropdown" class="dropdown-menu dropdown-menu-end">
+						<a class="dropdown-item" href="contributing.html">Contributing</a>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" href="about.html">About</a>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+</nav>
+		<!-- Page content-->
+		<div class="container">
+			<h1 class="mt-4">Toggles</h1>
+			<h2>How to use</h2>
+			<ul>
+				<li>Toggles are used for binary controls</li>
+				<li>Use them for turning something on or off</li>
+				<li>Use instead of checkboxes if something can be independently turned on/off</li>
+				<li>Toggles have an unselected and a selected state and should seamlessly transition between the two on click</li>
+				<li>Note for developers: make sure the click target for toggles is set for the whole component itself so that user doesn't get frustrated when making selections</li>
+			</ul>
+			<h2>Demo</h2>
+<div
+				class="codepen"
+				data-prefill='{
+				"title": "Toggles Demo",
+				"description": "Example of Toggles",
+				"html_classes": ["no-js"],
+				"head": "&lt;meta name=&#x27;viewport&#x27; content=&#x27;width=device-width, initial-scale=1&#x27;&gt;",
+				"stylesheets": ["https://www.cdc.gov/TemplatePackage/contrib/libs/bootstrap/latest/css/bootstrap.min.css","https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap", "https://www.cdc.gov/TemplatePackage/contrib/libs/fontawesome/6x/css/all.min.css"],
+				"scripts": ["https://www.cdc.gov/TemplatePackage/contrib/libs/axe/latest/axe.min.js"]
+				}'
+				style="height: 500px; overflow: auto;"
+				data-height="500"
+				data-default-tab="html,result"
+				data-editable="true"
+				data-theme-id="light"
+			>
+				<pre data-lang="html">
+	&lt;div class=&quot;custom-control custom-switch&quot;&gt;
+		&lt;input type=&quot;checkbox&quot; class=&quot;custom-control-input&quot; id=&quot;customSwitch1&quot;&gt;
+		&lt;label class=&quot;custom-control-label&quot; for=&quot;customSwitch1&quot;&gt;Toggle&lt;/label&gt;
+	&lt;/div&gt;
+				</pre>
+				<pre data-lang="scss">
+	.custom-switch {
+		.custom-control-label {
+			&::before {
+				border: 1px solid #8B96A2;
+			}
+			&::after {
+				background-color: #8B96A2;
+			}
+		}
+		.custom-control-input {
+			&:checked {
+				&~.custom-control-label {
+					&::before {
+						background-color: #709B2C;
+						border-color: #709B2C;
+					}
+				}
+			}
+			&:focus {
+				&~.custom-control-label {
+					&::before {
+						outline: none;
+						box-shadow: none;
+					}
+				}
+			}
+			&:focus-visible {
+				&~.custom-control-label {
+					&::before {
+						box-shadow: none;
+						outline: 1px dashed #000;
+						outline-offset: 2px;
+					}
+				}
+				&:not(:checked) {
+					&~.custom-control-label {
+						&::before {
+							box-shadow: none;
+							outline: 1px dashed #000;
+							outline-offset: 2px;
+							background-color: #fff;
+							border-color: #8B96A2;
+						}
+					}
+				}
+			}
+			&:not(:disabled) {
+				&:active {
+					&~.custom-control-label {
+						&::before {
+							box-shadow: none;
+						}
+					}
+				}
+			}
+		}
+	}
+
+
+
+
+	// styles for demo only
+	body {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		margin: 3rem;
+	}
+
+	.custom-switch {
+		margin: 1rem;
+	}
+				</pre>
+<pre data-lang="js">
+	function gAT(t){let e='&lt;table class=&quot;table table-light&quot;&gt;';return e+=&quot;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Issue&lt;/th&gt;&lt;th&gt;Description&lt;/th&gt;&lt;th&gt;Impact&lt;/th&gt;&lt;th&gt;Element&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&quot;,e+=&quot;&lt;tbody&gt;&quot;,t.forEach(t=&gt;{let l=cLFE(t.nodes[0].target);e+=`&lt;tr&gt;&lt;td&gt;${t.id}&lt;/td&gt;&lt;td&gt;${t.description}&lt;/td&gt;&lt;td&gt;${t.impact}&lt;/td&gt;&lt;td&gt;${l}&lt;/td&gt;&lt;/tr&gt;`}),e+=&quot;&lt;/tbody&gt;&quot;,e+=&quot;&lt;/table&gt;&quot;}function cLFE(t){return`&lt;a href=&quot;#${t}&quot;&gt;${t}&lt;/a&gt;`}axe.run({rules:{&quot;landmark-one-main&quot;:{enabled:!1},&quot;page-has-heading-one&quot;:{enabled:!1},region:{enabled:!1}}},function(t,e){if(e.violations.length){let l=gAT(e.violations),n=document.body,o=document.createElement(&quot;div&quot;);o.style=&quot;position: fixed;left: 0;bottom: 0;width:100%;font-size: 11px;&quot;,o.classList.add(&quot;text-monospace&quot;),o.innerHTML=l,n.appendChild(o),document.querySelectorAll(&quot;table a&quot;).forEach(t=&gt;{t.addEventListener(&quot;click&quot;,()=&gt;document.querySelectorAll(t.hash.split(&quot;#&quot;).pop())[0].style=&quot;border:1px solid red;background:yellow&quot;)})}else{let d=document.body,i=document.createElement(&quot;div&quot;);i.style=&quot;position: fixed;left: 0;bottom: 0;width:100%;font-size: 11px;&quot;,i.classList.add(&quot;text-monospace&quot;),i.innerHTML=&quot;No 508 violations found&quot;,d.appendChild(i)}});
+</pre>
+			</div>
+			<h2>Dev Notes</h2>
+			<ul>
+				<li>A DFE toggle component is a <a href="https://getbootstrap.com/docs/4.6/components/forms/#switches">Bootstrap 4 switch component</a></li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<script async src="libs/codepen/ei.js"></script>
+<script src="libs/bootstrap/5/bootstrap.bundle.min.js"></script>
+<script src="libs/jquery/jquery.slim.min.js"></script>
+<script src="libs/highlightjs/highlight.min.js"></script>
+<script src="libs/highlightjs/highlightjs-line-numbers.min.js"></script>
+<script src="libs/highlightjs/highlightjs-copy.min.js"></script>
+<script src="js/guide.js" ></script>
+
+</body>
+
+</html>

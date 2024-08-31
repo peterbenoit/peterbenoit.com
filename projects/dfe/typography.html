@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+	<title>Style Guide - Typography</title>
+	<meta charset="UTF-8">
+<meta name="robots" content="noindex">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link rel="shortcut icon" href="img/guide/blue/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="img/guide/white/favicon-32x32.png">
+
+<link rel="stylesheet" href="libs/bootstrap/5/bootstrap.min.css">
+<link rel="stylesheet" href="libs/highlightjs/atom-one-light.min.css">
+<link rel="stylesheet" href="libs/highlightjs/highlightjs-copy.min.css">
+<link rel="stylesheet" href="https://www.cdc.gov/TemplatePackage/contrib/libs/fontawesome/6x/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<link rel="stylesheet" href="css/guide.css">
+
+
+
+</head>
+
+<body>
+<div class="progress-container d-none">
+    <div class="progress-bar" id="myBar"></div>
+</div>
+  <div class="d-flex" id="wrapper">
+	<!-- Sidebar-->
+<div class="border-end d-flex flex-column flex-shrink-0" id="sidebar-wrapper">
+    <div class="sidebar-heading border-bottom">
+        <a id="top"></a>
+        <img src="img/guide/white/favicon-32x32.png" alt="DFE Style Guide">  DFE Style Guide
+    </div>
+    <div class="list-group list-group-flush flex-column mb-auto">
+        <a class="list-group-item list-group-item-light p-3" href="index.html">Introduction</a>
+        <a class="list-group-item list-group-item-action list-group-item-light p-3 d-flex justify-content-between" data-bs-toggle="collapse" href="#item-1-1">Foundation <i class="fa-solid fa-chevron-right mt-1"></i></a>
+        <div class="list-group collapse" id="item-1-1">
+            <a class="list-group-item" href="ui-colors.html">UI Colors</a>
+            <a class="list-group-item" href="typography.html">Typography</a>
+        </div>
+        <a class="list-group-item list-group-item-action list-group-item-light p-3 d-flex justify-content-between" data-bs-toggle="collapse" href="#item-1-2">Components <i class="fa-solid fa-chevron-right mt-1"></i></a>
+        <div class="list-group collapse" id="item-1-2">
+            <a class="list-group-item" href="buttons.html">Standard Buttons</a>
+            <a class="list-group-item" href="text-link.html">Text Links</a>
+            <a class="list-group-item" href="button-text.html">Text Buttons</a>
+            <a class="list-group-item" href="button-icon-with-text.html">Icon with Text Buttons</a>
+            <a class="list-group-item" href="button-icon.html">Icon Buttons</a>
+            <a class="list-group-item" href="tabs.html">Tabs</a>
+            <a class="list-group-item" href="menus-button.html">Button Menus</a>
+            <a class="list-group-item" href="menus-tripledot.html">Triple Dot Menus</a>
+            <a class="list-group-item" href="radiobuttons.html">Radio Buttons</a>
+            <a class="list-group-item" href="checkboxes.html">Checkboxes</a>
+            <a class="list-group-item" href="dropdowns.html">Dropdowns</a>
+            <a class="list-group-item" href="modals.html">Modals</a>
+            <a class="list-group-item" href="form-fields.html">Form Fields</a>
+            <a class="list-group-item" href="dividers.html">Dividers</a>
+            <a class="list-group-item" href="cards.html">Cards</a>
+            <a class="list-group-item" href="badges.html">Badges</a>
+            <a class="list-group-item" href="alerts.html">Alerts</a>
+            <a class="list-group-item" href="toggles.html">Toggles</a>
+        </div>
+        <a class="list-group-item list-group-item-action list-group-item-light p-3 d-flex justify-content-between" data-bs-toggle="collapse" href="#item-1-3">Component Groups <i class="fa-solid fa-chevron-right mt-1"></i></a>
+        <div class="list-group collapse" id="item-1-3">
+            <a class="list-group-item" href="top-nav.html">Top Nav</a>
+            <a class="list-group-item" href="left-nav.html">Left Nav</a>
+            <a class="list-group-item" href="selection-modal.html">Selection Modal</a>
+        </div>
+    </div>
+    <div class="list-group list-group-flush">
+        <a class="list-group-item list-group-item-light p-3" href="#top">Back to Top<i class="fa-solid fa-arrow-up ms-2"></i></a>
+    </div>
+</div>
+	<!-- Page content wrapper-->
+	<div id="page-content-wrapper">
+		<!-- Top navigation-->
+<nav class="navbar navbar-expand-lg border-bottom">
+	<div class="container-fluid">
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+				<li class="nav-item active">
+					<a class="nav-link" href="#!">DFE</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#!">WCMS</a>
+				</li>
+				<!-- <li class="nav-item dropdown">
+					<button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="Toggle theme (light)">
+					  <svg class="bi my-1 theme-icon-active"><use href="#sun-fill"></use></svg>
+					  <span class="d-lg-none ms-2" id="bd-theme-text">Toggle theme</span>
+					</button>
+					<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
+					  <li>
+						<button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="light" aria-pressed="true">
+						  <svg class="bi me-2 opacity-50 theme-icon"><use href="#sun-fill"></use></svg>
+						  Light
+						  <svg class="bi ms-auto d-none"><use href="#check2"></use></svg>
+						</button>
+					  </li>
+					  <li>
+						<button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
+						  <svg class="bi me-2 opacity-50 theme-icon"><use href="#moon-stars-fill"></use></svg>
+						  Dark
+						  <svg class="bi ms-auto d-none"><use href="#check2"></use></svg>
+						</button>
+					  </li>
+					  <li>
+						<button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto" aria-pressed="false">
+						  <svg class="bi me-2 opacity-50 theme-icon"><use href="#circle-half"></use></svg>
+						  Auto
+						  <svg class="bi ms-auto d-none"><use href="#check2"></use></svg>
+						</button>
+					  </li>
+					</ul>
+				</li> -->
+				<li class="nav-item dropdown">
+					<a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="navbarDropdown" role="button">More</a>
+					<div aria-labelledby="navbarDropdown" class="dropdown-menu dropdown-menu-end">
+						<a class="dropdown-item" href="contributing.html">Contributing</a>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" href="about.html">About</a>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+</nav>
+		<!-- Page content-->
+		<div class="container">
+			<h1 class="mt-4">Typography</h1>
+
+			<div class="alert d-flex alert-info alert-dismissible fade show" role="alert">
+				<div class="alert-body"><strong>Notice!</strong> The content on this page is not necessarily accurate.</div>
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+
+			<p>Typography, in the context of a style guide, refers to the visual presentation and arrangement of text elements, including fonts, sizes, spacing, and other typographic details. It involves selecting and defining a consistent set of typefaces, styles, and layout guidelines to ensure visual coherence and readability throughout a design or branding system.</p>
+			<h3>Key Components</h3>
+			<ol>
+			  <li>
+				<strong>Fonts/Typefaces:</strong> The primary font used in the DFE are "Inter" (https://fonts.google.com/specimen/Inter) and "Poppins" (https://fonts.google.com/specimen/Poppins), in weights 300 through 700.
+			  </li>
+			  <li>
+				<strong>Heading and Subheading Styles:</strong>
+			  </li>
+			  <li>
+				<strong>Body Text:</strong> Determine the font size, line spacing, and line length for body text. It's important to strike a balance between legibility and readability, ensuring comfortable reading experiences across various devices and mediums.
+			  </li>
+			  <li>
+				<strong>Color Usage:</strong> Specify the color palette for text, including primary and secondary colors for headings, subheadings, body text, and other typographic elements. Define any color variations for links, highlights, or emphasis.
+			  </li>
+			  <li>
+				<strong>Text Formatting:</strong> Establish guidelines for text formatting such as italics, bold, underline, or other text treatments. Clearly define the purpose and appropriate usage of each formatting option.
+			  </li>
+			  <li>
+				<strong>Alignment and Indentation:</strong> Determine the preferred alignment (left, right, center, or justified) for different text elements. Also, specify indentation rules for paragraphs, bulleted lists, blockquotes, and other text blocks.
+			  </li>
+			  <li>
+				<strong>Spacing and Line Height:</strong> Define the desired spacing between lines (line height) to ensure legibility and readability. Also, specify appropriate spacing between paragraphs, headings, and other typographic elements.
+			  </li>
+			  <li>
+				<strong>Text Styling:</strong> Provide guidelines for text styles such as capitalization, letter spacing (tracking), and kerning. These details ensure consistency and maintain a harmonious visual balance across different text elements.
+			  </li>
+			  <li>
+				<strong>Responsive Typography:</strong> Consider how typography should adapt to different screen sizes and devices. Specify guidelines for font sizes, line lengths, and spacing adjustments to ensure optimal readability across various platforms.
+			  </li>
+			  <li>
+				<strong>Examples and Usage:</strong> Include visual examples and usage scenarios to demonstrate how typography should be applied in different contexts. Show examples of proper typographic treatments, including combinations of fonts, heading hierarchy, and paragraph styles.
+			  </li>
+			</ol>
+
+			<p>Remember, the typography section of a style guide serves as a comprehensive reference for designers, writers, and anyone involved in creating content within a brand or design system. It establishes guidelines that help maintain a consistent visual identity, enhance readability, and reinforce the brand's overall aesthetic.</p>
+
+			<a id="headings"></a>
+			<h2>Demo</h2>
+<div
+				class="codepen"
+				data-prefill='{
+				"title": "Divider Demo",
+				"description": "Example of divider",
+				"html_classes": ["no-js"],
+				"head": "&lt;meta name=&#x27;viewport&#x27; content=&#x27;width=device-width, initial-scale=1&#x27;&gt;",
+				"stylesheets": ["https://www.cdc.gov/TemplatePackage/contrib/libs/bootstrap/latest/css/bootstrap.min.css","https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap", "https://www.cdc.gov/TemplatePackage/contrib/libs/fontawesome/6x/css/all.min.css"],
+				"scripts": ["https://www.cdc.gov/TemplatePackage/contrib/libs/axe/latest/axe.min.js"]
+				}'
+				style="height: 500px; overflow: auto;"
+				data-height="500"
+				data-default-tab="html,result"
+				data-editable="true"
+				data-theme-id="light"
+			>
+				<pre data-lang="html">
+	&lt;h1&gt;h1. Heading&lt;/h1&gt;
+	&lt;h2&gt;h2. Heading&lt;/h2&gt;
+	&lt;h3&gt;h3. Heading&lt;/h3&gt;
+	&lt;h4&gt;h4. Heading&lt;/h4&gt;
+	&lt;h5&gt;h5. Heading&lt;/h5&gt;
+	&lt;h6&gt;h6. Heading&lt;/h6&gt;
+	&lt;p class=&quot;h1&quot;&gt;h1. Heading&lt;/p&gt;
+	&lt;p class=&quot;h2&quot;&gt;h2. Heading&lt;/p&gt;
+	&lt;p class=&quot;h3&quot;&gt;h3. Heading&lt;/p&gt;
+	&lt;p class=&quot;h4&quot;&gt;h4. Heading&lt;/p&gt;
+	&lt;p class=&quot;h5&quot;&gt;h5. Heading&lt;/p&gt;
+	&lt;p class=&quot;h6&quot;&gt;h6. Heading&lt;/p&gt;
+				</pre>
+				<pre data-lang="scss">
+	h1, h2, h3, h4, h5, h6,
+	.h1, .h2, .h3, .h4, .h5, .h6 {
+		font-family: "Poppins", sans-serif;
+	}
+
+
+
+	// demo only
+	body {
+		margin: 50px;
+	}
+				</pre>
+<pre data-lang="js">
+	function gAT(t){let e='&lt;table class=&quot;table table-light&quot;&gt;';return e+=&quot;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Issue&lt;/th&gt;&lt;th&gt;Description&lt;/th&gt;&lt;th&gt;Impact&lt;/th&gt;&lt;th&gt;Element&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&quot;,e+=&quot;&lt;tbody&gt;&quot;,t.forEach(t=&gt;{let l=cLFE(t.nodes[0].target);e+=`&lt;tr&gt;&lt;td&gt;${t.id}&lt;/td&gt;&lt;td&gt;${t.description}&lt;/td&gt;&lt;td&gt;${t.impact}&lt;/td&gt;&lt;td&gt;${l}&lt;/td&gt;&lt;/tr&gt;`}),e+=&quot;&lt;/tbody&gt;&quot;,e+=&quot;&lt;/table&gt;&quot;}function cLFE(t){return`&lt;a href=&quot;#${t}&quot;&gt;${t}&lt;/a&gt;`}axe.run({rules:{&quot;landmark-one-main&quot;:{enabled:!1},&quot;page-has-heading-one&quot;:{enabled:!1},region:{enabled:!1}}},function(t,e){if(e.violations.length){let l=gAT(e.violations),n=document.body,o=document.createElement(&quot;div&quot;);o.style=&quot;position: fixed;left: 0;bottom: 0;width:100%;font-size: 11px;&quot;,o.classList.add(&quot;text-monospace&quot;),o.innerHTML=l,n.appendChild(o),document.querySelectorAll(&quot;table a&quot;).forEach(t=&gt;{t.addEventListener(&quot;click&quot;,()=&gt;document.querySelectorAll(t.hash.split(&quot;#&quot;).pop())[0].style=&quot;border:1px solid red;background:yellow&quot;)})}else{let d=document.body,i=document.createElement(&quot;div&quot;);i.style=&quot;position: fixed;left: 0;bottom: 0;width:100%;font-size: 11px;&quot;,i.classList.add(&quot;text-monospace&quot;),i.innerHTML=&quot;No 508 violations found&quot;,d.appendChild(i)}});
+</pre>
+			</div>
+			<h2>Dev Notes</h2>
+			<ul>
+				<li>TBD</li>
+			</ul>
+		</div>
+	</div>
+</div>
+<script async src="libs/codepen/ei.js"></script>
+<script src="libs/bootstrap/5/bootstrap.bundle.min.js"></script>
+<script src="libs/jquery/jquery.slim.min.js"></script>
+<script src="libs/highlightjs/highlight.min.js"></script>
+<script src="libs/highlightjs/highlightjs-line-numbers.min.js"></script>
+<script src="libs/highlightjs/highlightjs-copy.min.js"></script>
+<script src="js/guide.js" ></script>
+
+</body>
+
+</html>

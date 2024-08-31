@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+	<title>Style Guide - Form Fields</title>
+	<meta charset="UTF-8">
+<meta name="robots" content="noindex">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link rel="shortcut icon" href="img/guide/blue/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="img/guide/white/favicon-32x32.png">
+
+<link rel="stylesheet" href="libs/bootstrap/5/bootstrap.min.css">
+<link rel="stylesheet" href="libs/highlightjs/atom-one-light.min.css">
+<link rel="stylesheet" href="libs/highlightjs/highlightjs-copy.min.css">
+<link rel="stylesheet" href="https://www.cdc.gov/TemplatePackage/contrib/libs/fontawesome/6x/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<link rel="stylesheet" href="css/guide.css">
+
+
+
+</head>
+
+<body>
+  <div class="progress-container d-none">
+    <div class="progress-bar" id="myBar"></div>
+</div>
+  <div class="d-flex" id="wrapper">
+	<!-- Sidebar-->
+<div class="border-end d-flex flex-column flex-shrink-0" id="sidebar-wrapper">
+    <div class="sidebar-heading border-bottom">
+        <a id="top"></a>
+        <img src="img/guide/white/favicon-32x32.png" alt="DFE Style Guide">  DFE Style Guide
+    </div>
+    <div class="list-group list-group-flush flex-column mb-auto">
+        <a class="list-group-item list-group-item-light p-3" href="index.html">Introduction</a>
+        <a class="list-group-item list-group-item-action list-group-item-light p-3 d-flex justify-content-between" data-bs-toggle="collapse" href="#item-1-1">Foundation <i class="fa-solid fa-chevron-right mt-1"></i></a>
+        <div class="list-group collapse" id="item-1-1">
+            <a class="list-group-item" href="ui-colors.html">UI Colors</a>
+            <a class="list-group-item" href="typography.html">Typography</a>
+        </div>
+        <a class="list-group-item list-group-item-action list-group-item-light p-3 d-flex justify-content-between" data-bs-toggle="collapse" href="#item-1-2">Components <i class="fa-solid fa-chevron-right mt-1"></i></a>
+        <div class="list-group collapse" id="item-1-2">
+            <a class="list-group-item" href="buttons.html">Standard Buttons</a>
+            <a class="list-group-item" href="text-link.html">Text Links</a>
+            <a class="list-group-item" href="button-text.html">Text Buttons</a>
+            <a class="list-group-item" href="button-icon-with-text.html">Icon with Text Buttons</a>
+            <a class="list-group-item" href="button-icon.html">Icon Buttons</a>
+            <a class="list-group-item" href="tabs.html">Tabs</a>
+            <a class="list-group-item" href="menus-button.html">Button Menus</a>
+            <a class="list-group-item" href="menus-tripledot.html">Triple Dot Menus</a>
+            <a class="list-group-item" href="radiobuttons.html">Radio Buttons</a>
+            <a class="list-group-item" href="checkboxes.html">Checkboxes</a>
+            <a class="list-group-item" href="dropdowns.html">Dropdowns</a>
+            <a class="list-group-item" href="modals.html">Modals</a>
+            <a class="list-group-item" href="form-fields.html">Form Fields</a>
+            <a class="list-group-item" href="dividers.html">Dividers</a>
+            <a class="list-group-item" href="cards.html">Cards</a>
+            <a class="list-group-item" href="badges.html">Badges</a>
+            <a class="list-group-item" href="alerts.html">Alerts</a>
+            <a class="list-group-item" href="toggles.html">Toggles</a>
+        </div>
+        <a class="list-group-item list-group-item-action list-group-item-light p-3 d-flex justify-content-between" data-bs-toggle="collapse" href="#item-1-3">Component Groups <i class="fa-solid fa-chevron-right mt-1"></i></a>
+        <div class="list-group collapse" id="item-1-3">
+            <a class="list-group-item" href="top-nav.html">Top Nav</a>
+            <a class="list-group-item" href="left-nav.html">Left Nav</a>
+            <a class="list-group-item" href="selection-modal.html">Selection Modal</a>
+        </div>
+    </div>
+    <div class="list-group list-group-flush">
+        <a class="list-group-item list-group-item-light p-3" href="#top">Back to Top<i class="fa-solid fa-arrow-up ms-2"></i></a>
+    </div>
+</div>
+	<!-- Page content wrapper-->
+	<div id="page-content-wrapper">
+		<!-- Top navigation-->
+<nav class="navbar navbar-expand-lg border-bottom">
+	<div class="container-fluid">
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+				<li class="nav-item active">
+					<a class="nav-link" href="#!">DFE</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#!">WCMS</a>
+				</li>
+				<!-- <li class="nav-item dropdown">
+					<button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="Toggle theme (light)">
+					  <svg class="bi my-1 theme-icon-active"><use href="#sun-fill"></use></svg>
+					  <span class="d-lg-none ms-2" id="bd-theme-text">Toggle theme</span>
+					</button>
+					<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
+					  <li>
+						<button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="light" aria-pressed="true">
+						  <svg class="bi me-2 opacity-50 theme-icon"><use href="#sun-fill"></use></svg>
+						  Light
+						  <svg class="bi ms-auto d-none"><use href="#check2"></use></svg>
+						</button>
+					  </li>
+					  <li>
+						<button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
+						  <svg class="bi me-2 opacity-50 theme-icon"><use href="#moon-stars-fill"></use></svg>
+						  Dark
+						  <svg class="bi ms-auto d-none"><use href="#check2"></use></svg>
+						</button>
+					  </li>
+					  <li>
+						<button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto" aria-pressed="false">
+						  <svg class="bi me-2 opacity-50 theme-icon"><use href="#circle-half"></use></svg>
+						  Auto
+						  <svg class="bi ms-auto d-none"><use href="#check2"></use></svg>
+						</button>
+					  </li>
+					</ul>
+				</li> -->
+				<li class="nav-item dropdown">
+					<a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="navbarDropdown" role="button">More</a>
+					<div aria-labelledby="navbarDropdown" class="dropdown-menu dropdown-menu-end">
+						<a class="dropdown-item" href="contributing.html">Contributing</a>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" href="about.html">About</a>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+</nav>
+		<!-- Page content-->
+		<div class="container">
+			<h1 class="mt-4">Form Fields</h1>
+			<h2>How to use</h2>
+			<ul>
+				<li>There are 3 sizes of form fields - regular/medium/small - regular is the default size in all instances, medium/small should be used on smaller screens where the regular size is too big</li>
+				<li>Form fields are for users to input information into</li>
+				<li>States include: default, disabled, error, warning, active, focus</li>
+				<li>Errors are triggered to match corresponding requirement feedback messages</li>
+				<li>Warnings are triggered to match corresponding recommendation feedback messages</li>
+				<li>Active states are triggered when a user clicks into a field</li>
+				<li>Focus states are triggered when a user uses a keyboard to tab through fields</li>
+				<li>It should be easy to troubleshoot any errors &ndash; i.e. it should be clear what information is missing through feedback messages</li>
+				<li>Consider using icons to enforce specific actions - form field icons should be on the right (Ex: search fields)</li>
+			</ul>
+			<h2>Demo</h2>
+<div
+				class="codepen"
+				data-prefill='{
+				"title": "Form Fields Demo",
+				"description": "Example of Form Fields",
+				"html_classes": ["no-js"],
+				"head": "&lt;meta name=&#x27;viewport&#x27; content=&#x27;width=device-width, initial-scale=1&#x27;&gt;",
+				"stylesheets": ["https://www.cdc.gov/TemplatePackage/contrib/libs/bootstrap/latest/css/bootstrap.min.css","https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap", "https://www.cdc.gov/TemplatePackage/contrib/libs/fontawesome/6x/css/all.min.css"],
+				"scripts": ["https://www.cdc.gov/TemplatePackage/contrib/libs/axe/latest/axe.min.js"]
+				}'
+				style="height: 700px; overflow: auto;"
+				data-height="700"
+				data-default-tab="html,result"
+				data-editable="true"
+				data-theme-id="light"
+			>
+				<pre data-lang="html">
+	&lt;fieldset&gt;
+		&lt;legend&gt;Standard Inputs&lt;/legend&gt;
+		&lt;div class=&quot;form-group&quot;&gt;
+			&lt;label for=&quot;defaultInput&quot;&gt;Regular Input&lt;/label&gt;
+			&lt;input class=&quot;form-control&quot; type=&quot;text&quot; id=&quot;defaultInput&quot; placeholder=&quot;Regular Input&quot;&gt;
+		&lt;/div&gt;
+		&lt;div class=&quot;form-group&quot;&gt;
+			&lt;label for=&quot;defaultInputLg&quot;&gt;Large Input&lt;/label&gt;
+			&lt;input class=&quot;form-control form-control-lg&quot; type=&quot;text&quot; id=&quot;defaultInputLg&quot; placeholder=&quot;Large Input&quot;&gt;
+		&lt;/div&gt;
+		&lt;div class=&quot;form-group&quot;&gt;
+			&lt;label for=&quot;defaultInputSm&quot;&gt;Small Input&lt;/label&gt;
+			&lt;input class=&quot;form-control form-control-sm&quot; type=&quot;text&quot; id=&quot;defaultInputSm&quot; placeholder=&quot;Small Input&quot;&gt;
+		&lt;/div&gt;
+	&lt;/fieldset&gt;
+
+		&lt;fieldset&gt;
+		&lt;legend&gt;Disabled Inputs&lt;/legend&gt;
+		&lt;div class=&quot;form-group&quot;&gt;
+			&lt;label for=&quot;defaultInputDisabled&quot;&gt;Regular Input&lt;/label&gt;
+			&lt;input class=&quot;form-control&quot; type=&quot;text&quot; id=&quot;defaultInputDisabled&quot; placeholder=&quot;Regular Input&quot; disabled&gt;
+		&lt;/div&gt;
+		&lt;div class=&quot;form-group&quot;&gt;
+			&lt;label for=&quot;defaultInputLgDisabled&quot;&gt;Large Input&lt;/label&gt;
+			&lt;input class=&quot;form-control form-control-lg&quot; type=&quot;text&quot; id=&quot;defaultInputLgDisabled&quot; placeholder=&quot;Large Input&quot; disabled&gt;
+		&lt;/div&gt;
+		&lt;div class=&quot;form-group&quot;&gt;
+			&lt;label for=&quot;defaultInputSmDisabled&quot;&gt;Small Input&lt;/label&gt;
+			&lt;input class=&quot;form-control form-control-sm&quot; type=&quot;text&quot; id=&quot;defaultInputSmDisabled&quot; placeholder=&quot;Small Input&quot; disabled&gt;
+		&lt;/div&gt;
+	&lt;/fieldset&gt;
+
+		&lt;fieldset&gt;
+		&lt;legend&gt;Error Inputs&lt;/legend&gt;
+		&lt;div class=&quot;form-group&quot;&gt;
+			&lt;label for=&quot;defaultInputError&quot;&gt;Regular Input&lt;/label&gt;
+			&lt;input class=&quot;form-control is-invalid&quot; type=&quot;text&quot; id=&quot;defaultInputError&quot; placeholder=&quot;Regular Input&quot;&gt;
+		&lt;/div&gt;
+		&lt;div class=&quot;form-group&quot;&gt;
+			&lt;label for=&quot;defaultInputLgError&quot;&gt;Large Input&lt;/label&gt;
+			&lt;input class=&quot;form-control is-invalid form-control-lg&quot; type=&quot;text&quot; id=&quot;defaultInputLgError&quot; placeholder=&quot;Large Input&quot;&gt;
+		&lt;/div&gt;
+		&lt;div class=&quot;form-group&quot;&gt;
+			&lt;label for=&quot;defaultInputSmError&quot;&gt;Small Input&lt;/label&gt;
+			&lt;input class=&quot;form-control is-invalid form-control-sm&quot; type=&quot;text&quot; id=&quot;defaultInputSmError&quot; placeholder=&quot;Small Input&quot;&gt;
+		&lt;/div&gt;
+	&lt;/fieldset&gt;
+
+	&lt;fieldset&gt;
+		&lt;legend&gt;Warning Inputs&lt;/legend&gt;
+		&lt;div class=&quot;form-group&quot;&gt;
+			&lt;label for=&quot;defaultInputWarning&quot;&gt;Regular Input&lt;/label&gt;
+			&lt;input class=&quot;form-control is-warning&quot; type=&quot;text&quot; id=&quot;defaultInputWarning&quot; placeholder=&quot;Regular Input&quot;&gt;
+		&lt;/div&gt;
+		&lt;div class=&quot;form-group&quot;&gt;
+			&lt;label for=&quot;defaultInputLgWarning&quot;&gt;Large Input&lt;/label&gt;
+			&lt;input class=&quot;form-control is-warning form-control-lg&quot; type=&quot;text&quot; id=&quot;defaultInputLgWarning&quot; placeholder=&quot;Large Input&quot;&gt;
+		&lt;/div&gt;
+		&lt;div class=&quot;form-group&quot;&gt;
+			&lt;label for=&quot;defaultInputSmWarning&quot;&gt;Small Input&lt;/label&gt;
+			&lt;input class=&quot;form-control is-warning form-control-sm&quot; type=&quot;text&quot; id=&quot;defaultInputSmWarning&quot; placeholder=&quot;Small Input&quot;&gt;
+		&lt;/div&gt;
+	&lt;/fieldset&gt;
+
+		&lt;fieldset&gt;
+		&lt;legend&gt;Search Inputs&lt;/legend&gt;
+		&lt;div class=&quot;form-group&quot;&gt;
+			&lt;label for=&quot;defaultInputSearch&quot;&gt;Regular Search&lt;/label&gt;
+			&lt;input class=&quot;form-control is-search&quot; type=&quot;text&quot; id=&quot;defaultInputSearch&quot; placeholder=&quot;Regular Input&quot;&gt;
+		&lt;/div&gt;
+		&lt;div class=&quot;form-group&quot;&gt;
+			&lt;label for=&quot;defaultInputLgSearch&quot;&gt;Large Search&lt;/label&gt;
+			&lt;input class=&quot;form-control is-search form-control-lg&quot; type=&quot;text&quot; id=&quot;defaultInputLgSearch&quot; placeholder=&quot;Large Input&quot;&gt;
+		&lt;/div&gt;
+		&lt;div class=&quot;form-group&quot;&gt;
+			&lt;label for=&quot;defaultInputSmSearch&quot;&gt;Small Search&lt;/label&gt;
+			&lt;input class=&quot;form-control is-search form-control-sm&quot; type=&quot;text&quot; id=&quot;defaultInputSmSearch&quot; placeholder=&quot;Small Input&quot;&gt;
+		&lt;/div&gt;
+	&lt;/fieldset&gt;
+				</pre>
+				<pre data-lang="scss">
+	.form-control {
+		&[type="text"] {
+			color: #757575;
+			font-family: "Inter", sans-serif;
+			font-size: 14px;
+			border-color: #BDBDBD;
+			border-radius: 8px;
+			&.form-control {
+				&-lg {
+					font-size: 18px;
+				}
+				&-sm {
+					font-size: 12px;
+				}
+				&:disabled,
+				&[readonly] {
+					background-color: #FFF;
+					opacity: 50%;
+				}
+			}
+			&.is {
+				&-invalid,
+				&-error {
+					border: 2px solid #D20000;
+					background-image: none;
+				}
+				&-valid,
+				&-success {
+					border: 2px solid green;
+					background-image: none;
+				}
+				&-warning {
+					border: 2px solid #E07800;
+					background-image: none;
+				}
+				&-search {
+					background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='%23757575' width='12' height='12' viewBox='0 0 512 512'%3E%3Cpath d='M416 208c0 45.9-14.9 88.3-40 122.7L502.6 457.4c12.5 12.5 12.5 32.8 0 45.3s-32.8 12.5-45.3 0L330.7 376c-34.4 25.2-76.8 40-122.7 40C93.1 416 0 322.9 0 208S93.1 0 208 0S416 93.1 416 208zM208 352a144 144 0 1 0 0-288 144 144 0 1 0 0 288z'/%3E%3C/svg%3E");
+					background-repeat: no-repeat;
+					background-position: right calc(0.375em + 0.1875rem) center;
+					background-size: calc(0.75em + 0.375rem) calc(0.75em + 0.375rem);
+				}
+			}
+			&.focus,
+			&:focus {
+				box-shadow: none;
+				outline: 1px dashed #000;
+				outline-offset: 2px;
+				&::placeholder {
+						color: transparent;
+				}
+			}
+		}
+	}
+
+
+
+
+
+
+	body {
+		display: flex;
+		flex-direction: column;
+		justify-content: center;
+		margin: 3rem;
+	}
+
+	fieldset {
+		width: 500px;
+		border: 3px solid #BDBDBD;
+		padding: 1rem;
+		border-radius: 8px;
+		margin-bottom: 2rem;
+		legend {
+			width: auto;
+			padding: 10px;
+		}
+	}
+				</pre>
+<pre data-lang="js">
+	function gAT(t){let e='&lt;table class=&quot;table table-light&quot;&gt;';return e+=&quot;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Issue&lt;/th&gt;&lt;th&gt;Description&lt;/th&gt;&lt;th&gt;Impact&lt;/th&gt;&lt;th&gt;Element&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&quot;,e+=&quot;&lt;tbody&gt;&quot;,t.forEach(t=&gt;{let l=cLFE(t.nodes[0].target);e+=`&lt;tr&gt;&lt;td&gt;${t.id}&lt;/td&gt;&lt;td&gt;${t.description}&lt;/td&gt;&lt;td&gt;${t.impact}&lt;/td&gt;&lt;td&gt;${l}&lt;/td&gt;&lt;/tr&gt;`}),e+=&quot;&lt;/tbody&gt;&quot;,e+=&quot;&lt;/table&gt;&quot;}function cLFE(t){return`&lt;a href=&quot;#${t}&quot;&gt;${t}&lt;/a&gt;`}axe.run({rules:{&quot;landmark-one-main&quot;:{enabled:!1},&quot;page-has-heading-one&quot;:{enabled:!1},region:{enabled:!1}}},function(t,e){if(e.violations.length){let l=gAT(e.violations),n=document.body,o=document.createElement(&quot;div&quot;);o.style=&quot;position: fixed;left: 0;bottom: 0;width:100%;font-size: 11px;&quot;,o.classList.add(&quot;text-monospace&quot;),o.innerHTML=l,n.appendChild(o),document.querySelectorAll(&quot;table a&quot;).forEach(t=&gt;{t.addEventListener(&quot;click&quot;,()=&gt;document.querySelectorAll(t.hash.split(&quot;#&quot;).pop())[0].style=&quot;border:1px solid red;background:yellow&quot;)})}else{let d=document.body,i=document.createElement(&quot;div&quot;);i.style=&quot;position: fixed;left: 0;bottom: 0;width:100%;font-size: 11px;&quot;,i.classList.add(&quot;text-monospace&quot;),i.innerHTML=&quot;No 508 violations found&quot;,d.appendChild(i)}});
+</pre>
+			</div>
+			<h2>Dev Notes</h2>
+			<ul>
+				<li>TBD</li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<script async src="libs/codepen/ei.js"></script>
+<script src="libs/bootstrap/5/bootstrap.bundle.min.js"></script>
+<script src="libs/jquery/jquery.slim.min.js"></script>
+<script src="libs/highlightjs/highlight.min.js"></script>
+<script src="libs/highlightjs/highlightjs-line-numbers.min.js"></script>
+<script src="libs/highlightjs/highlightjs-copy.min.js"></script>
+<script src="js/guide.js" ></script>
+
+</body>
+
+</html>

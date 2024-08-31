@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+	<title>Style Guide - Buttons</title>
+	<meta charset="UTF-8">
+<meta name="robots" content="noindex">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link rel="shortcut icon" href="img/guide/blue/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="img/guide/white/favicon-32x32.png">
+
+<link rel="stylesheet" href="libs/bootstrap/5/bootstrap.min.css">
+<link rel="stylesheet" href="libs/highlightjs/atom-one-light.min.css">
+<link rel="stylesheet" href="libs/highlightjs/highlightjs-copy.min.css">
+<link rel="stylesheet" href="https://www.cdc.gov/TemplatePackage/contrib/libs/fontawesome/6x/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<link rel="stylesheet" href="css/guide.css">
+
+
+
+</head>
+
+<body>
+  <div class="progress-container d-none">
+    <div class="progress-bar" id="myBar"></div>
+</div>
+  <div class="d-flex" id="wrapper">
+	<!-- Sidebar-->
+<div class="border-end d-flex flex-column flex-shrink-0" id="sidebar-wrapper">
+    <div class="sidebar-heading border-bottom">
+        <a id="top"></a>
+        <img src="img/guide/white/favicon-32x32.png" alt="DFE Style Guide">  DFE Style Guide
+    </div>
+    <div class="list-group list-group-flush flex-column mb-auto">
+        <a class="list-group-item list-group-item-light p-3" href="index.html">Introduction</a>
+        <a class="list-group-item list-group-item-action list-group-item-light p-3 d-flex justify-content-between" data-bs-toggle="collapse" href="#item-1-1">Foundation <i class="fa-solid fa-chevron-right mt-1"></i></a>
+        <div class="list-group collapse" id="item-1-1">
+            <a class="list-group-item" href="ui-colors.html">UI Colors</a>
+            <a class="list-group-item" href="typography.html">Typography</a>
+        </div>
+        <a class="list-group-item list-group-item-action list-group-item-light p-3 d-flex justify-content-between" data-bs-toggle="collapse" href="#item-1-2">Components <i class="fa-solid fa-chevron-right mt-1"></i></a>
+        <div class="list-group collapse" id="item-1-2">
+            <a class="list-group-item" href="buttons.html">Standard Buttons</a>
+            <a class="list-group-item" href="text-link.html">Text Links</a>
+            <a class="list-group-item" href="button-text.html">Text Buttons</a>
+            <a class="list-group-item" href="button-icon-with-text.html">Icon with Text Buttons</a>
+            <a class="list-group-item" href="button-icon.html">Icon Buttons</a>
+            <a class="list-group-item" href="tabs.html">Tabs</a>
+            <a class="list-group-item" href="menus-button.html">Button Menus</a>
+            <a class="list-group-item" href="menus-tripledot.html">Triple Dot Menus</a>
+            <a class="list-group-item" href="radiobuttons.html">Radio Buttons</a>
+            <a class="list-group-item" href="checkboxes.html">Checkboxes</a>
+            <a class="list-group-item" href="dropdowns.html">Dropdowns</a>
+            <a class="list-group-item" href="modals.html">Modals</a>
+            <a class="list-group-item" href="form-fields.html">Form Fields</a>
+            <a class="list-group-item" href="dividers.html">Dividers</a>
+            <a class="list-group-item" href="cards.html">Cards</a>
+            <a class="list-group-item" href="badges.html">Badges</a>
+            <a class="list-group-item" href="alerts.html">Alerts</a>
+            <a class="list-group-item" href="toggles.html">Toggles</a>
+        </div>
+        <a class="list-group-item list-group-item-action list-group-item-light p-3 d-flex justify-content-between" data-bs-toggle="collapse" href="#item-1-3">Component Groups <i class="fa-solid fa-chevron-right mt-1"></i></a>
+        <div class="list-group collapse" id="item-1-3">
+            <a class="list-group-item" href="top-nav.html">Top Nav</a>
+            <a class="list-group-item" href="left-nav.html">Left Nav</a>
+            <a class="list-group-item" href="selection-modal.html">Selection Modal</a>
+        </div>
+    </div>
+    <div class="list-group list-group-flush">
+        <a class="list-group-item list-group-item-light p-3" href="#top">Back to Top<i class="fa-solid fa-arrow-up ms-2"></i></a>
+    </div>
+</div>
+	<!-- Page content wrapper-->
+	<div id="page-content-wrapper">
+		<!-- Top navigation-->
+<nav class="navbar navbar-expand-lg border-bottom">
+	<div class="container-fluid">
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+				<li class="nav-item active">
+					<a class="nav-link" href="#!">DFE</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#!">WCMS</a>
+				</li>
+				<!-- <li class="nav-item dropdown">
+					<button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="Toggle theme (light)">
+					  <svg class="bi my-1 theme-icon-active"><use href="#sun-fill"></use></svg>
+					  <span class="d-lg-none ms-2" id="bd-theme-text">Toggle theme</span>
+					</button>
+					<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
+					  <li>
+						<button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="light" aria-pressed="true">
+						  <svg class="bi me-2 opacity-50 theme-icon"><use href="#sun-fill"></use></svg>
+						  Light
+						  <svg class="bi ms-auto d-none"><use href="#check2"></use></svg>
+						</button>
+					  </li>
+					  <li>
+						<button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
+						  <svg class="bi me-2 opacity-50 theme-icon"><use href="#moon-stars-fill"></use></svg>
+						  Dark
+						  <svg class="bi ms-auto d-none"><use href="#check2"></use></svg>
+						</button>
+					  </li>
+					  <li>
+						<button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto" aria-pressed="false">
+						  <svg class="bi me-2 opacity-50 theme-icon"><use href="#circle-half"></use></svg>
+						  Auto
+						  <svg class="bi ms-auto d-none"><use href="#check2"></use></svg>
+						</button>
+					  </li>
+					</ul>
+				</li> -->
+				<li class="nav-item dropdown">
+					<a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="navbarDropdown" role="button">More</a>
+					<div aria-labelledby="navbarDropdown" class="dropdown-menu dropdown-menu-end">
+						<a class="dropdown-item" href="contributing.html">Contributing</a>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" href="about.html">About</a>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+</nav>
+		<!-- Page content-->
+		<div class="container">
+			<h1 class="mt-4">Standard Buttons - Filled or Outline</h1>
+			<h2>How to use</h2>
+			<ul>
+				<li>Standard buttons can be either filled or outlined and can use any of the 3 button colors - primary green, secondary blue, or tertiary purple - in order of importance</li>
+				<li>Start button labels with a verb</li>
+				<li>Avoid using vague terms such as "Okay" "Yes" "No"</li>
+				<li>Filled buttons should command the most attention</li>
+				<li>Overall screen layout should make it clear which buttons are the most/least important</li>
+				<li>If linking between other pages or linking to something externally, consider using a text button instead of a standard button</li>
+				<li>Don't oversaturate a page with too many buttons</li>
+				<li>Button labels should be all caps</li>
+				<li>Try keeping button label as short as possible</li>
+				<li>Consider using icons to enforce specific actions - icons on the left for main actions and only used on the right for minor actions</li>
+				<li>Outline buttons should be used with standard buttons when presenting users with two actions</li>
+			</ul>
+			<h2>Demo</h2>
+			<div class="d-flex align-items-start my-4">
+				<div class="nav flex-column nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+				  <button class="nav-link active" id="v-pills-primary-tab" data-bs-toggle="pill" data-bs-target="#v-pills-primary" type="button" role="tab" aria-controls="v-pills-primary" aria-selected="true">Primary</button>
+				  <button class="nav-link" id="v-pills-secondary-tab" data-bs-toggle="pill" data-bs-target="#v-pills-secondary" type="button" role="tab" aria-controls="v-pills-secondary" aria-selected="false">Secondary</button>
+				  <button class="nav-link" id="v-pills-tertiary-tab" data-bs-toggle="pill" data-bs-target="#v-pills-tertiary" type="button" role="tab" aria-controls="v-pills-tertiary" aria-selected="false">Tertiary</button>
+				</div>
+				<div class="tab-content w-100" id="v-pills-tabContent">
+				  <div class="tab-pane fade show active" id="v-pills-primary" role="tabpanel" aria-labelledby="v-pills-primary-tab">
+					<div
+						class="codepen"
+						data-prefill='{
+						"title": "Primary Button",
+						"description": "Example of a primary button",
+						"html_classes": ["no-js"],
+						"head": "&lt;meta name=&#x27;viewport&#x27; content=&#x27;width=device-width, initial-scale=1&#x27;&gt;",
+						"stylesheets": ["https://www.cdc.gov/TemplatePackage/contrib/libs/bootstrap/latest/css/bootstrap.min.css","https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap", "https://www.cdc.gov/TemplatePackage/contrib/libs/fontawesome/6x/css/all.min.css"],
+						"scripts": ["https://www.cdc.gov/TemplatePackage/contrib/libs/axe/latest/axe.min.js"]
+						}'
+						style="height: 500px; overflow: auto; width: 100%"
+						data-height="500"
+						data-default-tab="html,result"
+						data-editable="true"
+						data-theme-id="light"
+					>
+						<pre data-lang="html">
+&lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot;&gt;Button&lt;/button&gt;
+&lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; disabled&gt;Button&lt;/button&gt;
+&lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot;&gt;&lt;i class=&quot;fa-solid fa-plus mr-1&quot;&gt;&lt;/i&gt;Button&lt;/button&gt;
+&lt;button type=&quot;button&quot; class=&quot;btn btn-outline-primary&quot;&gt;Button&lt;/button&gt;
+&lt;button type=&quot;button&quot; class=&quot;btn btn-outline-primary&quot; disabled&gt;Button&lt;/button&gt;
+&lt;button type=&quot;button&quot; class=&quot;btn btn-outline-primary&quot;&gt;&lt;i class=&quot;fa-solid fa-plus mr-1&quot;&gt;&lt;/i&gt;Button&lt;/button&gt;
+						</pre>
+						<pre data-lang="scss">
+	$primary: #4B830D;
+	$white: #FFF;
+	$focus: #7DD3FC;
+	$hover: #2D5A00;
+	$outline-hover: #F7FFF0;
+	.btn-primary {
+		font-family: "Inter", sans-serif;
+		text-transform: uppercase;
+		background-color: $primary;
+		border-color: $primary;
+		color: $white;
+		border-radius: 8px;
+		font-weight: 600;
+		font-size: 14px;
+
+		&:focus-visible,
+		.focus {
+			background-color: $primary;
+			border-color: $primary;
+		}
+
+		&:hover {
+			background-color: $hover;
+			color: $white;
+			border-color: $primary;
+		}
+
+		&[disabled],
+		&.disabled {
+			background-color: $primary;
+			border-color: $primary;
+			opacity: 0.5;
+		}
+
+		&:not([disabled]):not(.disabled) {
+			&:focus-visible,
+			.focus {
+				box-shadow: none;
+				outline: 1px dashed #000;;
+				outline-offset: 2px;
+			}
+
+			&:active,
+			.active {
+				background-color: $primary;
+				border-color: $primary;
+				box-shadow: none;
+				outline: 1px dashed #000;;
+				outline-offset: 2px;
+
+				&:focus-visible,
+				.focus {
+					box-shadow: none;
+				}
+			}
+		}
+	}
+
+	.btn-outline-primary {
+		font-family: "Inter", sans-serif;
+		text-transform: uppercase;
+		background-color: $white;
+		border-color: $primary;
+		border-width: 2px;
+		color: $primary;
+		border-radius: 8px;
+		font-weight: 600;
+		font-size: 14px;
+
+		&:focus-visible,
+		.focus {
+			background-color: $white;
+			color: $primary;
+			border-color: $primary;
+		}
+
+		&:hover {
+			background-color: $outline-hover;
+			border-color: $primary;
+			color: $primary;
+		}
+
+		&[disabled],
+		&.disabled {
+			background-color: $white;
+			color: $primary;
+			border-color: $primary;
+			opacity: 0.5;
+		}
+
+		&:not([disabled]):not(.disabled) {
+			&:focus-visible,
+			.focus {
+				box-shadow: none;
+				outline: 1px dashed #000;;
+				outline-offset: 2px;
+			}
+
+			&:active,
+			.active {
+				background-color: $white;
+				color: $primary;
+				border-color: $primary;
+				box-shadow: none;
+				outline: 1px dashed #000;;
+				outline-offset: 2px;
+
+				&:focus-visible,
+				.focus {
+					box-shadow: none;
+				}
+			}
+		}
+	}
+
+
+
+
+	// styles for the demo only
+	button {
+		display: block !important;
+		margin: 1rem auto;
+		min-width: 100px;
+	}
+	h1 {
+		font-family: "Poppins", sans-serif;
+		font-size: 18px;
+		color: #FFF;
+	}
+						</pre>
+<pre data-lang="js">
+	function gAT(t){let e='&lt;table class=&quot;table table-light&quot;&gt;';return e+=&quot;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Issue&lt;/th&gt;&lt;th&gt;Description&lt;/th&gt;&lt;th&gt;Impact&lt;/th&gt;&lt;th&gt;Element&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&quot;,e+=&quot;&lt;tbody&gt;&quot;,t.forEach(t=&gt;{let l=cLFE(t.nodes[0].target);e+=`&lt;tr&gt;&lt;td&gt;${t.id}&lt;/td&gt;&lt;td&gt;${t.description}&lt;/td&gt;&lt;td&gt;${t.impact}&lt;/td&gt;&lt;td&gt;${l}&lt;/td&gt;&lt;/tr&gt;`}),e+=&quot;&lt;/tbody&gt;&quot;,e+=&quot;&lt;/table&gt;&quot;}function cLFE(t){return`&lt;a href=&quot;#${t}&quot;&gt;${t}&lt;/a&gt;`}axe.run({rules:{&quot;landmark-one-main&quot;:{enabled:!1},&quot;page-has-heading-one&quot;:{enabled:!1},region:{enabled:!1}}},function(t,e){if(e.violations.length){let l=gAT(e.violations),n=document.body,o=document.createElement(&quot;div&quot;);o.style=&quot;position: fixed;left: 0;bottom: 0;width:100%;font-size: 11px;&quot;,o.classList.add(&quot;text-monospace&quot;),o.innerHTML=l,n.appendChild(o),document.querySelectorAll(&quot;table a&quot;).forEach(t=&gt;{t.addEventListener(&quot;click&quot;,()=&gt;document.querySelectorAll(t.hash.split(&quot;#&quot;).pop())[0].style=&quot;border:1px solid red;background:yellow&quot;)})}else{let d=document.body,i=document.createElement(&quot;div&quot;);i.style=&quot;position: fixed;left: 0;bottom: 0;width:100%;font-size: 11px;&quot;,i.classList.add(&quot;text-monospace&quot;),i.innerHTML=&quot;No 508 violations found&quot;,d.appendChild(i)}});
+</pre>
+					</div>
+				  </div>
+				  <div class="tab-pane fade" id="v-pills-secondary" role="tabpanel" aria-labelledby="v-pills-secondary-tab">
+					<div
+						class="codepen"
+						data-prefill='{
+							"title": "Secondary Button",
+							"description": "Example of a secondary button",
+							"html_classes": ["no-js"],
+							"head": "&lt;meta name=&#x27;viewport&#x27; content=&#x27;width=device-width, initial-scale=1&#x27;&gt;",
+							"stylesheets": ["https://www.cdc.gov/TemplatePackage/contrib/libs/bootstrap/latest/css/bootstrap.min.css","https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap", "https://www.cdc.gov/TemplatePackage/contrib/libs/fontawesome/6x/css/all.min.css"],
+							"scripts": ["https://www.cdc.gov/TemplatePackage/contrib/libs/axe/latest/axe.min.js"]
+						}'
+						style="height: 500px; overflow: auto;"
+						data-height="500"
+						data-default-tab="html,result"
+						data-editable="true"
+						data-theme-id="light"
+					>
+					<pre data-lang="html">
+&lt;button type=&quot;button&quot; class=&quot;btn btn-secondary&quot;&gt;Button&lt;/button&gt;
+&lt;button type=&quot;button&quot; class=&quot;btn btn-secondary&quot; disabled&gt;Button&lt;/button&gt;
+&lt;button type=&quot;button&quot; class=&quot;btn btn-secondary&quot;&gt;&lt;i class=&quot;fa-solid fa-plus mr-1&quot;&gt;&lt;/i&gt;Button&lt;/button&gt;
+&lt;button type=&quot;button&quot; class=&quot;btn btn-outline-secondary&quot;&gt;Button&lt;/button&gt;
+&lt;button type=&quot;button&quot; class=&quot;btn btn-outline-secondary&quot; disabled&gt;Button&lt;/button&gt;
+&lt;button type=&quot;button&quot; class=&quot;btn btn-outline-secondary&quot;&gt;&lt;i class=&quot;fa-solid fa-plus mr-1&quot;&gt;&lt;/i&gt;Button&lt;/button&gt;
+					</pre>
+					<pre data-lang="scss">
+	$secondary: #0073AA;
+	$white: #FFF;
+	$focus: #7DD3FC;
+	$hover: #005280;
+	$outline-hover: #E0F6FF;
+	.btn-secondary {
+		font-family: "Inter", sans-serif;
+		text-transform: uppercase;
+		background-color: $secondary;
+		border-color: $secondary;
+		color: $white;
+		border-radius: 8px;
+		font-weight: 600;
+		font-size: 14px;
+
+		&:focus-visible,
+		.focus {
+			background-color: $secondary;
+			border-color: $secondary;
+		}
+
+		&:hover {
+			background-color: $hover;
+			color: $white;
+			border-color: $secondary;
+		}
+
+		&[disabled],
+		&.disabled {
+			background-color: $secondary;
+			border-color: $secondary;
+			opacity: 0.5;
+		}
+
+		&:not([disabled]):not(.disabled) {
+			&:focus-visible,
+			.focus {
+				box-shadow: none;
+				outline: 1px dashed #000;;
+				outline-offset: 2px;
+			}
+
+			&:active,
+			.active {
+				background-color: $secondary;
+				border-color: $secondary;
+				box-shadow: none;
+				outline: 1px dashed #000;;
+				outline-offset: 2px;
+
+				&:focus-visible,
+				.focus {
+					box-shadow: none;
+				}
+			}
+		}
+	}
+
+	.btn-outline-secondary {
+		font-family: "Inter", sans-serif;
+		text-transform: uppercase;
+		background-color: $white;
+		border-color: $secondary;
+		border-width: 2px;
+		color: $secondary;
+		border-radius: 8px;
+		font-weight: 600;
+		font-size: 14px;
+
+		&:focus-visible,
+		.focus {
+			background-color: $white;
+			color: $secondary;
+			border-color: $secondary;
+		}
+
+		&:hover {
+			background-color: $outline-hover;
+			border-color: $secondary;
+			color: $secondary;
+		}
+
+		&[disabled],
+		&.disabled {
+			background-color: $white;
+			color: $secondary;
+			border-color: $secondary;
+			opacity: 0.5;
+		}
+
+		&:not([disabled]):not(.disabled) {
+			&:focus-visible,
+			.focus {
+				box-shadow: none;
+				outline: 1px dashed #000;;
+				outline-offset: 2px;
+			}
+
+			&:active,
+			.active {
+				background-color: $white;
+				color: $secondary;
+				border-color: $secondary;
+				box-shadow: none;
+				outline: 1px dashed #000;;
+				outline-offset: 2px;
+
+				&:focus-visible,
+				.focus {
+					box-shadow: none;
+				}
+			}
+		}
+	}
+
+
+
+
+	// styles for the demo only
+	button {
+		display: block !important;
+		margin: 1rem auto;
+		min-width: 100px;
+	}
+	h1 {
+		font-family: "Poppins", sans-serif;
+		font-size: 18px;
+		color: #FFF;
+	}
+					</pre>
+<pre data-lang="js">
+	function gAT(t){let e='&lt;table class=&quot;table table-light&quot;&gt;';return e+=&quot;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Issue&lt;/th&gt;&lt;th&gt;Description&lt;/th&gt;&lt;th&gt;Impact&lt;/th&gt;&lt;th&gt;Element&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&quot;,e+=&quot;&lt;tbody&gt;&quot;,t.forEach(t=&gt;{let l=cLFE(t.nodes[0].target);e+=`&lt;tr&gt;&lt;td&gt;${t.id}&lt;/td&gt;&lt;td&gt;${t.description}&lt;/td&gt;&lt;td&gt;${t.impact}&lt;/td&gt;&lt;td&gt;${l}&lt;/td&gt;&lt;/tr&gt;`}),e+=&quot;&lt;/tbody&gt;&quot;,e+=&quot;&lt;/table&gt;&quot;}function cLFE(t){return`&lt;a href=&quot;#${t}&quot;&gt;${t}&lt;/a&gt;`}axe.run({rules:{&quot;landmark-one-main&quot;:{enabled:!1},&quot;page-has-heading-one&quot;:{enabled:!1},region:{enabled:!1}}},function(t,e){if(e.violations.length){let l=gAT(e.violations),n=document.body,o=document.createElement(&quot;div&quot;);o.style=&quot;position: fixed;left: 0;bottom: 0;width:100%;font-size: 11px;&quot;,o.classList.add(&quot;text-monospace&quot;),o.innerHTML=l,n.appendChild(o),document.querySelectorAll(&quot;table a&quot;).forEach(t=&gt;{t.addEventListener(&quot;click&quot;,()=&gt;document.querySelectorAll(t.hash.split(&quot;#&quot;).pop())[0].style=&quot;border:1px solid red;background:yellow&quot;)})}else{let d=document.body,i=document.createElement(&quot;div&quot;);i.style=&quot;position: fixed;left: 0;bottom: 0;width:100%;font-size: 11px;&quot;,i.classList.add(&quot;text-monospace&quot;),i.innerHTML=&quot;No 508 violations found&quot;,d.appendChild(i)}});
+</pre>
+				</div>
+				  </div>
+				  <div class="tab-pane fade" id="v-pills-tertiary" role="tabpanel" aria-labelledby="v-pills-tertiary-tab">
+					<div
+						class="codepen"
+						data-prefill='{
+						"title": "Tertiary Button",
+						"description": "Examples of tertiary buttons",
+						"html_classes": ["no-js"],
+						"head": "&lt;meta name=&#x27;viewport&#x27; content=&#x27;width=device-width, initial-scale=1&#x27;&gt;",
+						"stylesheets": ["https://www.cdc.gov/TemplatePackage/contrib/libs/bootstrap/latest/css/bootstrap.min.css","https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap", "https://www.cdc.gov/TemplatePackage/contrib/libs/fontawesome/6x/css/all.min.css"],
+						"scripts": ["https://www.cdc.gov/TemplatePackage/contrib/libs/axe/latest/axe.min.js"]
+						}'
+						style="height: 500px; overflow: auto;"
+						data-height="500"
+						data-default-tab="html,result"
+						data-editable="true"
+						data-theme-id="light"
+					>
+					<pre data-lang="html">
+		&lt;button type=&quot;button&quot; class=&quot;btn btn-tertiary&quot;&gt;Button&lt;/button&gt;
+		&lt;button type=&quot;button&quot; class=&quot;btn btn-tertiary&quot; disabled&gt;Button&lt;/button&gt;
+		&lt;button type=&quot;button&quot; class=&quot;btn btn-tertiary&quot;&gt;&lt;i class=&quot;fa-solid fa-plus mr-1&quot;&gt;&lt;/i&gt;Button&lt;/button&gt;
+		&lt;button type=&quot;button&quot; class=&quot;btn btn-outline-tertiary&quot;&gt;Button&lt;/button&gt;
+		&lt;button type=&quot;button&quot; class=&quot;btn btn-outline-tertiary&quot; disabled&gt;Button&lt;/button&gt;
+		&lt;button type=&quot;button&quot; class=&quot;btn btn-outline-tertiary&quot;&gt;&lt;i class=&quot;fa-solid fa-plus mr-1&quot;&gt;&lt;/i&gt;Button&lt;/button&gt;
+					</pre>
+					<pre data-lang="scss">
+	$tertiary: #835B91;
+	$white: #FFF;
+	$focus: #7DD3FC;
+	$hover: #664672;
+	$outline-hover: #FAF0FF;
+	.btn-tertiary {
+		font-family: "Inter", sans-serif;
+		text-transform: uppercase;
+		background-color: $tertiary;
+		border-color: $tertiary;
+		color: $white;
+		border-radius: 8px;
+		font-weight: 600;
+		font-size: 14px;
+
+		&:focus-visible,
+		.focus {
+			background-color: $tertiary;
+			border-color: $tertiary;
+		}
+
+		&:hover {
+			background-color: $hover;
+			color: $white;
+			border-color: $tertiary;
+		}
+
+		&[disabled],
+		&.disabled {
+			background-color: $tertiary;
+			border-color: $tertiary;
+			opacity: 0.5;
+		}
+
+		&:not([disabled]):not(.disabled) {
+			&:focus-visible,
+			.focus {
+				box-shadow: none;
+				outline: 1px dashed #000;;
+				outline-offset: 2px;
+			}
+
+			&:active,
+			.active {
+				background-color: $tertiary;
+				border-color: $tertiary;
+				box-shadow: none;
+				outline: 1px dashed #000;;
+				outline-offset: 2px;
+
+				&:focus-visible,
+				.focus {
+					box-shadow: none;
+				}
+			}
+		}
+	}
+
+	.btn-outline-tertiary {
+		font-family: "Inter", sans-serif;
+		text-transform: uppercase;
+		background-color: $white;
+		border-color: $tertiary;
+		border-width: 2px;
+		color: $tertiary;
+		border-radius: 8px;
+		font-weight: 600;
+		font-size: 14px;
+
+		&:focus-visible,
+		.focus {
+			background-color: $white;
+			color: $tertiary;
+			border-color: $tertiary;
+		}
+
+		&:hover {
+			background-color: $outline-hover;
+			border-color: $tertiary;
+			color: $tertiary;
+		}
+
+		&[disabled],
+		&.disabled {
+			background-color: $white;
+			color: $tertiary;
+			border-color: $tertiary;
+			opacity: 0.5;
+		}
+
+		&:not([disabled]):not(.disabled) {
+			&:focus-visible,
+			.focus {
+				box-shadow: none;
+				outline: 1px dashed #000;;
+				outline-offset: 2px;
+			}
+
+			&:active,
+			.active {
+				background-color: $white;
+				color: $tertiary;
+				border-color: $tertiary;
+				box-shadow: none;
+				outline: 1px dashed #000;;
+				outline-offset: 2px;
+
+				&:focus-visible,
+				.focus {
+					box-shadow: none;
+				}
+			}
+		}
+	}
+
+
+
+
+	// styles for the demo only
+	button {
+		display: block !important;
+		margin: 1rem auto;
+		min-width: 100px;
+	}
+	h1 {
+		font-family: "Poppins", sans-serif;
+		font-size: 18px;
+		color: #FFF;
+	}
+					</pre>
+<pre data-lang="js">
+	function gAT(t){let e='&lt;table class=&quot;table table-light&quot;&gt;';return e+=&quot;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Issue&lt;/th&gt;&lt;th&gt;Description&lt;/th&gt;&lt;th&gt;Impact&lt;/th&gt;&lt;th&gt;Element&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&quot;,e+=&quot;&lt;tbody&gt;&quot;,t.forEach(t=&gt;{let l=cLFE(t.nodes[0].target);e+=`&lt;tr&gt;&lt;td&gt;${t.id}&lt;/td&gt;&lt;td&gt;${t.description}&lt;/td&gt;&lt;td&gt;${t.impact}&lt;/td&gt;&lt;td&gt;${l}&lt;/td&gt;&lt;/tr&gt;`}),e+=&quot;&lt;/tbody&gt;&quot;,e+=&quot;&lt;/table&gt;&quot;}function cLFE(t){return`&lt;a href=&quot;#${t}&quot;&gt;${t}&lt;/a&gt;`}axe.run({rules:{&quot;landmark-one-main&quot;:{enabled:!1},&quot;page-has-heading-one&quot;:{enabled:!1},region:{enabled:!1}}},function(t,e){if(e.violations.length){let l=gAT(e.violations),n=document.body,o=document.createElement(&quot;div&quot;);o.style=&quot;position: fixed;left: 0;bottom: 0;width:100%;font-size: 11px;&quot;,o.classList.add(&quot;text-monospace&quot;),o.innerHTML=l,n.appendChild(o),document.querySelectorAll(&quot;table a&quot;).forEach(t=&gt;{t.addEventListener(&quot;click&quot;,()=&gt;document.querySelectorAll(t.hash.split(&quot;#&quot;).pop())[0].style=&quot;border:1px solid red;background:yellow&quot;)})}else{let d=document.body,i=document.createElement(&quot;div&quot;);i.style=&quot;position: fixed;left: 0;bottom: 0;width:100%;font-size: 11px;&quot;,i.classList.add(&quot;text-monospace&quot;),i.innerHTML=&quot;No 508 violations found&quot;,d.appendChild(i)}});
+</pre>
+					</div>
+				  </div>
+				</div>
+			  </div>
+			  <h2>Dev Notes</h2>
+			  <ul>
+				  <li>TBD</li>
+			  </ul>
+		</div>
+	</div>
+</div>
+
+<script async src="libs/codepen/ei.js"></script>
+<script src="libs/bootstrap/5/bootstrap.bundle.min.js"></script>
+<script src="libs/jquery/jquery.slim.min.js"></script>
+<script src="libs/highlightjs/highlight.min.js"></script>
+<script src="libs/highlightjs/highlightjs-line-numbers.min.js"></script>
+<script src="libs/highlightjs/highlightjs-copy.min.js"></script>
+<script src="js/guide.js" ></script>
+
+</body>
+
+</html>

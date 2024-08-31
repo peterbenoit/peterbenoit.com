@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+	<title>Style Guide - Contributing</title>
+	<meta charset="UTF-8">
+<meta name="robots" content="noindex">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link rel="shortcut icon" href="img/guide/blue/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="img/guide/white/favicon-32x32.png">
+
+<link rel="stylesheet" href="libs/bootstrap/5/bootstrap.min.css">
+<link rel="stylesheet" href="libs/highlightjs/atom-one-light.min.css">
+<link rel="stylesheet" href="libs/highlightjs/highlightjs-copy.min.css">
+<link rel="stylesheet" href="https://www.cdc.gov/TemplatePackage/contrib/libs/fontawesome/6x/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<link rel="stylesheet" href="css/guide.css">
+
+
+
+</head>
+
+<body>
+  <div class="progress-container d-none">
+    <div class="progress-bar" id="myBar"></div>
+</div>
+  <div class="d-flex" id="wrapper">
+	<!-- Sidebar-->
+<div class="border-end d-flex flex-column flex-shrink-0" id="sidebar-wrapper">
+    <div class="sidebar-heading border-bottom">
+        <a id="top"></a>
+        <img src="img/guide/white/favicon-32x32.png" alt="DFE Style Guide">  DFE Style Guide
+    </div>
+    <div class="list-group list-group-flush flex-column mb-auto">
+        <a class="list-group-item list-group-item-light p-3" href="index.html">Introduction</a>
+        <a class="list-group-item list-group-item-action list-group-item-light p-3 d-flex justify-content-between" data-bs-toggle="collapse" href="#item-1-1">Foundation <i class="fa-solid fa-chevron-right mt-1"></i></a>
+        <div class="list-group collapse" id="item-1-1">
+            <a class="list-group-item" href="ui-colors.html">UI Colors</a>
+            <a class="list-group-item" href="typography.html">Typography</a>
+        </div>
+        <a class="list-group-item list-group-item-action list-group-item-light p-3 d-flex justify-content-between" data-bs-toggle="collapse" href="#item-1-2">Components <i class="fa-solid fa-chevron-right mt-1"></i></a>
+        <div class="list-group collapse" id="item-1-2">
+            <a class="list-group-item" href="buttons.html">Standard Buttons</a>
+            <a class="list-group-item" href="text-link.html">Text Links</a>
+            <a class="list-group-item" href="button-text.html">Text Buttons</a>
+            <a class="list-group-item" href="button-icon-with-text.html">Icon with Text Buttons</a>
+            <a class="list-group-item" href="button-icon.html">Icon Buttons</a>
+            <a class="list-group-item" href="tabs.html">Tabs</a>
+            <a class="list-group-item" href="menus-button.html">Button Menus</a>
+            <a class="list-group-item" href="menus-tripledot.html">Triple Dot Menus</a>
+            <a class="list-group-item" href="radiobuttons.html">Radio Buttons</a>
+            <a class="list-group-item" href="checkboxes.html">Checkboxes</a>
+            <a class="list-group-item" href="dropdowns.html">Dropdowns</a>
+            <a class="list-group-item" href="modals.html">Modals</a>
+            <a class="list-group-item" href="form-fields.html">Form Fields</a>
+            <a class="list-group-item" href="dividers.html">Dividers</a>
+            <a class="list-group-item" href="cards.html">Cards</a>
+            <a class="list-group-item" href="badges.html">Badges</a>
+            <a class="list-group-item" href="alerts.html">Alerts</a>
+            <a class="list-group-item" href="toggles.html">Toggles</a>
+        </div>
+        <a class="list-group-item list-group-item-action list-group-item-light p-3 d-flex justify-content-between" data-bs-toggle="collapse" href="#item-1-3">Component Groups <i class="fa-solid fa-chevron-right mt-1"></i></a>
+        <div class="list-group collapse" id="item-1-3">
+            <a class="list-group-item" href="top-nav.html">Top Nav</a>
+            <a class="list-group-item" href="left-nav.html">Left Nav</a>
+            <a class="list-group-item" href="selection-modal.html">Selection Modal</a>
+        </div>
+    </div>
+    <div class="list-group list-group-flush">
+        <a class="list-group-item list-group-item-light p-3" href="#top">Back to Top<i class="fa-solid fa-arrow-up ms-2"></i></a>
+    </div>
+</div>
+	<!-- Page content wrapper-->
+	<div id="page-content-wrapper">
+		<!-- Top navigation-->
+<nav class="navbar navbar-expand-lg border-bottom">
+	<div class="container-fluid">
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+				<li class="nav-item active">
+					<a class="nav-link" href="#!">DFE</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#!">WCMS</a>
+				</li>
+				<!-- <li class="nav-item dropdown">
+					<button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="Toggle theme (light)">
+					  <svg class="bi my-1 theme-icon-active"><use href="#sun-fill"></use></svg>
+					  <span class="d-lg-none ms-2" id="bd-theme-text">Toggle theme</span>
+					</button>
+					<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
+					  <li>
+						<button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="light" aria-pressed="true">
+						  <svg class="bi me-2 opacity-50 theme-icon"><use href="#sun-fill"></use></svg>
+						  Light
+						  <svg class="bi ms-auto d-none"><use href="#check2"></use></svg>
+						</button>
+					  </li>
+					  <li>
+						<button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
+						  <svg class="bi me-2 opacity-50 theme-icon"><use href="#moon-stars-fill"></use></svg>
+						  Dark
+						  <svg class="bi ms-auto d-none"><use href="#check2"></use></svg>
+						</button>
+					  </li>
+					  <li>
+						<button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto" aria-pressed="false">
+						  <svg class="bi me-2 opacity-50 theme-icon"><use href="#circle-half"></use></svg>
+						  Auto
+						  <svg class="bi ms-auto d-none"><use href="#check2"></use></svg>
+						</button>
+					  </li>
+					</ul>
+				</li> -->
+				<li class="nav-item dropdown">
+					<a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="navbarDropdown" role="button">More</a>
+					<div aria-labelledby="navbarDropdown" class="dropdown-menu dropdown-menu-end">
+						<a class="dropdown-item" href="contributing.html">Contributing</a>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" href="about.html">About</a>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+</nav>
+		<!-- Page content-->
+		<div class="container">
+			<h1 class="mt-4">Contributing</h1>
+			<ul>
+				<li><a href="#started">Getting Started</a></li>
+				<li><a href="#highlight_code">Highlight Code</a></li>
+				<li><a href="#demo_embed">Demo Embed</a></li>
+				<li><a href="#use_notices">Notices</a></li>
+				<li><a href="#bootstrap">Bootstrap</a></li>
+			</ul>
+
+			<a id="v"></a>
+			<h2>Getting Started</h2>
+			<ul>
+				<li>Source: <a href="https://github.com/cdcent/designsystems">DesignSystems</a></li>
+				<li><a href="readme.html">README</a></li>
+			</ul>
+
+			<a id="highlight_code"></a>
+			<h2>Highlight Code</h2>
+			<ul>
+				<li>Source: <a href="https://highlightjs.org/">highlight.js</a></li>
+				<li>Also considering: <a href="https://prismjs.com/">PrismJs</a></li>
+			</ul>
+			<pre><code class="hljs language-html">&lt;pre&gt;&lt;code class=&quot;hljs language-js&quot;&gt;let x = 1;&lt;/code&gt;&lt;/pre&gt;</code></pre>
+
+			<a id="demo_embed"></a>
+			<h2>Demo Embed</h2>
+			<ul>
+				<li>Source: <a href="https://blog.codepen.io/documentation/prefill-embeds/">Prefill Embeds</a></li>
+				<li>Also considering: <a href="https://developer.stackblitz.com/platform/api/javascript-sdk">StackBlitz</a> | <a href="https://codemirror.net/">CodeMirror</a></li>
+			</ul>
+			<p>The Prefill Embeds offered by CodePen is a way to demo code in a sandbox which does not require hosting the code on their service. Google uses it as well, see <a href="https://developer.chrome.com/blog/introducing-popover-api/">here</a>.</p>
+
+			<pre>
+				<code class="hljs language-html">&lt;div
+	class=&quot;codepen&quot;
+	data-prefill='{
+		&quot;title&quot;: &quot;EXAMPLE DEMO&quot;,
+		&quot;description&quot;: &quot;EXAMPLE OF DEMO&quot;,
+		&quot;html_classes&quot;: [&quot;no-js&quot;],
+		&quot;head&quot;: &quot;&amp;lt;meta name=&amp;#x27;viewport&amp;#x27; content=&amp;#x27;width=device-width, initial-scale=1&amp;#x27;&amp;gt;&quot;,
+		&quot;stylesheets&quot;: [],
+		&quot;scripts&quot;: []
+	}'
+	style=&quot;height: 300px; overflow: auto;&quot;
+	data-height=&quot;300&quot;
+	data-default-tab=&quot;html,result&quot;
+	data-editable=&quot;true&quot;
+	data-theme-id=&quot;light&quot;
+&gt;
+	&lt;pre data-lang=&quot;html&quot;&gt;
+		[ESCAPED HTML]
+	&lt;/pre&gt;
+	&lt;pre data-lang=&quot;scss&quot;&gt;
+		[CSS,SCSS,SASS,LESS...]
+	&lt;/pre&gt;
+	&lt;pre data-lang=&quot;js&quot;&gt;
+		[JAVASCRIPT,BABEL,TYPESCRIPT,COFFEESCRIPT...]
+	&lt;/pre&gt;
+&lt;/div&gt;
+				</code>
+			</pre>
+
+
+
+			<a id="use_notices"></a>
+			<h2>Notices</h2>
+			<ul>
+				<li>Source: <a href="https://getbootstrap.com/docs/5.3/components/alerts/#examples">Alerts</a></li>
+				<li>Notice styles which can be used across the DFE style guide.</li>
+			</ul>
+			<div class="alert d-flex alert-success alert-dismissible fade show" role="alert">
+				<i class="fa-regular fa-face-smile me-2"></i>
+				<div class="alert-body"><strong>Great Job!</strong> Positive or success message</div>
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+			<div class="alert d-flex alert-info alert-dismissible fade show" role="alert">
+				<i class="fa-regular fa-face-meh-blank me-2"></i>
+				<div class="alert-body"><strong>Notice!</strong> Some information that is necessary</div>
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+			<div class="alert d-flex alert-warning alert-dismissible fade show" role="alert">
+				<i class="fa-regular fa-face-surprise me-2"></i>
+				<div class="alert-body"><strong>Heads Up!</strong> Warning or informational message</div>
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+			<div class="alert d-flex alert-danger alert-dismissible fade show" role="alert">
+				<i class="fa-regular fa-face-frown me-2"></i>
+				<div class="alert-body"><strong>Uh Oh!</strong> Error or severe warning message</div>
+				<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+
+			<a id="bootstrap"></a>
+			<h2>Bootstrap</h2>
+			<ul>
+				<li><a href="https://getbootstrap.com/docs/4.6/getting-started/introduction/">Bootstap 4.x</a> | <a href="https://getbootstrap.com/">Bootstrap 5.x</a></li>
+			</ul>
+			<p>We are using Bootstrap 5.x as the foundation for the DFE style guide, and Bootstrap 4.x in the DFE.</p>
+		</div>
+	</div>
+</div>
+
+<script async src="libs/codepen/ei.js"></script>
+<script src="libs/bootstrap/5/bootstrap.bundle.min.js"></script>
+<script src="libs/jquery/jquery.slim.min.js"></script>
+<script src="libs/highlightjs/highlight.min.js"></script>
+<script src="libs/highlightjs/highlightjs-line-numbers.min.js"></script>
+<script src="libs/highlightjs/highlightjs-copy.min.js"></script>
+<script src="js/guide.js" ></script>
+
+
+</body>
+
+</html>

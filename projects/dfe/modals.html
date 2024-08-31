@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+	<title>Style Guide - Modals</title>
+	<meta charset="UTF-8">
+<meta name="robots" content="noindex">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="X-UA-Compatible" content="ie=edge">
+<link rel="shortcut icon" href="img/guide/blue/favicon.ico">
+<link rel="icon" type="image/png" sizes="32x32" href="img/guide/white/favicon-32x32.png">
+
+<link rel="stylesheet" href="libs/bootstrap/5/bootstrap.min.css">
+<link rel="stylesheet" href="libs/highlightjs/atom-one-light.min.css">
+<link rel="stylesheet" href="libs/highlightjs/highlightjs-copy.min.css">
+<link rel="stylesheet" href="https://www.cdc.gov/TemplatePackage/contrib/libs/fontawesome/6x/css/all.min.css">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css">
+<link rel="stylesheet" href="css/guide.css">
+
+
+
+</head>
+
+<body>
+  <div class="progress-container d-none">
+    <div class="progress-bar" id="myBar"></div>
+</div>
+  <div class="d-flex" id="wrapper">
+	<!-- Sidebar-->
+<div class="border-end d-flex flex-column flex-shrink-0" id="sidebar-wrapper">
+    <div class="sidebar-heading border-bottom">
+        <a id="top"></a>
+        <img src="img/guide/white/favicon-32x32.png" alt="DFE Style Guide">  DFE Style Guide
+    </div>
+    <div class="list-group list-group-flush flex-column mb-auto">
+        <a class="list-group-item list-group-item-light p-3" href="index.html">Introduction</a>
+        <a class="list-group-item list-group-item-action list-group-item-light p-3 d-flex justify-content-between" data-bs-toggle="collapse" href="#item-1-1">Foundation <i class="fa-solid fa-chevron-right mt-1"></i></a>
+        <div class="list-group collapse" id="item-1-1">
+            <a class="list-group-item" href="ui-colors.html">UI Colors</a>
+            <a class="list-group-item" href="typography.html">Typography</a>
+        </div>
+        <a class="list-group-item list-group-item-action list-group-item-light p-3 d-flex justify-content-between" data-bs-toggle="collapse" href="#item-1-2">Components <i class="fa-solid fa-chevron-right mt-1"></i></a>
+        <div class="list-group collapse" id="item-1-2">
+            <a class="list-group-item" href="buttons.html">Standard Buttons</a>
+            <a class="list-group-item" href="text-link.html">Text Links</a>
+            <a class="list-group-item" href="button-text.html">Text Buttons</a>
+            <a class="list-group-item" href="button-icon-with-text.html">Icon with Text Buttons</a>
+            <a class="list-group-item" href="button-icon.html">Icon Buttons</a>
+            <a class="list-group-item" href="tabs.html">Tabs</a>
+            <a class="list-group-item" href="menus-button.html">Button Menus</a>
+            <a class="list-group-item" href="menus-tripledot.html">Triple Dot Menus</a>
+            <a class="list-group-item" href="radiobuttons.html">Radio Buttons</a>
+            <a class="list-group-item" href="checkboxes.html">Checkboxes</a>
+            <a class="list-group-item" href="dropdowns.html">Dropdowns</a>
+            <a class="list-group-item" href="modals.html">Modals</a>
+            <a class="list-group-item" href="form-fields.html">Form Fields</a>
+            <a class="list-group-item" href="dividers.html">Dividers</a>
+            <a class="list-group-item" href="cards.html">Cards</a>
+            <a class="list-group-item" href="badges.html">Badges</a>
+            <a class="list-group-item" href="alerts.html">Alerts</a>
+            <a class="list-group-item" href="toggles.html">Toggles</a>
+        </div>
+        <a class="list-group-item list-group-item-action list-group-item-light p-3 d-flex justify-content-between" data-bs-toggle="collapse" href="#item-1-3">Component Groups <i class="fa-solid fa-chevron-right mt-1"></i></a>
+        <div class="list-group collapse" id="item-1-3">
+            <a class="list-group-item" href="top-nav.html">Top Nav</a>
+            <a class="list-group-item" href="left-nav.html">Left Nav</a>
+            <a class="list-group-item" href="selection-modal.html">Selection Modal</a>
+        </div>
+    </div>
+    <div class="list-group list-group-flush">
+        <a class="list-group-item list-group-item-light p-3" href="#top">Back to Top<i class="fa-solid fa-arrow-up ms-2"></i></a>
+    </div>
+</div>
+	<!-- Page content wrapper-->
+	<div id="page-content-wrapper">
+		<!-- Top navigation-->
+<nav class="navbar navbar-expand-lg border-bottom">
+	<div class="container-fluid">
+		<div class="collapse navbar-collapse" id="navbarSupportedContent">
+			<ul class="navbar-nav ms-auto mt-2 mt-lg-0">
+				<li class="nav-item active">
+					<a class="nav-link" href="#!">DFE</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#!">WCMS</a>
+				</li>
+				<!-- <li class="nav-item dropdown">
+					<button class="btn btn-link nav-link py-2 px-0 px-lg-2 dropdown-toggle d-flex align-items-center" id="bd-theme" type="button" aria-expanded="false" data-bs-toggle="dropdown" data-bs-display="static" aria-label="Toggle theme (light)">
+					  <svg class="bi my-1 theme-icon-active"><use href="#sun-fill"></use></svg>
+					  <span class="d-lg-none ms-2" id="bd-theme-text">Toggle theme</span>
+					</button>
+					<ul class="dropdown-menu dropdown-menu-end" aria-labelledby="bd-theme-text">
+					  <li>
+						<button type="button" class="dropdown-item d-flex align-items-center active" data-bs-theme-value="light" aria-pressed="true">
+						  <svg class="bi me-2 opacity-50 theme-icon"><use href="#sun-fill"></use></svg>
+						  Light
+						  <svg class="bi ms-auto d-none"><use href="#check2"></use></svg>
+						</button>
+					  </li>
+					  <li>
+						<button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="dark" aria-pressed="false">
+						  <svg class="bi me-2 opacity-50 theme-icon"><use href="#moon-stars-fill"></use></svg>
+						  Dark
+						  <svg class="bi ms-auto d-none"><use href="#check2"></use></svg>
+						</button>
+					  </li>
+					  <li>
+						<button type="button" class="dropdown-item d-flex align-items-center" data-bs-theme-value="auto" aria-pressed="false">
+						  <svg class="bi me-2 opacity-50 theme-icon"><use href="#circle-half"></use></svg>
+						  Auto
+						  <svg class="bi ms-auto d-none"><use href="#check2"></use></svg>
+						</button>
+					  </li>
+					</ul>
+				</li> -->
+				<li class="nav-item dropdown">
+					<a aria-expanded="false" aria-haspopup="true" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#" id="navbarDropdown" role="button">More</a>
+					<div aria-labelledby="navbarDropdown" class="dropdown-menu dropdown-menu-end">
+						<a class="dropdown-item" href="contributing.html">Contributing</a>
+						<div class="dropdown-divider"></div>
+						<a class="dropdown-item" href="about.html">About</a>
+					</div>
+				</li>
+			</ul>
+		</div>
+	</div>
+</nav>
+		<!-- Page content-->
+		<div class="container">
+			<h1 class="mt-4">Modals</h1>
+			<h2>How to use</h2>
+
+			When to use:
+			<ul>
+				<li>Important warnings</li>
+				<li>Preventing critical errors</li>
+				<li>Requesting input of info critical to process/workflow</li>
+				<li>Fragmenting complicated workflow into simpler steps</li>
+				<li>Asking user for information that could lessen effort/work</li>
+			</ul>
+
+			When not to use:
+			<ul>
+				<li>If an error/success/warning can be related to a form field or within the actual UI</li>
+				<li>If the modal has a complicated user flow that takes user out of the original page</li>
+				<li>Gathering information that is not related to the workflow process</li>
+			</ul>
+
+			For using buttons within modals:
+			<ul>
+				<li>Use two buttons of equal weight (one filled and one outline) if the actions themselves are of equal importance to the user</li>
+				<li>Use two buttons of unequal weight (one filled and one text button) if there is one obvious choice for a user action</li>
+				<li>Primary action should always be on the left, secondary action should be on the right</li>
+			</ul>
+
+			<h2>Demo</h2>
+<div
+				class="codepen"
+				data-prefill='{
+				"title": "Modal Demo",
+				"description": "Example of Modal",
+				"html_classes": ["no-js"],
+				"head": "&lt;meta name=&#x27;viewport&#x27; content=&#x27;width=device-width, initial-scale=1&#x27;&gt;",
+				"stylesheets": ["https://www.cdc.gov/TemplatePackage/contrib/libs/bootstrap/latest/css/bootstrap.min.css","https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap","https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800&display=swap", "https://www.cdc.gov/TemplatePackage/contrib/libs/fontawesome/6x/css/all.min.css"],
+				"scripts": ["https://www.cdc.gov/TemplatePackage/contrib/libs/axe/latest/axe.min.js","https://www.cdc.gov/TemplatePackage/contrib/libs/jquery/latest/jquery.slim.min.js","https://www.cdc.gov/TemplatePackage/contrib/libs/bootstrap/latest/js/bootstrap.bundle.min.js"]
+				}'
+				style="height: 700px; overflow: auto;"
+				data-height="700"
+				data-default-tab="html,result"
+				data-editable="true"
+				data-theme-id="light"
+			>
+				<pre data-lang="html">
+		&lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; data-toggle=&quot;modal&quot; data-target=&quot;#textButtonModal&quot;&gt;
+			Open Button + Text Button Modal
+		&lt;/button&gt;
+
+		&lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot; data-toggle=&quot;modal&quot; data-target=&quot;#twoButtonModal&quot;&gt;
+		Open Two Button Modal
+		&lt;/button&gt;
+
+		&lt;!-- Button + Text Button Modal --&gt;
+		&lt;div class=&quot;modal fade&quot; id=&quot;textButtonModal&quot; tabindex=&quot;-1&quot; role=&quot;dialog&quot; aria-labelledby=&quot;textButtonModalLabel&quot; aria-hidden=&quot;true&quot;&gt;
+			&lt;div class=&quot;modal-dialog&quot; role=&quot;document&quot;&gt;
+				&lt;div class=&quot;modal-content&quot;&gt;
+					&lt;div class=&quot;modal-header&quot;&gt;
+						&lt;h5 class=&quot;modal-title&quot;&gt;Modal Title&lt;/h5&gt;
+						&lt;button type=&quot;button&quot; class=&quot;close&quot; data-dismiss=&quot;modal&quot; aria-label=&quot;Close&quot;&gt;
+							&lt;i class=&quot;fa-light fa-xmark&quot;&gt;&lt;/i&gt;
+						&lt;/button&gt;
+					&lt;/div&gt;
+					&lt;div class=&quot;modal-body&quot;&gt;
+						&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod.&lt;/p&gt;
+					&lt;/div&gt;
+					&lt;div class=&quot;modal-footer&quot;&gt;
+						&lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot;&gt;Primary Action&lt;/button&gt;
+						&lt;button type=&quot;button&quot; class=&quot;btn btn-link&quot; data-dismiss=&quot;modal&quot;&gt;Secondary Action&lt;/button&gt;
+					&lt;/div&gt;
+				&lt;/div&gt;
+			&lt;/div&gt;
+		&lt;/div&gt;
+
+		&lt;!-- Two Button Modal --&gt;
+		&lt;div class=&quot;modal fade&quot; id=&quot;twoButtonModal&quot; tabindex=&quot;-1&quot; role=&quot;dialog&quot; aria-labelledby=&quot;twoButtonModalLabel&quot; aria-hidden=&quot;true&quot;&gt;
+			&lt;div class=&quot;modal-dialog&quot; role=&quot;document&quot;&gt;
+				&lt;div class=&quot;modal-content&quot;&gt;
+					&lt;div class=&quot;modal-header&quot;&gt;
+						&lt;h5 class=&quot;modal-title&quot;&gt;Modal Title&lt;/h5&gt;
+						&lt;button type=&quot;button&quot; class=&quot;close&quot; data-dismiss=&quot;modal&quot; aria-label=&quot;Close&quot;&gt;
+							&lt;i class=&quot;fa-light fa-xmark&quot;&gt;&lt;/i&gt;
+						&lt;/button&gt;
+					&lt;/div&gt;
+					&lt;div class=&quot;modal-body&quot;&gt;
+						&lt;p&gt;Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean euismod.&lt;/p&gt;
+					&lt;/div&gt;
+					&lt;div class=&quot;modal-footer&quot;&gt;
+						&lt;button type=&quot;button&quot; class=&quot;btn btn-primary&quot;&gt;Primary Action&lt;/button&gt;
+						&lt;button type=&quot;button&quot; class=&quot;btn btn-outline-secondary&quot; data-dismiss=&quot;modal&quot;&gt;Secondary Action&lt;/button&gt;
+					&lt;/div&gt;
+				&lt;/div&gt;
+			&lt;/div&gt;
+		&lt;/div&gt;
+				</pre>
+				<pre data-lang="scss">
+	.modal {
+		.modal-dialog {
+			.modal-content {
+				font-family: "Inter", sans-serif;
+				border-color: #fff;
+				box-shadow: 0px 0px 20px 0px rgba(0,0,0,0.1);
+				border-radius: 8px;
+				.modal-header {
+					border-bottom: 0;
+					.modal-title {
+						font-family: "Poppins", sans-serif;
+						font-weight: 600;
+						color: #333;
+					}
+					button {
+						&.close {
+							color: #757575;
+							opacity: 1;
+						}
+					}
+				}
+				.modal-body {
+					font-family: "Inter", sans-serif;
+					font-size: 16px;
+					line-height: 1.5;
+					color: #333;
+				}
+				.modal-footer {
+					border-top: 0;
+				}
+			}
+		}
+		&-backdrop {
+			&.show {
+				// this allows clicking outside of the modal to close it, while hiding the backdrop from the user
+				opacity: 0;
+			}
+		}
+	}
+
+
+
+
+
+
+
+
+
+	// styles for demo only
+	body {
+		display: flex;
+		flex-direction: row;
+		justify-content: center;
+		margin: 3rem;
+
+		> button {
+			margin-right: 1rem;
+		}
+	}
+
+	// button styles from /buttons.html
+	$linkprimary: #0073AA;
+	$focus: #000;
+	.btn-link {
+		font-family: "Inter", sans-serif;
+		text-transform: uppercase;
+		font-weight: 600;
+		font-size: 14px;
+		color: $linkprimary;
+
+		&[disabled],
+		&.disabled {
+			opacity: 0.5;
+		}
+
+		&:not([disabled]):not(.disabled) {
+			&:focus-visible,
+			.focus {
+				box-shadow: none;
+				outline: 1px dashed #000;;
+				outline-offset: 2px;
+				text-decoration: none;
+			}
+
+			&:hover {
+				text-decoration: underline;
+			}
+
+			&:active,
+			.active {
+				box-shadow: none;
+				outline: 1px dashed #000;;
+				outline-offset: 2px;
+
+				&:focus-visible,
+				.focus {
+					box-shadow: none;
+				}
+			}
+		}
+	}
+
+	$primary: #4B830D;
+	$white: #FFF;
+	$focus: #7DD3FC;
+	$hover: #2D5A00;
+	$outline-hover: #F7FFF0;
+	.btn-primary {
+		font-family: "Inter", sans-serif;
+		text-transform: uppercase;
+		background-color: $primary;
+		border-color: $primary;
+		color: $white;
+		border-radius: 8px;
+		font-weight: 600;
+		font-size: 14px;
+
+		&:focus-visible,
+		.focus {
+			background-color: $primary;
+			border-color: $primary;
+		}
+
+		&:hover {
+			background-color: $hover;
+			color: $white;
+			border-color: $primary;
+		}
+
+		&[disabled],
+		&.disabled {
+			background-color: $primary;
+			border-color: $primary;
+			opacity: 0.5;
+		}
+
+		&:not([disabled]):not(.disabled) {
+			&:focus-visible,
+			.focus {
+				box-shadow: none;
+				outline: 1px dashed #000;;
+				outline-offset: 2px;
+			}
+
+			&:active,
+			.active {
+				background-color: $primary;
+				border-color: $primary;
+				box-shadow: none;
+				outline: 1px dashed #000;;
+				outline-offset: 2px;
+
+				&:focus-visible,
+				.focus {
+					box-shadow: none;
+				}
+			}
+		}
+	}
+
+	.btn-outline-primary {
+		font-family: "Inter", sans-serif;
+		text-transform: uppercase;
+		background-color: $white;
+		border-color: $primary;
+		border-width: 2px;
+		color: $primary;
+		border-radius: 8px;
+		font-weight: 600;
+		font-size: 14px;
+
+		&:focus-visible,
+		.focus {
+			background-color: $white;
+			color: $primary;
+			border-color: $primary;
+		}
+
+		&:hover {
+			background-color: $outline-hover;
+			border-color: $primary;
+			color: $primary;
+		}
+
+		&[disabled],
+		&.disabled {
+			background-color: $white;
+			color: $primary;
+			border-color: $primary;
+			opacity: 0.5;
+		}
+
+		&:not([disabled]):not(.disabled) {
+			&:focus-visible,
+			.focus {
+				box-shadow: none;
+				outline: 1px dashed #000;;
+				outline-offset: 2px;
+			}
+
+			&:active,
+			.active {
+				background-color: $white;
+				color: $primary;
+				border-color: $primary;
+				box-shadow: none;
+				outline: 1px dashed #000;;
+				outline-offset: 2px;
+
+				&:focus-visible,
+				.focus {
+					box-shadow: none;
+				}
+			}
+		}
+	}
+
+	$secondary: #0073AA;
+	$white: #FFF;
+	$focus: #7DD3FC;
+	$hover: #005280;
+	$outline-hover: #E0F6FF;
+	.btn-secondary {
+		font-family: "Inter", sans-serif;
+		text-transform: uppercase;
+		background-color: $secondary;
+		border-color: $secondary;
+		color: $white;
+		border-radius: 8px;
+		font-weight: 600;
+		font-size: 14px;
+
+		&:focus-visible,
+		.focus {
+			background-color: $secondary;
+			border-color: $secondary;
+		}
+
+		&:hover {
+			background-color: $hover;
+			color: $white;
+			border-color: $secondary;
+		}
+
+		&[disabled],
+		&.disabled {
+			background-color: $secondary;
+			border-color: $secondary;
+			opacity: 0.5;
+		}
+
+		&:not([disabled]):not(.disabled) {
+			&:focus-visible,
+			.focus {
+				box-shadow: none;
+				outline: 1px dashed #000;;
+				outline-offset: 2px;
+			}
+
+			&:active,
+			.active {
+				background-color: $secondary;
+				border-color: $secondary;
+				box-shadow: none;
+				outline: 1px dashed #000;;
+				outline-offset: 2px;
+
+				&:focus-visible,
+				.focus {
+					box-shadow: none;
+				}
+			}
+		}
+	}
+
+	.btn-outline-secondary {
+		font-family: "Inter", sans-serif;
+		text-transform: uppercase;
+		background-color: $white;
+		border-color: $secondary;
+		border-width: 2px;
+		color: $secondary;
+		border-radius: 8px;
+		font-weight: 600;
+		font-size: 14px;
+
+		&:focus-visible,
+		.focus {
+			background-color: $white;
+			color: $secondary;
+			border-color: $secondary;
+		}
+
+		&:hover {
+			background-color: $outline-hover;
+			border-color: $secondary;
+			color: $secondary;
+		}
+
+		&[disabled],
+		&.disabled {
+			background-color: $white;
+			color: $secondary;
+			border-color: $secondary;
+			opacity: 0.5;
+		}
+
+		&:not([disabled]):not(.disabled) {
+			&:focus-visible,
+			.focus {
+				box-shadow: none;
+				outline: 1px dashed #000;;
+				outline-offset: 2px;
+			}
+
+			&:active,
+			.active {
+				background-color: $white;
+				color: $secondary;
+				border-color: $secondary;
+				box-shadow: none;
+				outline: 1px dashed #000;;
+				outline-offset: 2px;
+
+				&:focus-visible,
+				.focus {
+					box-shadow: none;
+				}
+			}
+		}
+	}
+
+				</pre>
+<pre data-lang="js">
+	function gAT(t){let e='&lt;table class=&quot;table table-light&quot;&gt;';return e+=&quot;&lt;thead&gt;&lt;tr&gt;&lt;th&gt;Issue&lt;/th&gt;&lt;th&gt;Description&lt;/th&gt;&lt;th&gt;Impact&lt;/th&gt;&lt;th&gt;Element&lt;/th&gt;&lt;/tr&gt;&lt;/thead&gt;&quot;,e+=&quot;&lt;tbody&gt;&quot;,t.forEach(t=&gt;{let l=cLFE(t.nodes[0].target);e+=`&lt;tr&gt;&lt;td&gt;${t.id}&lt;/td&gt;&lt;td&gt;${t.description}&lt;/td&gt;&lt;td&gt;${t.impact}&lt;/td&gt;&lt;td&gt;${l}&lt;/td&gt;&lt;/tr&gt;`}),e+=&quot;&lt;/tbody&gt;&quot;,e+=&quot;&lt;/table&gt;&quot;}function cLFE(t){return`&lt;a href=&quot;#${t}&quot;&gt;${t}&lt;/a&gt;`}axe.run({rules:{&quot;landmark-one-main&quot;:{enabled:!1},&quot;page-has-heading-one&quot;:{enabled:!1},region:{enabled:!1}}},function(t,e){if(e.violations.length){let l=gAT(e.violations),n=document.body,o=document.createElement(&quot;div&quot;);o.style=&quot;position: fixed;left: 0;bottom: 0;width:100%;font-size: 11px;&quot;,o.classList.add(&quot;text-monospace&quot;),o.innerHTML=l,n.appendChild(o),document.querySelectorAll(&quot;table a&quot;).forEach(t=&gt;{t.addEventListener(&quot;click&quot;,()=&gt;document.querySelectorAll(t.hash.split(&quot;#&quot;).pop())[0].style=&quot;border:1px solid red;background:yellow&quot;)})}else{let d=document.body,i=document.createElement(&quot;div&quot;);i.style=&quot;position: fixed;left: 0;bottom: 0;width:100%;font-size: 11px;&quot;,i.classList.add(&quot;text-monospace&quot;),i.innerHTML=&quot;No 508 violations found&quot;,d.appendChild(i)}});
+</pre>
+			</div>
+			<h2>Modal Types</h2>
+			<h3>Confirmation Modal</h3>
+			<ul>
+				<li>Forcing the user to complete something outside of their normal workflow</li>
+				<li>Happens after a user action on a page</li>
+				<li>Confirming things that can't be undone</li>
+			</ul>
+
+			<h3>Warning Modal</h3>
+			<ul>
+				<li>Type of confirmation modal</li>
+				<li>Happens after user action on a page</li>
+				<li>Confirming things that can't be undone</li>
+			</ul>
+
+
+			<h3>Acknowledgement Modal</h3>
+			<ul>
+				<li>Shouldn't be able to close without making a decision or acknowledging something</li>
+				<li>Close button disabled</li>
+			</ul>
+
+
+			<h3>System Error Modal</h3>
+			<ul>
+				<li>Type of acknowledgement modal but with the ability to close out</li>
+				<li>Used to communicate a technical error the system is experiencing</li>
+				<li>No user action taken</li>
+				<li>These are typically default messages from the browser</li>
+			</ul>
+
+
+			<h3>User Error Modal</h3>
+			<ul>
+				<li>Type of acknowledgement modal</li>
+				<li>Used to communicate an error that was triggered by user action</li>
+			</ul>
+			<h2>Dev Notes</h2>
+			<ul>
+				<li>TBD</li>
+			</ul>
+		</div>
+	</div>
+</div>
+
+<script async src="libs/codepen/ei.js"></script>
+<script src="libs/bootstrap/5/bootstrap.bundle.min.js"></script>
+<script src="libs/jquery/jquery.slim.min.js"></script>
+<script src="libs/highlightjs/highlight.min.js"></script>
+<script src="libs/highlightjs/highlightjs-line-numbers.min.js"></script>
+<script src="libs/highlightjs/highlightjs-copy.min.js"></script>
+<script src="js/guide.js" ></script>
+
+</body>
+
+</html>
