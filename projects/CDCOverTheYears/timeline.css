@@ -7,6 +7,12 @@ body {
 	position: relative;
 }
 
+h1 {
+	position: absolute;
+	top: 95px;
+	left: 235px;
+}
+
 canvas#backgroundCanvas {
 	position: fixed;
 	top: 0;
@@ -228,4 +234,26 @@ canvas#backgroundCanvas {
 	animation: tvFocus 0.5s steps(5) 2;
 	/* TV focus effect on hover */
 	box-shadow: 0 0 30px #00ffff;
+}
+
+/* Sliding color animation for h2 elements */
+h2 {
+	font-size: 2rem;
+	color: transparent;
+	background: linear-gradient(90deg, #ff00ff, #00ffff, #ffae00, #00ff00, #ff00ff);
+	background-size: 300%;
+	-webkit-background-clip: text;
+	background-clip: text;
+	animation: slideColor 5s linear infinite alternate;
+}
+
+/* Keyframes for sliding color animation */
+@keyframes slideColor {
+	0% {
+		background-position: 0%;
+	}
+
+	100% {
+		background-position: 100%;
+	}
 }
