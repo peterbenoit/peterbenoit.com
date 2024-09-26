@@ -1,0 +1,1 @@
+typeof window<"u"&&document.addEventListener("click",t=>{const e=t.target.closest('a[href^="#"]');if(e&&e.href.includes("#")){t.preventDefault();const o=e.getAttribute("href").slice(1),n=document.getElementById(o);n&&n.scrollIntoView({behavior:"smooth"})}});
