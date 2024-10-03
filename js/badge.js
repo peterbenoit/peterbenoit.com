@@ -1,8 +1,8 @@
 (function() {
+    const position = window.badgeConfig && window.badgeConfig.position === 'top' ? 'top' : 'bottom';
     const randomId = Math.random().toString(36).slice(2);
     const footer = document.createElement('div');
     footer.id = `footer-${randomId}`;
-
     footer.style.position = 'fixed';
     footer.style.right = '10px';
     footer.style.display = 'flex';
@@ -16,11 +16,8 @@
     footer.style.opacity = '0';
     footer.style.transform = 'translateX(100px)';
 
-    // Check the query parameter for 'position=top'
-    const positionParam = getQueryParam('position');
-    if (positionParam === 'top') {
+    if (position === 'top') {
         footer.style.top = '10px';
-        footer.style.bottom = '';
     } else {
         footer.style.bottom = '10px';
     }
@@ -34,11 +31,11 @@
         @keyframes slideIn {
             0% {
                 opacity: 0;
-                transform: translateX(100px);
+                transform: translateX(100px); /* Slide in from right */
             }
             100% {
                 opacity: 1;
-                transform: translateX(0);
+                transform: translateX(0); /* Fully visible */
             }
         }
 
@@ -156,8 +153,3 @@
 		})
 	});
 })();
-
-function getQueryParam(name) {
-	const urlParams = new URLSearchParams(window.location.search);
-	return urlParams.get(name);
-}
