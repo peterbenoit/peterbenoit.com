@@ -8,7 +8,7 @@
     footer.style.display = 'flex';
     footer.style.alignItems = 'center';
     footer.style.gap = '5px';
-    footer.style.fontFamily = 'Arial, sans-serif';
+    footer.style.fontFamily = 'Comic Sans, sans-serif';
     footer.style.color = '#fff';
     footer.style.fontSize = '14px';
     footer.style.background = 'rgba(0, 0, 0, 0.5)';
