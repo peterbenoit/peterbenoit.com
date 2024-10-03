@@ -2,8 +2,8 @@
     const randomId = Math.random().toString(36).slice(2);
     const footer = document.createElement('div');
     footer.id = `footer-${randomId}`;
+
     footer.style.position = 'fixed';
-    footer.style.bottom = '10px';
     footer.style.right = '10px';
     footer.style.display = 'flex';
     footer.style.alignItems = 'center';
@@ -13,29 +13,24 @@
     footer.style.fontSize = '14px';
     footer.style.background = 'rgba(0, 0, 0, 0.5)';
     footer.style.padding = '10px';
+    footer.style.opacity = '0';
+    footer.style.transform = 'translateX(100px)';
+
+    // Check the query parameter for 'position=top'
+    const positionParam = getQueryParam('position');
+    if (positionParam === 'top') {
+        footer.style.top = '10px';
+        footer.style.bottom = '';
+    } else {
+        footer.style.bottom = '10px';
+    }
 
     const style = document.createElement('style');
     style.innerHTML = `
-		#footer-${randomId} a {
-			color: #fff;
-			text-decoration: none;
-			font-weight: bold;
-			transition: filter .3s ease;
-		}
-		#footer-${randomId} a svg {
-			transition: filter .3s ease;
-			stroke: #fff;
-		}
-		#footer-${randomId} a:hover {
-			color: #ff00ff;
-		}
-		#footer-${randomId} a:hover svg {
-			stroke: #ff00ff;
-			animation: rainbow 1.5s linear infinite;
-		}
         #footer-${randomId} {
             animation: slideIn 4s ease-out forwards;
         }
+
         @keyframes slideIn {
             0% {
                 opacity: 0;
@@ -46,19 +41,41 @@
                 transform: translateX(0);
             }
         }
-		@keyframes rainbow {
-			0% { filter: hue-rotate(300deg) saturate(3) brightness(1.2); }
-			10% { filter: hue-rotate(290deg) saturate(3) brightness(1.2); }
-			20% { filter: hue-rotate(280deg) saturate(3) brightness(1.2); }
-			30% { filter: hue-rotate(270deg) saturate(3) brightness(1.2); }
-			40% { filter: hue-rotate(260deg) saturate(3) brightness(1.2); }
-			50% { filter: hue-rotate(250deg) saturate(3) brightness(1.2); }
-			60% { filter: hue-rotate(260deg) saturate(3) brightness(1.2); }
-			70% { filter: hue-rotate(270deg) saturate(3) brightness(1.2); }
-			80% { filter: hue-rotate(280deg) saturate(3) brightness(1.2); }
-			90% { filter: hue-rotate(290deg) saturate(3) brightness(1.2); }
-			100% { filter: hue-rotate(300deg) saturate(3) brightness(1.2); }
-		}
+
+        #footer-${randomId} a {
+            color: #fff;
+            text-decoration: none;
+            font-weight: bold;
+            transition: filter .3s ease;
+        }
+
+        #footer-${randomId} a svg {
+            transition: filter .3s ease;
+            stroke: #fff;
+        }
+
+        #footer-${randomId} a:hover {
+            color: #ff00ff;
+        }
+
+        #footer-${randomId} a:hover svg {
+            stroke: #ff00ff;
+            animation: rainbow 1.5s linear infinite;
+        }
+
+        @keyframes rainbow {
+            0% { filter: hue-rotate(300deg) saturate(3) brightness(1.2); }
+            10% { filter: hue-rotate(290deg) saturate(3) brightness(1.2); }
+            20% { filter: hue-rotate(280deg) saturate(3) brightness(1.2); }
+            30% { filter: hue-rotate(270deg) saturate(3) brightness(1.2); }
+            40% { filter: hue-rotate(260deg) saturate(3) brightness(1.2); }
+            50% { filter: hue-rotate(250deg) saturate(3) brightness(1.2); }
+            60% { filter: hue-rotate(260deg) saturate(3) brightness(1.2); }
+            70% { filter: hue-rotate(270deg) saturate(3) brightness(1.2); }
+            80% { filter: hue-rotate(280deg) saturate(3) brightness(1.2); }
+            90% { filter: hue-rotate(290deg) saturate(3) brightness(1.2); }
+            100% { filter: hue-rotate(300deg) saturate(3) brightness(1.2); }
+        }
     `;
     document.head.appendChild(style);
 
