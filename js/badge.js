@@ -74,6 +74,18 @@
             90% { filter: hue-rotate(290deg) saturate(3) brightness(1.2); }
             100% { filter: hue-rotate(300deg) saturate(3) brightness(1.2); }
         }
+
+		.sr-only {
+			position: absolute;
+			width: 1px;
+			height: 1px;
+			padding: 0;
+			margin: -1px;
+			overflow: hidden;
+			clip: rect(0, 0, 0, 0);
+			white-space: nowrap;
+			border-width: 0;
+		}
     `;
     document.head.appendChild(style);
 
@@ -122,7 +134,7 @@
         const iconLink = document.createElement('a');
         iconLink.href = href;
         iconLink.target = '_blank';
-        iconLink.innerHTML = svg;
+        iconLink.innerHTML = `${svg}<span class="sr-only">${href}</span>`;
         socialLinks.appendChild(iconLink);
     });
 
