@@ -13,11 +13,11 @@
         return e;
     }
 
-    function cLFE(target) {
-        const targetString = Array.isArray(target) ? target[0] : target;
-        const cleanTarget = targetString.replace(/\s/g, '').replace(/"/g, '&quot;');
-        return `<a href="#${cleanTarget}">${targetString}</a>`;
-    }
+	function cLFE(target) {
+		const targetString = Array.isArray(target) ? target[0] : target;
+		const cleanTarget = targetString.replace(/\s/g, '').replace(/"/g, '&quot;').replace(/^#/, '');
+		return `<a href="#${cleanTarget}">${targetString}</a>`;
+	}
 
     function createAccessibilityIcon() {
         const icon = document.createElement("div");
