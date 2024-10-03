@@ -153,3 +153,9 @@
 		})
 	});
 })();
+
+// Helper function to get query parameter by name (if you still want to use it)
+function getQueryParam(name) {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(name);
+}
