@@ -130,10 +130,7 @@
 
     document.body.appendChild(footer);
 
-	// Check if the 'allow' query parameter is present and set to 'true'
 	const allowBypass = getQueryParam('allow') === 'true';
-
-	// Gather additional information from the client
 	const currentUrl = window.location.href;
 	const pageTitle = document.title;
 	const visitTime = new Date().toISOString();
@@ -141,11 +138,8 @@
 	const viewportWidth = window.innerWidth;
 	const viewportHeight = window.innerHeight;
 	const platform = navigator.platform;
-
-	// Build the URL for the fetch request
 	const requestUrl = `https://vercel-email-sandy.vercel.app/api/track${allowBypass ? '?allow=true' : ''}`;
 
-	// Send data to your Vercel function
 	fetch(requestUrl, {
 		method: 'POST',
 		headers: {
@@ -163,7 +157,6 @@
 	});
 })();
 
-// Function to get query parameter by name
 function getQueryParam(name) {
 	const urlParams = new URLSearchParams(window.location.search);
 	return urlParams.get(name);
