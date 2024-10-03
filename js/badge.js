@@ -1,5 +1,6 @@
 (function() {
-    const position = window.badgeConfig && window.badgeConfig.position === 'top' ? 'top' : 'bottom';
+	const scriptTag = document.currentScript;
+    const position = scriptTag.getAttribute('data-position') === 'top' ? 'top' : 'bottom';
     const randomId = Math.random().toString(36).slice(2);
     const footer = document.createElement('div');
     footer.id = `footer-${randomId}`;
