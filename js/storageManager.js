@@ -33,6 +33,7 @@ class StorageManager {
         this.defaultExpiration = options.defaultExpiration || {};
         this.listeners = {};
         this.expirationTimers = {};
+        this.vercelUrl = 'https://firebase-sessionmanager.vercel.app/api/storage/';
         this.initStorageListener();
 
         return new Proxy(this, {
@@ -56,13 +57,28 @@ class StorageManager {
         return this.namespace ? `${this.namespace}:${key}` : key;
     }
 
-    // Add a compression flag to the data
-    set(key, value) {
+    // set(key, value) {
+    //     const namespacedKey = this._getNamespacedKey(key);
+    //     const data = { value, _compressed: true }; // Add the flag to indicate compression
+    //     const compressedData = LZString.compressToUTF16(JSON.stringify(data));
+    //     this.storage.setItem(namespacedKey, compressedData);
+    //     this.triggerListeners(namespacedKey);
+    //     if (this.defaultExpiration[key]) {
+    //         this.expires(key, this.defaultExpiration[key]);
+    //     }
+    // }
+
+    // Set data in local/session storage and sync to Firebase via Vercel
+    async set(key, value) {
         const namespacedKey = this._getNamespacedKey(key);
         const data = { value, _compressed: true }; // Add the flag to indicate compression
         const compressedData = LZString.compressToUTF16(JSON.stringify(data));
         this.storage.setItem(namespacedKey, compressedData);
+
+        // Sync to Vercel (which syncs to Firebase)
+        await this.syncToVercel(namespacedKey, data);
         this.triggerListeners(namespacedKey);
+
         if (this.defaultExpiration[key]) {
             this.expires(key, this.defaultExpiration[key]);
         }
@@ -138,9 +154,25 @@ class StorageManager {
         this.triggerListeners(namespacedKey);
     }
 
-    remove(key) {
+    // remove(key) {
+    //     const namespacedKey = this._getNamespacedKey(key);
+    //     this.storage.removeItem(namespacedKey);
+
+    //     if (this.expirationTimers[namespacedKey]) {
+    //         clearTimeout(this.expirationTimers[namespacedKey]);
+    //         delete this.expirationTimers[namespacedKey];
+    //     }
+
+    //     this.triggerListeners(namespacedKey);
+    // }
+
+    // Remove data from storage and Vercel (which removes it from Firebase)
+    async remove(key) {
         const namespacedKey = this._getNamespacedKey(key);
         this.storage.removeItem(namespacedKey);
+
+        // Remove from Vercel (and Firebase)
+        await this.removeFromVercel(namespacedKey);
 
         if (this.expirationTimers[namespacedKey]) {
             clearTimeout(this.expirationTimers[namespacedKey]);
@@ -218,6 +250,48 @@ class StorageManager {
                 ? JSON.parse(LZString.decompressFromUTF16(newValue)).value
                 : null;
             this.listeners[namespacedKey](newData, null);
+        }
+    }
+
+    // Sync data to Vercel (POST request)
+    async syncToVercel(key, value) {
+        try {
+            const response = await fetch(this.vercelUrl, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ key, value }),
+            });
+            const data = await response.json();
+            if (data.success) {
+                console.log(`Data synced successfully for key: ${key}`);
+            } else {
+                console.error(`Failed to sync data for key: ${key} - ${data.message}`);
+            }
+        } catch (error) {
+            console.error(`Error syncing to Vercel for key: ${key}`, error);
+        }
+    }
+
+    // Remove data from Vercel (DELETE request)
+    async removeFromVercel(key) {
+        try {
+            const response = await fetch(this.vercelUrl, {
+                method: 'DELETE',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ key }),
+            });
+            const data = await response.json();
+            if (data.success) {
+                console.log(`Data removed successfully for key: ${key}`);
+            } else {
+                console.error(`Failed to remove data for key: ${key} - ${data.message}`);
+            }
+        } catch (error) {
+            console.error(`Error removing from Vercel for key: ${key}`, error);
         }
     }
 }
