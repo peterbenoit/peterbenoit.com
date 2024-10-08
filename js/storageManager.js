@@ -56,9 +56,11 @@ class StorageManager {
         return this.namespace ? `${this.namespace}:${key}` : key;
     }
 
+    // Add a compression flag to the data
     async set(key, value) {
         const namespacedKey = this._getNamespacedKey(key);
-        const compressedData = LZString.compressToUTF16(JSON.stringify({ value }));
+        const data = { value, _compressed: true }; // Add the flag to indicate compression
+        const compressedData = LZString.compressToUTF16(JSON.stringify(data));
         this.storage.setItem(namespacedKey, compressedData);
         this.triggerListeners(namespacedKey);
         if (this.defaultExpiration[key]) {
@@ -73,7 +75,6 @@ class StorageManager {
         if (!compressedData) return null;
 
         const decompressedData = LZString.decompressFromUTF16(compressedData);
-
         if (!decompressedData) {
             console.error('Failed to decompress data for get.');
             return null;
@@ -81,8 +82,9 @@ class StorageManager {
 
         const data = JSON.parse(decompressedData);
 
-        // Add a check to ensure 'data' is valid before accessing properties
-        if (!data || !data.expiration) {
+        // Check if the data is compressed by looking at the flag
+        if (!data || !data._compressed) {
+            console.error('Data was not compressed properly.');
             return null;
         }
 
@@ -111,6 +113,13 @@ class StorageManager {
         }
 
         const data = JSON.parse(decompressedData);
+
+        // Ensure the data is valid and compressed
+        if (!data || !data._compressed) {
+            console.error('Data was not compressed properly.');
+            return;
+        }
+
         const expirationTime = Date.now() + expiresIn * 1000;
         data.expiration = expirationTime;
 
