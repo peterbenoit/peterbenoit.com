@@ -34,13 +34,16 @@ class StorageManager {
         this.listeners = {};
         this.expirationTimers = {};
         this.vercelUrl = 'https://firebase-sessionmanager.vercel.app/api/storage/';
+        this.enableCompression = options.enableCompression ?? true;
         this.initStorageListener();
 
         return new Proxy(this, {
             get(target, prop, receiver) {
                 if (typeof target[prop] === 'function' && prop !== '_ensureLZStringLoaded') {
                     return async (...args) => {
-                        await target._ensureLZStringLoaded(); // Ensure LZString is loaded before any method
+                        if (target.enableCompression) {
+                            await target._ensureLZStringLoaded();
+                        }
                         return target[prop](...args);
                     };
                 }
@@ -50,6 +53,7 @@ class StorageManager {
     }
 
     _ensureLZStringLoaded() {
+        if (!this.enableCompression) return Promise.resolve();
         return include('https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js');
     }
 
@@ -57,25 +61,18 @@ class StorageManager {
         return this.namespace ? `${this.namespace}:${key}` : key;
     }
 
-    // set(key, value) {
-    //     const namespacedKey = this._getNamespacedKey(key);
-    //     const data = { value, _compressed: true }; // Add the flag to indicate compression
-    //     const compressedData = LZString.compressToUTF16(JSON.stringify(data));
-    //     this.storage.setItem(namespacedKey, compressedData);
-    //     this.triggerListeners(namespacedKey);
-    //     if (this.defaultExpiration[key]) {
-    //         this.expires(key, this.defaultExpiration[key]);
-    //     }
-    // }
-
-    // Set data in local/session storage and sync to Firebase via Vercel
     async set(key, value) {
         const namespacedKey = this._getNamespacedKey(key);
-        const data = { value, _compressed: true }; // Add the flag to indicate compression
-        const compressedData = LZString.compressToUTF16(JSON.stringify(data));
-        this.storage.setItem(namespacedKey, compressedData);
+        let data = { value };
 
-        // Sync to Vercel (which syncs to Firebase)
+        if (this.enableCompression) {
+            data._compressed = true;
+            const compressedData = LZString.compressToUTF16(JSON.stringify(data));
+            this.storage.setItem(namespacedKey, compressedData);
+        } else {
+            this.storage.setItem(namespacedKey, JSON.stringify(data));
+        }
+
         await this.syncToVercel(namespacedKey, data);
         this.triggerListeners(namespacedKey);
 
@@ -86,26 +83,24 @@ class StorageManager {
 
     get(key) {
         const namespacedKey = this._getNamespacedKey(key);
-        const compressedData = this.storage.getItem(namespacedKey);
+        const storedData = this.storage.getItem(namespacedKey);
 
-        if (!compressedData) return null;
+        if (!storedData) return null;
 
-        const decompressedData = LZString.decompressFromUTF16(compressedData);
-        if (!decompressedData) {
-            console.error('Failed to decompress data for get.');
-            return null;
-        }
-
-        const data = JSON.parse(decompressedData);
-
-        // Check if the data is compressed by looking at the flag
-        if (!data || !data._compressed) {
-            console.error('Data was not compressed properly.');
-            return null;
+        let data;
+        if (this.enableCompression) {
+            const decompressedData = LZString.decompressFromUTF16(storedData);
+            if (!decompressedData) {
+                console.error('Failed to decompress data for get.');
+                return null;
+            }
+            data = JSON.parse(decompressedData);
+        } else {
+            data = JSON.parse(storedData);
         }
 
         if (data.expiration && Date.now() > data.expiration) {
-            this.remove(key); // Automatically clean expired items
+            this.remove(key);
             return null;
         }
 
@@ -130,7 +125,6 @@ class StorageManager {
 
         const data = JSON.parse(decompressedData);
 
-        // Ensure the data is valid and compressed
         if (!data || !data._compressed) {
             console.error('Data was not compressed properly.');
             return;
@@ -154,24 +148,10 @@ class StorageManager {
         this.triggerListeners(namespacedKey);
     }
 
-    // remove(key) {
-    //     const namespacedKey = this._getNamespacedKey(key);
-    //     this.storage.removeItem(namespacedKey);
-
-    //     if (this.expirationTimers[namespacedKey]) {
-    //         clearTimeout(this.expirationTimers[namespacedKey]);
-    //         delete this.expirationTimers[namespacedKey];
-    //     }
-
-    //     this.triggerListeners(namespacedKey);
-    // }
-
-    // Remove data from storage and Vercel (which removes it from Firebase)
     async remove(key) {
         const namespacedKey = this._getNamespacedKey(key);
         this.storage.removeItem(namespacedKey);
 
-        // Remove from Vercel (and Firebase)
         await this.removeFromVercel(namespacedKey);
 
         if (this.expirationTimers[namespacedKey]) {
@@ -207,20 +187,17 @@ class StorageManager {
         }, {});
     }
 
-    // Cleanup method to remove expired items from storage
     cleanup() {
         for (let i = 0; i < this.storage.length; i++) {
             const key = this.storage.key(i);
 
-            // Only process keys that match the namespace (if any)
             if (this.namespace && !key.startsWith(this.namespace)) {
-                continue; // Skip keys outside the namespace
+                continue;
             }
 
-            const actualKey = key.replace(`${this.namespace}:`, ''); // Remove namespace from the key
-            const value = this.get(actualKey); // Check if the data is expired
+            const actualKey = key.replace(`${this.namespace}:`, '');
+            const value = this.get(actualKey);
 
-            // If the value is null, it means it was expired and removed
             if (value === null) {
                 console.log(`Removed expired item: ${actualKey}`);
             }
@@ -253,7 +230,6 @@ class StorageManager {
         }
     }
 
-    // Sync data to Vercel (POST request)
     async syncToVercel(key, value) {
         try {
             const response = await fetch(this.vercelUrl, {
@@ -274,7 +250,6 @@ class StorageManager {
         }
     }
 
-    // Remove data from Vercel (DELETE request)
     async removeFromVercel(key) {
         try {
             const response = await fetch(this.vercelUrl, {
