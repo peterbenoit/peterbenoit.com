@@ -52,6 +52,15 @@ class StorageManager {
         });
     }
 
+    _isValidJSON(value) {
+        try {
+            JSON.stringify(value);
+            return true;
+        } catch (error) {
+            return false;
+        }
+    }
+
     _ensureLZStringLoaded() {
         if (!this.enableCompression) return Promise.resolve();
         return include('https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js');
@@ -62,6 +71,10 @@ class StorageManager {
     }
 
     async set(key, value) {
+        if (!this._isValidJSON(value)) {
+            throw new Error('Invalid JSON: Please provide a valid JSON object.');
+        }
+
         const namespacedKey = this._getNamespacedKey(key);
         let data = { value };
 
