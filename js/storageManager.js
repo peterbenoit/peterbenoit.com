@@ -1,3 +1,71 @@
+const LZString = (function () {
+    const f = String.fromCharCode;
+    const keyStrBase64 = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/=';
+    const getBaseValue = function (alphabet, character) {
+        return alphabet.indexOf(character);
+    };
+
+    const LZString = {
+        compressToUTF16(input) {
+            if (input === null) return '';
+            let output = '';
+            let i,
+                current,
+                status = 0,
+                currentCharCode;
+            input += '\0';
+            for (i = 0; i < input.length; i++) {
+                currentCharCode = input.charCodeAt(i);
+                switch (status++) {
+                    case 0:
+                        output += f(currentCharCode >> 1);
+                        current = (currentCharCode & 1) << 14;
+                        break;
+                    case 1:
+                        output += f(current | (currentCharCode >> 2));
+                        current = (currentCharCode & 3) << 13;
+                        break;
+                    case 2:
+                        output += f(current | (currentCharCode >> 3));
+                        current = (currentCharCode & 7) << 12;
+                        break;
+                }
+            }
+            return output;
+        },
+
+        decompressFromUTF16(compressed) {
+            if (compressed === null) return '';
+            let output = '',
+                i,
+                status = 0,
+                current,
+                next,
+                currentCharCode;
+            for (i = 0; i < compressed.length; i++) {
+                currentCharCode = compressed.charCodeAt(i);
+                switch (status++) {
+                    case 0:
+                        current = currentCharCode << 1;
+                        break;
+                    case 1:
+                        current |= currentCharCode >> 14;
+                        output += f(current);
+                        current = (currentCharCode & 16383) << 2;
+                        break;
+                    case 2:
+                        current |= currentCharCode >> 13;
+                        output += f(current);
+                        current = (currentCharCode & 8191) << 3;
+                        break;
+                }
+            }
+            return output;
+        },
+    };
+    return LZString;
+})();
+
 class StorageManager {
     constructor(useSession = false, options = {}) {
         this.storage = useSession ? window.sessionStorage : window.localStorage;
