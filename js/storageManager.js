@@ -38,9 +38,11 @@ class StorageManager {
         // Load LZString once during initialization
         this._ensureLZStringLoaded();
     }
-
     async _ensureLZStringLoaded() {
-        await include('https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.js');
+        if (!this.lzStringLoaded) {
+            await include('https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.js');
+            this.lzStringLoaded = true;
+        }
     }
 
     _getNamespacedKey(key) {
