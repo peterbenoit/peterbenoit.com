@@ -1,19 +1,17 @@
-let scriptLoaded = false;
+let scriptLoadedPromise = null;
 
-function include(url) {
-    return new Promise((resolve, reject) => {
-        if (scriptLoaded) {
-            resolve();
-            return;
-        }
+async function include(url) {
+    if (scriptLoadedPromise) {
+        return scriptLoadedPromise;
+    }
 
+    scriptLoadedPromise = new Promise((resolve, reject) => {
         const script = document.createElement('script');
         script.src = url;
         script.async = true;
 
         script.onload = () => {
             console.log(`Library loaded from: ${url}`);
-            scriptLoaded = true; // Mark as loaded
             resolve();
         };
 
@@ -24,6 +22,8 @@ function include(url) {
 
         document.head.appendChild(script);
     });
+
+    return scriptLoadedPromise;
 }
 
 class StorageManager {
@@ -33,10 +33,8 @@ class StorageManager {
         this.defaultExpiration = options.defaultExpiration || {};
         this.listeners = {};
         this.expirationTimers = {};
-        this.lzStringLoaded = false;
         this.initStorageListener();
 
-        // Proxy to automatically ensure LZString is loaded
         return new Proxy(this, {
             get(target, prop, receiver) {
                 if (typeof target[prop] === 'function' && prop !== '_ensureLZStringLoaded') {
@@ -51,12 +49,7 @@ class StorageManager {
     }
 
     async _ensureLZStringLoaded() {
-        if (!this.lzStringLoaded) {
-            await include(
-                'https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js'
-            );
-            this.lzStringLoaded = true;
-        }
+        await include('https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js');
     }
 
     _getNamespacedKey(key) {
@@ -73,49 +66,78 @@ class StorageManager {
         }
     }
 
-    async expires(key, expiresIn) {
-        const namespacedKey = this._getNamespacedKey(key);
-        const storedData = this.storage.getItem(namespacedKey);
-        if (!storedData) {
-            console.error(`No data found for key: ${namespacedKey}`);
-            return;
-        }
-        const decompressedData = LZString.decompressFromUTF16(storedData);
-        const data = JSON.parse(decompressedData);
-        const expirationTime = Date.now() + expiresIn * 1000;
-        data.expiration = expirationTime;
-        const compressedData = LZString.compressToUTF16(JSON.stringify(data));
-        this.storage.setItem(namespacedKey, compressedData);
-        if (this.expirationTimers[namespacedKey]) {
-            clearTimeout(this.expirationTimers[namespacedKey]);
-        }
-        this.expirationTimers[namespacedKey] = setTimeout(() => {
-            this.remove(key);
-            this.triggerListeners(namespacedKey);
-        }, expiresIn * 1000);
-        this.triggerListeners(namespacedKey);
-    }
-
     async get(key) {
         const namespacedKey = this._getNamespacedKey(key);
         const compressedData = this.storage.getItem(namespacedKey);
+
         if (!compressedData) return null;
+
         const decompressedData = LZString.decompressFromUTF16(compressedData);
+
+        if (!decompressedData) {
+            console.error('Failed to decompress data for get.');
+            return null;
+        }
+
         const data = JSON.parse(decompressedData);
+
+        // Add a check to ensure 'data' is valid before accessing properties
+        if (!data || !data.expiration) {
+            return null;
+        }
+
         if (data.expiration && Date.now() > data.expiration) {
             this.remove(key);
             return null;
         }
+
         return data.value;
+    }
+
+    async expires(key, expiresIn) {
+        const namespacedKey = this._getNamespacedKey(key);
+        const storedData = this.storage.getItem(namespacedKey);
+
+        if (!storedData) {
+            console.error(`No data found for key: ${namespacedKey}`);
+            return;
+        }
+
+        const decompressedData = LZString.decompressFromUTF16(storedData);
+
+        if (!decompressedData) {
+            console.error('Failed to decompress data.');
+            return;
+        }
+
+        const data = JSON.parse(decompressedData);
+        const expirationTime = Date.now() + expiresIn * 1000;
+        data.expiration = expirationTime;
+
+        const compressedData = LZString.compressToUTF16(JSON.stringify(data));
+        this.storage.setItem(namespacedKey, compressedData);
+
+        if (this.expirationTimers[namespacedKey]) {
+            clearTimeout(this.expirationTimers[namespacedKey]);
+        }
+
+        this.expirationTimers[namespacedKey] = setTimeout(() => {
+            this.remove(key);
+            this.triggerListeners(namespacedKey);
+        }, expiresIn * 1000);
+
+        this.triggerListeners(namespacedKey);
     }
 
     remove(key) {
         const namespacedKey = this._getNamespacedKey(key);
         this.storage.removeItem(namespacedKey);
+
         if (this.expirationTimers[namespacedKey]) {
             clearTimeout(this.expirationTimers[namespacedKey]);
             delete this.expirationTimers[namespacedKey];
         }
+
         this.triggerListeners(namespacedKey);
     }
 
