@@ -48,8 +48,8 @@ class StorageManager {
         });
     }
 
-    async _ensureLZStringLoaded() {
-        await include('https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js');
+    _ensureLZStringLoaded() {
+        return include('https://cdnjs.cloudflare.com/ajax/libs/lz-string/1.5.0/lz-string.min.js');
     }
 
     _getNamespacedKey(key) {
@@ -57,18 +57,18 @@ class StorageManager {
     }
 
     // Add a compression flag to the data
-    async set(key, value) {
+    set(key, value) {
         const namespacedKey = this._getNamespacedKey(key);
         const data = { value, _compressed: true }; // Add the flag to indicate compression
         const compressedData = LZString.compressToUTF16(JSON.stringify(data));
         this.storage.setItem(namespacedKey, compressedData);
         this.triggerListeners(namespacedKey);
         if (this.defaultExpiration[key]) {
-            await this.expires(key, this.defaultExpiration[key]);
+            this.expires(key, this.defaultExpiration[key]);
         }
     }
 
-    async get(key) {
+    get(key) {
         const namespacedKey = this._getNamespacedKey(key);
         const compressedData = this.storage.getItem(namespacedKey);
 
@@ -89,14 +89,14 @@ class StorageManager {
         }
 
         if (data.expiration && Date.now() > data.expiration) {
-            this.remove(key);
+            this.remove(key); // Automatically clean expired items
             return null;
         }
 
         return data.value;
     }
 
-    async expires(key, expiresIn) {
+    expires(key, expiresIn) {
         const namespacedKey = this._getNamespacedKey(key);
         const storedData = this.storage.getItem(namespacedKey);
 
@@ -159,11 +159,11 @@ class StorageManager {
         this.listeners[namespacedKey] = callback;
     }
 
-    async batchSet(items) {
+    batchSet(items) {
         for (const { key, value, expiresIn } of items) {
-            await this.set(key, value);
+            this.set(key, value);
             if (expiresIn) {
-                await this.expires(key, expiresIn);
+                this.expires(key, expiresIn);
             }
         }
     }
@@ -173,6 +173,26 @@ class StorageManager {
             result[key] = this.get(key);
             return result;
         }, {});
+    }
+
+    // Cleanup method to remove expired items from storage
+    cleanup() {
+        for (let i = 0; i < this.storage.length; i++) {
+            const key = this.storage.key(i);
+
+            // Only process keys that match the namespace (if any)
+            if (this.namespace && !key.startsWith(this.namespace)) {
+                continue; // Skip keys outside the namespace
+            }
+
+            const actualKey = key.replace(`${this.namespace}:`, ''); // Remove namespace from the key
+            const value = this.get(actualKey); // Check if the data is expired
+
+            // If the value is null, it means it was expired and removed
+            if (value === null) {
+                console.log(`Removed expired item: ${actualKey}`);
+            }
+        }
     }
 
     initStorageListener() {
