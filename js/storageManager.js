@@ -1,90 +1,145 @@
 class StorageManager {
-    constructor(useSession = false) {
+    constructor(useSession = false, options = {}) {
         this.storage = useSession ? window.sessionStorage : window.localStorage;
+        this.namespace = options.namespace || '';
+        this.defaultExpiration = options.defaultExpiration || {};
         this.listeners = {};
-        this.expirationTimers = {}; // Store expiration timers for each key
+        this.expirationTimers = {};
         this.initStorageListener();
     }
 
-    set(key, value) {
-        const data = { value };
-        this.storage.setItem(key, JSON.stringify(data));
-        this.triggerListeners(key);
+    // Helper to namespace keys
+    _getNamespacedKey(key) {
+        return this.namespace ? `${this.namespace}:${key}` : key;
     }
 
-    // Set expiration and handle it with a timeout
-    expires(key, expiresIn) {
-        const storedData = this.storage.getItem(key);
+    // Set an item with optional default expiration and compression
+    async set(key, value) {
+        const namespacedKey = this._getNamespacedKey(key);
+        const compressedData = LZString.compressToUTF16(JSON.stringify({ value }));
+
+        this.storage.setItem(namespacedKey, compressedData);
+        this.triggerListeners(namespacedKey);
+
+        // Automatically apply default expiration if configured
+        if (this.defaultExpiration[key]) {
+            await this.expires(key, this.defaultExpiration[key]);
+        }
+    }
+
+    // Set expiration with a timeout
+    async expires(key, expiresIn) {
+        const namespacedKey = this._getNamespacedKey(key);
+        const storedData = this.storage.getItem(namespacedKey);
+
         if (!storedData) {
-            console.error(`No data found for key: ${key}`);
+            console.error(`No data found for key: ${namespacedKey}`);
             return;
         }
-        const data = JSON.parse(storedData);
+
+        const data = JSON.parse(LZString.decompressFromUTF16(storedData));
         const expirationTime = Date.now() + expiresIn * 1000;
         data.expiration = expirationTime;
-        this.storage.setItem(key, JSON.stringify(data));
 
-        // Clear previous timer, if any, and set a new one
-        if (this.expirationTimers[key]) {
-            clearTimeout(this.expirationTimers[key]);
+        const compressedData = LZString.compressToUTF16(JSON.stringify(data));
+        this.storage.setItem(namespacedKey, compressedData);
+
+        // Clear any previous expiration timer and set a new one
+        if (this.expirationTimers[namespacedKey]) {
+            clearTimeout(this.expirationTimers[namespacedKey]);
         }
-        this.expirationTimers[key] = setTimeout(() => {
-            this.remove(key); // Remove the item when it expires
-            this.triggerListeners(key); // Update listeners/UI when expired
+        this.expirationTimers[namespacedKey] = setTimeout(() => {
+            this.remove(key); // Remove the item on expiration
+            this.triggerListeners(namespacedKey); // Trigger UI update
         }, expiresIn * 1000);
 
-        this.triggerListeners(key);
+        this.triggerListeners(namespacedKey);
     }
 
-    get(key) {
-        const storedData = this.storage.getItem(key);
-        if (!storedData) return null;
-        const data = JSON.parse(storedData);
+    // Get an item with decompression and expiration check
+    async get(key) {
+        const namespacedKey = this._getNamespacedKey(key);
+        const compressedData = this.storage.getItem(namespacedKey);
 
-        // Check for expiration when accessing
+        if (!compressedData) return null;
+
+        const data = JSON.parse(LZString.decompressFromUTF16(compressedData));
+
         if (data.expiration && Date.now() > data.expiration) {
-            this.remove(key); // Remove expired data
+            this.remove(key); // Automatically remove expired data
             return null;
         }
+
         return data.value;
     }
 
+    // Remove an item and clear expiration timers
     remove(key) {
-        this.storage.removeItem(key);
+        const namespacedKey = this._getNamespacedKey(key);
+        this.storage.removeItem(namespacedKey);
 
-        // Clear any existing expiration timer
-        if (this.expirationTimers[key]) {
-            clearTimeout(this.expirationTimers[key]);
-            delete this.expirationTimers[key];
+        if (this.expirationTimers[namespacedKey]) {
+            clearTimeout(this.expirationTimers[namespacedKey]);
+            delete this.expirationTimers[namespacedKey];
         }
 
-        this.triggerListeners(key);
+        this.triggerListeners(namespacedKey);
     }
 
+    // Clear all storage
     clear() {
         this.storage.clear();
     }
 
+    // Listen for changes on a specific key
     onChange(key, callback) {
-        this.listeners[key] = callback;
+        const namespacedKey = this._getNamespacedKey(key);
+        this.listeners[namespacedKey] = callback;
     }
 
+    // Batch set items with optional expiration
+    async batchSet(items) {
+        for (const { key, value, expiresIn } of items) {
+            await this.set(key, value);
+            if (expiresIn) {
+                await this.expires(key, expiresIn);
+            }
+        }
+    }
+
+    // Batch get multiple items
+    batchGet(keys) {
+        return keys.reduce((result, key) => {
+            result[key] = this.get(key);
+            return result;
+        }, {});
+    }
+
+    // Event listener to catch changes across tabs/windows
     initStorageListener() {
         window.addEventListener('storage', (event) => {
             const { key, newValue, oldValue } = event;
             if (this.listeners[key]) {
-                const newData = newValue ? JSON.parse(newValue).value : null;
-                const oldData = oldValue ? JSON.parse(oldValue).value : null;
+                const newData = newValue
+                    ? JSON.parse(LZString.decompressFromUTF16(newValue)).value
+                    : null;
+                const oldData = oldValue
+                    ? JSON.parse(LZString.decompressFromUTF16(oldValue)).value
+                    : null;
                 this.listeners[key](newData, oldData);
             }
         });
     }
 
+    // Trigger change listeners manually
     triggerListeners(key) {
-        if (this.listeners[key]) {
-            const newValue = this.storage.getItem(key);
-            const newData = newValue ? JSON.parse(newValue).value : null;
-            this.listeners[key](newData, null);
+        const namespacedKey = this._getNamespacedKey(key);
+        if (this.listeners[namespacedKey]) {
+            const newValue = this.storage.getItem(namespacedKey);
+            const newData = newValue
+                ? JSON.parse(LZString.decompressFromUTF16(newValue)).value
+                : null;
+            this.listeners[namespacedKey](newData, null);
         }
     }
 }
