@@ -86,6 +86,7 @@ class StorageManager {
         const namespacedKey = this._getNamespacedKey(key);
         const compressedData = LZString.compressToUTF16(JSON.stringify({ value }));
 
+        console.log('Setting data:', compressedData); // Debug: show compressed data
         this.storage.setItem(namespacedKey, compressedData);
         this.triggerListeners(namespacedKey);
 
@@ -105,7 +106,15 @@ class StorageManager {
             return;
         }
 
-        const data = JSON.parse(LZString.decompressFromUTF16(storedData));
+        const decompressedData = LZString.decompressFromUTF16(storedData);
+        console.log('Decompressed data:', decompressedData); // Debug: show decompressed data
+
+        if (!decompressedData) {
+            console.error('Failed to decompress data.');
+            return;
+        }
+
+        const data = JSON.parse(decompressedData);
         const expirationTime = Date.now() + expiresIn * 1000;
         data.expiration = expirationTime;
 
@@ -131,7 +140,15 @@ class StorageManager {
 
         if (!compressedData) return null;
 
-        const data = JSON.parse(LZString.decompressFromUTF16(compressedData));
+        const decompressedData = LZString.decompressFromUTF16(compressedData);
+        console.log('Decompressed for get:', decompressedData); // Debug: show decompressed data
+
+        if (!decompressedData) {
+            console.error('Failed to decompress data for get.');
+            return null;
+        }
+
+        const data = JSON.parse(decompressedData);
 
         if (data.expiration && Date.now() > data.expiration) {
             this.remove(key); // Automatically remove expired data
