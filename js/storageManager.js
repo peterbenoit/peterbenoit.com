@@ -33,7 +33,6 @@ class StorageManager {
         this.defaultExpiration = options.defaultExpiration || {};
         this.listeners = {};
         this.expirationTimers = {};
-        this.vercelUrl = 'https://firebase-sessionmanager.vercel.app/api/storage/';
         this.enableCompression = options.enableCompression ?? true;
         this.initStorageListener();
 
@@ -86,7 +85,6 @@ class StorageManager {
             this.storage.setItem(namespacedKey, JSON.stringify(data));
         }
 
-        await this.syncToVercel(namespacedKey, data);
         this.triggerListeners(namespacedKey);
 
         if (this.defaultExpiration[key]) {
@@ -161,11 +159,9 @@ class StorageManager {
         this.triggerListeners(namespacedKey);
     }
 
-    async remove(key) {
+    remove(key) {
         const namespacedKey = this._getNamespacedKey(key);
         this.storage.removeItem(namespacedKey);
-
-        await this.removeFromVercel(namespacedKey);
 
         if (this.expirationTimers[namespacedKey]) {
             clearTimeout(this.expirationTimers[namespacedKey]);
@@ -240,46 +236,6 @@ class StorageManager {
                 ? JSON.parse(LZString.decompressFromUTF16(newValue)).value
                 : null;
             this.listeners[namespacedKey](newData, null);
-        }
-    }
-
-    async syncToVercel(key, value) {
-        try {
-            const response = await fetch(this.vercelUrl, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ key, value }),
-            });
-            const data = await response.json();
-            if (data.success) {
-                console.log(`Data synced successfully for key: ${key}`);
-            } else {
-                console.error(`Failed to sync data for key: ${key} - ${data.message}`);
-            }
-        } catch (error) {
-            console.error(`Error syncing to Vercel for key: ${key}`, error);
-        }
-    }
-
-    async removeFromVercel(key) {
-        try {
-            const response = await fetch(this.vercelUrl, {
-                method: 'DELETE',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ key }),
-            });
-            const data = await response.json();
-            if (data.success) {
-                console.log(`Data removed successfully for key: ${key}`);
-            } else {
-                console.error(`Failed to remove data for key: ${key} - ${data.message}`);
-            }
-        } catch (error) {
-            console.error(`Error removing from Vercel for key: ${key}`, error);
         }
     }
 }
