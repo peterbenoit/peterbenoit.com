@@ -22,6 +22,7 @@ const ResourceLoader = (() => {
         }
     }
 
+    // Function to categorize errors for better logging
     function categorizeError(error, fileType, url) {
         if (error.name === 'AbortError') {
             return { type: 'abort', message: `Fetch aborted for: ${url}` };
@@ -57,7 +58,36 @@ const ResourceLoader = (() => {
         }
     }
 
-    function applyAttributes(element, attributes) {
+    // Validate crossorigin and integrity attributes for security-sensitive resources
+    function validateSecurityAttributes(element, fileType, attributes) {
+        // Cross-origin validation
+        if (fileType === 'js' || fileType === 'css') {
+            if (
+                attributes.crossorigin &&
+                !['anonymous', 'use-credentials'].includes(attributes.crossorigin)
+            ) {
+                log(
+                    `Invalid "crossorigin" attribute for ${fileType} resource: ${attributes.crossorigin}. Using default "anonymous".`,
+                    'warn'
+                );
+                element.crossOrigin = 'anonymous';
+            }
+        }
+
+        // Integrity validation for JS and CSS files
+        if (fileType === 'js' || fileType === 'css') {
+            if (!attributes.integrity) {
+                log(
+                    `"integrity" attribute missing for ${fileType} resource. This is required for secure resource loading.`,
+                    'warn'
+                );
+            } else {
+                element.integrity = attributes.integrity;
+            }
+        }
+    }
+
+    function applyAttributes(element, attributes, fileType) {
         Object.keys(attributes).forEach((key) => {
             if (key in element) {
                 element.setAttribute(key, attributes[key]);
@@ -68,6 +98,9 @@ const ResourceLoader = (() => {
                 );
             }
         });
+
+        // Apply security-related attributes after general attributes
+        validateSecurityAttributes(element, fileType, attributes);
     }
 
     async function include(urls, options = {}) {
@@ -90,13 +123,21 @@ const ResourceLoader = (() => {
             retryDelay = 1000,
             deferScriptsUntilReady = true,
             batchSize = 5,
+            maxConcurrency = 3,
+            priority = 0, // New option for resource priority
         } = options;
 
         setLoggingLevel(logLevel);
 
+        // Sort resources by priority (higher priority resources load first)
+        const sortedUrls = urls.sort((a, b) => {
+            const priorityA = a.priority || 0;
+            const priorityB = b.priority || 0;
+            return priorityB - priorityA;
+        });
+
         const loadResource = (url, retryCount = 0) => {
             if (resourceLoadedPromises[url]) {
-                // If already loading, return the existing promise
                 return resourceLoadedPromises[url].promise;
             }
 
@@ -257,7 +298,7 @@ const ResourceLoader = (() => {
                         return;
                 }
 
-                applyAttributes(element, attributes);
+                applyAttributes(element, attributes, fileType); // Updated to pass fileType
 
                 startedLoading = true;
 
@@ -313,34 +354,38 @@ const ResourceLoader = (() => {
                 loadScriptWhenReady();
             }
 
-            // Store the resource load promise to prevent duplicates
             resourceLoadedPromises[url] = {
-                promise: new Promise(loadScriptWhenReady),
+                promise: new Promise((resolve, reject) => {
+                    loadScriptWhenReady(resolve, reject);
+                }).catch((err) => {
+                    log(`Error loading resource: ${url}`, 'warn');
+                    return Promise.resolve();
+                }),
                 cancel,
             };
 
             return resourceLoadedPromises[url].promise;
         };
 
-        // Helper to load resources in batches
-        const loadInBatches = async (resources, loadFn, batchSize) => {
+        const loadWithConcurrencyLimit = async (resources, loadFn, maxConcurrency) => {
+            let active = 0;
             let index = 0;
 
-            const processNextBatch = async () => {
-                const batch = resources.slice(index, index + batchSize);
-                const batchPromises = batch.map(loadFn);
-                await Promise.all(batchPromises);
-                index += batchSize;
-                if (index < resources.length) {
-                    await processNextBatch();
+            const processNext = async () => {
+                while (active < maxConcurrency && index < resources.length) {
+                    const currentUrl = resources[index++];
+                    active++;
+                    loadFn(currentUrl).finally(() => {
+                        active--;
+                        processNext();
+                    });
                 }
             };
 
-            await processNextBatch();
+            await processNext();
         };
 
-        // Process resources in batches
-        await loadInBatches(urls, loadResource, batchSize);
+        await loadWithConcurrencyLimit(sortedUrls, loadResource, maxConcurrency);
     }
 
     function unloadResource(url) {
@@ -369,7 +414,7 @@ const ResourceLoader = (() => {
                 resourceLoadedPromises[url].cancel();
             }
         });
-        resourceLoadedPromises = {}; // Clear all promises
+        resourceLoadedPromises = {};
         log('All resource loading operations cancelled.', 'warn');
     }
 
@@ -381,7 +426,7 @@ const ResourceLoader = (() => {
         include,
         unloadResource,
         cancelResource,
-        cancelAll, // Expose the new cancelAll function
+        cancelAll,
         getResourceState,
         setLoggingLevel,
     };
