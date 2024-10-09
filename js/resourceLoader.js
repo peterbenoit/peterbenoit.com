@@ -22,7 +22,6 @@ const ResourceLoader = (() => {
         }
     }
 
-    // Function to categorize errors for better logging
     function categorizeError(error, fileType, url) {
         if (error.name === 'AbortError') {
             return { type: 'abort', message: `Fetch aborted for: ${url}` };
@@ -58,9 +57,7 @@ const ResourceLoader = (() => {
         }
     }
 
-    // Validate crossorigin and integrity attributes for security-sensitive resources
     function validateSecurityAttributes(element, fileType, attributes) {
-        // Cross-origin validation
         if (fileType === 'js' || fileType === 'css') {
             if (
                 attributes.crossorigin &&
@@ -74,7 +71,6 @@ const ResourceLoader = (() => {
             }
         }
 
-        // Integrity validation for JS and CSS files
         if (fileType === 'js' || fileType === 'css') {
             if (!attributes.integrity) {
                 log(
@@ -99,11 +95,10 @@ const ResourceLoader = (() => {
             }
         });
 
-        // Apply security-related attributes after general attributes
         validateSecurityAttributes(element, fileType, attributes);
     }
 
-    async function include(urls, options = {}) {
+    function include(urls, options = {}) {
         if (!Array.isArray(urls)) {
             urls = [urls];
         }
@@ -119,17 +114,18 @@ const ResourceLoader = (() => {
             crossorigin = false,
             logLevel = 'warn',
             onError = null,
+            onSuccess = null,
             retries = 0,
             retryDelay = 1000,
             deferScriptsUntilReady = true,
             batchSize = 5,
             maxConcurrency = 3,
-            priority = 0, // New option for resource priority
+            priority = 0,
+            removeFailedElements = true,
         } = options;
 
         setLoggingLevel(logLevel);
 
-        // Sort resources by priority (higher priority resources load first)
         const sortedUrls = urls.sort((a, b) => {
             const priorityA = a.priority || 0;
             const priorityB = b.priority || 0;
@@ -158,233 +154,292 @@ const ResourceLoader = (() => {
             let timedOut = false;
             let startedLoading = false;
 
-            const loadScriptWhenReady = (resolve, reject) => {
-                const existingElement =
-                    document.head.querySelector(`[src="${finalUrl}"], [href="${finalUrl}"]`) ||
-                    document.body.querySelector(`[src="${finalUrl}"], [href="${finalUrl}"]`);
-                if (existingElement) {
-                    log(`Resource already loaded: ${finalUrl}`, 'verbose');
-                    resourceStates[url] = 'loaded';
-                    resolve();
-                    return;
-                }
-
-                let element;
-                let timeoutId;
-
-                const handleTimeout = () => {
-                    timedOut = true;
-                    const error = new Error(`Timeout while loading: ${finalUrl}`);
-                    const categorizedError = categorizeError(error, fileType, finalUrl);
-                    reject(categorizedError);
-                    resourceStates[url] = 'unloaded';
-                    if (onError) onError(categorizedError);
-                    if (element && startedLoading) {
-                        element.remove();
-                        log(`Resource load aborted due to timeout: ${finalUrl}`, 'warn');
-                    }
-                    if (retryCount < retries) {
-                        log(`Retrying to load resource: ${finalUrl}`, 'warn');
-                        setTimeout(() => loadResource(url, retryCount + 1), retryDelay);
-                    }
-                };
-
-                switch (fileType) {
-                    case 'js':
-                        element = document.createElement('script');
-                        element.src = finalUrl;
-                        element.async = true;
-                        if (crossorigin) {
-                            element.crossOrigin = crossorigin;
-                        }
-                        break;
-                    case 'css':
-                        element = document.createElement('link');
-                        element.href = finalUrl;
-                        element.rel = 'stylesheet';
-                        if (crossorigin) {
-                            element.crossOrigin = crossorigin;
-                        }
-                        break;
-                    case 'json':
-                        fetch(finalUrl, { signal })
-                            .then((response) => response.json())
-                            .then((data) => {
-                                if (!timedOut) {
-                                    resourceStates[url] = 'loaded';
-                                    resolve(data);
-                                }
-                            })
-                            .catch((error) => {
-                                const categorizedError = categorizeError(error, fileType, finalUrl);
-                                reject(categorizedError);
-                                if (onError) onError(categorizedError);
-                                if (retryCount < retries) {
-                                    log(`Retrying to load resource: ${finalUrl}`, 'warn');
-                                    setTimeout(() => loadResource(url, retryCount + 1), retryDelay);
-                                }
-                            });
-                        cancel = () => controller.abort();
-                        return;
-                    case 'jpg':
-                    case 'jpeg':
-                    case 'png':
-                    case 'gif':
-                    case 'svg':
-                        element = document.createElement('img');
-                        element.src = finalUrl;
-                        if (crossorigin) {
-                            element.crossOrigin = crossorigin;
-                        }
-                        break;
-                    case 'woff':
-                    case 'woff2':
-                        const fontFace = new FontFace('customFont', `url(${finalUrl})`, {
-                            crossOrigin: crossorigin,
-                        });
-                        fontFace
-                            .load()
-                            .then(() => {
-                                if (!timedOut) {
-                                    document.fonts.add(fontFace);
-                                    resourceStates[url] = 'loaded';
-                                    resolve();
-                                }
-                            })
-                            .catch((error) => {
-                                const categorizedError = categorizeError(error, fileType, finalUrl);
-                                reject(categorizedError);
-                                if (onError) onError(categorizedError);
-                                if (retryCount < retries) {
-                                    log(`Retrying to load resource: ${finalUrl}`, 'warn');
-                                    setTimeout(() => loadResource(url, retryCount + 1), retryDelay);
-                                }
-                            });
-                        return;
-                    case 'pdf':
-                    case 'zip':
-                    case 'bin':
-                        fetch(finalUrl, { signal })
-                            .then((response) => response.blob())
-                            .then((data) => {
-                                if (!timedOut) {
-                                    resourceStates[url] = 'loaded';
-                                    resolve(data);
-                                }
-                            })
-                            .catch((error) => {
-                                const categorizedError = categorizeError(error, fileType, finalUrl);
-                                reject(categorizedError);
-                                if (onError) onError(categorizedError);
-                                if (retryCount < retries) {
-                                    log(`Retrying to load resource: ${finalUrl}`, 'warn');
-                                    setTimeout(() => loadResource(url, retryCount + 1), retryDelay);
-                                }
-                            });
-                        cancel = () => controller.abort();
-                        return;
-                    default:
-                        const unsupportedError = categorizeError(
-                            new Error('Unsupported file type'),
-                            fileType,
-                            finalUrl
-                        );
-                        reject(unsupportedError);
-                        if (onError) onError(unsupportedError);
-                        if (retryCount < retries) {
-                            log(`Retrying to load resource: ${finalUrl}`, 'warn');
-                            setTimeout(() => loadResource(url, retryCount + 1), retryDelay);
-                        }
-                        return;
-                }
-
-                applyAttributes(element, attributes, fileType); // Updated to pass fileType
-
-                startedLoading = true;
-
-                timeoutId = setTimeout(handleTimeout, timeout);
-
-                element.onload = () => {
-                    if (!timedOut) {
-                        clearTimeout(timeoutId);
-                        log(`Resource loaded from: ${finalUrl}`, 'verbose');
-                        resourceStates[url] = 'loaded';
-                        resolve(); // Ensure resolve is properly called here
-                    }
-                };
-
-                element.onerror = () => {
-                    clearTimeout(timeoutId);
-                    const loadError = new Error(`Failed to load resource from: ${finalUrl}`);
-                    const categorizedError = categorizeError(loadError, fileType, finalUrl);
-                    reject(categorizedError); // Ensure reject is called on error
-                    log(`Failed to load resource from: ${finalUrl}`, 'warn');
-                    resourceStates[url] = 'unloaded';
-                    if (retryCount < retries) {
-                        log(`Retrying to load resource: ${finalUrl}`, 'warn');
-                        setTimeout(() => loadResource(url, retryCount + 1), retryDelay);
-                    }
-                };
-
-                if (element.tagName) {
-                    if (appendToBody && fileType === 'js') {
-                        document.body.appendChild(element);
-                    } else {
-                        document.head.appendChild(element);
-                    }
-                }
-
-                cancel = () => {
-                    clearTimeout(timeoutId);
-                    if (element && element.parentNode) {
-                        element.parentNode.removeChild(element);
-                        log(`Loading cancelled and element removed: ${finalUrl}`, 'warn');
-                        resourceStates[url] = 'unloaded';
-                    }
-                };
-            };
-
-            if (fileType === 'js' && deferScriptsUntilReady && document.readyState !== 'complete') {
-                window.addEventListener('DOMContentLoaded', () => {
-                    log(`Deferring script load until DOM ready: ${finalUrl}`, 'verbose');
-                    loadScriptWhenReady();
-                });
-            } else {
-                loadScriptWhenReady();
-            }
-
-            resourceLoadedPromises[url] = {
+            return (resourceLoadedPromises[url] = {
                 promise: new Promise((resolve, reject) => {
-                    loadScriptWhenReady(resolve, reject);
-                }).catch((err) => {
-                    log(`Error loading resource: ${url}`, 'warn');
-                    return Promise.resolve();
+                    const loadScriptWhenReady = () => {
+                        const existingElement =
+                            document.head.querySelector(
+                                `[src="${finalUrl}"], [href="${finalUrl}"]`
+                            ) ||
+                            document.body.querySelector(
+                                `[src="${finalUrl}"], [href="${finalUrl}"]`
+                            );
+                        if (existingElement) {
+                            log(`Resource already loaded: ${finalUrl}`, 'verbose');
+                            resourceStates[url] = 'loaded';
+                            resolve();
+                            return;
+                        }
+
+                        let element;
+                        let timeoutId;
+
+                        const handleTimeout = () => {
+                            timedOut = true;
+                            const error = new Error(`Timeout while loading: ${finalUrl}`);
+                            const categorizedError = categorizeError(error, fileType, finalUrl);
+                            reject(categorizedError);
+                            resourceStates[url] = 'unloaded';
+                            if (element && startedLoading) {
+                                element.remove();
+                                log(`Resource load aborted due to timeout: ${finalUrl}`, 'warn');
+                            }
+                            if (retryCount < retries) {
+                                log(`Retrying to load resource: ${finalUrl}`, 'warn');
+                                setTimeout(() => {
+                                    loadResource(url, retryCount + 1)
+                                        .then(resolve)
+                                        .catch(reject);
+                                }, retryDelay);
+                            }
+                        };
+
+                        switch (fileType) {
+                            case 'js':
+                                element = document.createElement('script');
+                                element.src = finalUrl;
+                                element.async = true;
+                                if (crossorigin) {
+                                    element.crossOrigin = crossorigin;
+                                }
+                                break;
+                            case 'css':
+                                element = document.createElement('link');
+                                element.href = finalUrl;
+                                element.rel = 'stylesheet';
+                                if (crossorigin) {
+                                    element.crossOrigin = crossorigin;
+                                }
+                                break;
+                            case 'json':
+                                fetch(finalUrl, { signal })
+                                    .then((response) => response.json())
+                                    .then((data) => {
+                                        if (!timedOut) {
+                                            resourceStates[url] = 'loaded';
+                                            resolve(data);
+                                        }
+                                    })
+                                    .catch((error) => {
+                                        const categorizedError = categorizeError(
+                                            error,
+                                            fileType,
+                                            finalUrl
+                                        );
+                                        reject(categorizedError);
+                                        if (onError) onError(categorizedError, url);
+                                        if (retryCount < retries) {
+                                            log(`Retrying to load resource: ${finalUrl}`, 'warn');
+                                            setTimeout(() => {
+                                                loadResource(url, retryCount + 1)
+                                                    .then(resolve)
+                                                    .catch(reject);
+                                            }, retryDelay);
+                                        }
+                                    });
+                                cancel = () => controller.abort();
+                                return;
+                            case 'jpg':
+                            case 'jpeg':
+                            case 'png':
+                            case 'gif':
+                            case 'svg':
+                                element = document.createElement('img');
+                                element.src = finalUrl;
+                                if (crossorigin) {
+                                    element.crossOrigin = crossorigin;
+                                }
+                                break;
+                            case 'woff':
+                            case 'woff2':
+                                const fontFace = new FontFace('customFont', `url(${finalUrl})`, {
+                                    crossOrigin: crossorigin,
+                                });
+                                fontFace
+                                    .load()
+                                    .then(() => {
+                                        if (!timedOut) {
+                                            document.fonts.add(fontFace);
+                                            resourceStates[url] = 'loaded';
+                                            resolve();
+                                        }
+                                    })
+                                    .catch((error) => {
+                                        const categorizedError = categorizeError(
+                                            error,
+                                            fileType,
+                                            finalUrl
+                                        );
+                                        reject(categorizedError);
+                                        if (onError) onError(categorizedError, url);
+                                        if (retryCount < retries) {
+                                            log(`Retrying to load resource: ${finalUrl}`, 'warn');
+                                            setTimeout(() => {
+                                                loadResource(url, retryCount + 1)
+                                                    .then(resolve)
+                                                    .catch(reject);
+                                            }, retryDelay);
+                                        }
+                                    });
+                                return;
+                            case 'pdf':
+                            case 'zip':
+                            case 'bin':
+                                fetch(finalUrl, { signal })
+                                    .then((response) => response.blob())
+                                    .then((data) => {
+                                        if (!timedOut) {
+                                            resourceStates[url] = 'loaded';
+                                            resolve(data);
+                                        }
+                                    })
+                                    .catch((error) => {
+                                        const categorizedError = categorizeError(
+                                            error,
+                                            fileType,
+                                            finalUrl
+                                        );
+                                        reject(categorizedError);
+                                        if (onError) onError(categorizedError, url);
+                                        if (retryCount < retries) {
+                                            log(`Retrying to load resource: ${finalUrl}`, 'warn');
+                                            setTimeout(() => {
+                                                loadResource(url, retryCount + 1)
+                                                    .then(resolve)
+                                                    .catch(reject);
+                                            }, retryDelay);
+                                        }
+                                    });
+                                cancel = () => controller.abort();
+                                return;
+                            default:
+                                const error = new Error(`Unsupported file type: ${fileType}`);
+                                reject(error);
+                                log(`Failed to load unsupported file type: ${finalUrl}`, 'error');
+                                return;
+                        }
+
+                        applyAttributes(element, attributes, fileType);
+                        startedLoading = true;
+                        timeoutId = setTimeout(handleTimeout, timeout);
+
+                        element.onload = () => {
+                            if (!timedOut) {
+                                clearTimeout(timeoutId);
+                                log(`Resource loaded from: ${finalUrl}`, 'verbose');
+                                resourceStates[url] = 'loaded';
+                                resolve();
+                                if (onSuccess) onSuccess(url);
+                            }
+                        };
+
+                        element.onerror = () => {
+                            clearTimeout(timeoutId);
+
+                            const loadError = new Error(
+                                `Failed to load resource from: ${finalUrl}`
+                            );
+
+                            const categorizedError = categorizeError(loadError, fileType, finalUrl);
+
+                            reject(categorizedError);
+
+                            log(`Failed to load resource from: ${finalUrl}`, 'warn');
+
+                            resourceStates[url] = 'unloaded';
+
+                            if (removeFailedElements && element && element.parentNode) {
+                                element.parentNode.removeChild(element);
+                                log(`Removed failed element: ${finalUrl}`, 'verbose');
+                            }
+
+                            if (onError) onError(categorizedError, url);
+
+                            if (retryCount < retries) {
+                                log(`Retrying to load resource: ${finalUrl}`, 'warn');
+                                setTimeout(() => {
+                                    loadResource(url, retryCount + 1)
+                                        .then(resolve)
+                                        .catch(reject);
+                                }, retryDelay);
+                            }
+                        };
+
+                        if (element.tagName) {
+                            if (appendToBody && fileType === 'js') {
+                                document.body.appendChild(element);
+                            } else {
+                                document.head.appendChild(element);
+                            }
+                        }
+
+                        cancel = () => {
+                            clearTimeout(timeoutId);
+                            if (element && element.parentNode) {
+                                element.parentNode.removeChild(element);
+                                log(`Loading cancelled and element removed: ${finalUrl}`, 'warn');
+                                resourceStates[url] = 'unloaded';
+                            }
+                        };
+                    };
+
+                    if (
+                        fileType === 'js' &&
+                        deferScriptsUntilReady &&
+                        document.readyState !== 'complete'
+                    ) {
+                        window.addEventListener('DOMContentLoaded', () => {
+                            log(`Deferring script load until DOM ready: ${finalUrl}`, 'verbose');
+                            loadScriptWhenReady();
+                        });
+                    } else {
+                        loadScriptWhenReady();
+                    }
                 }),
                 cancel,
-            };
-
-            return resourceLoadedPromises[url].promise;
+            }).promise;
         };
 
-        const loadWithConcurrencyLimit = async (resources, loadFn, maxConcurrency) => {
-            let active = 0;
+        function loadWithConcurrencyLimit(resources, loadFn, maxConcurrency) {
             let index = 0;
+            const results = [];
+            const total = resources.length;
 
-            const processNext = async () => {
-                while (active < maxConcurrency && index < resources.length) {
-                    const currentUrl = resources[index++];
-                    active++;
-                    loadFn(currentUrl).finally(() => {
-                        active--;
-                        processNext();
-                    });
+            return new Promise((resolve) => {
+                const startNext = () => {
+                    if (index >= total) {
+                        if (results.length === total) {
+                            resolve(results);
+                        }
+                        return;
+                    }
+
+                    const currentIndex = index++;
+                    const url = resources[currentIndex];
+
+                    loadFn(url)
+                        .then(() => {
+                            results[currentIndex] = { status: 'fulfilled', value: url };
+                            startNext();
+                        })
+                        .catch((error) => {
+                            results[currentIndex] = {
+                                status: 'rejected',
+                                reason: error,
+                                url,
+                            };
+                            startNext();
+                        });
+                };
+
+                // Start initial batch
+                for (let i = 0; i < Math.min(maxConcurrency, total); i++) {
+                    startNext();
                 }
-            };
+            });
+        }
 
-            await processNext();
-        };
-
-        await loadWithConcurrencyLimit(sortedUrls, loadResource, maxConcurrency);
+        return loadWithConcurrencyLimit(sortedUrls, loadResource, maxConcurrency);
     }
 
     function unloadResource(url) {
