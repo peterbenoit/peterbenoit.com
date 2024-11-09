@@ -232,23 +232,23 @@
                     stroke: var(--moon-color);
                 }
 
-                [data-theme="dark"] .sun-icon {
+                [data-theme="light"] .sun-icon {
                     transform: rotate(var(--icon-rotation));
                     opacity: 0;
                     position: absolute;
                 }
 
-                [data-theme="dark"] .moon-icon {
-                    transform: rotate(0deg);
-                    opacity: 1;
-                }
-
-                [data-theme="light"] .sun-icon {
-                    transform: rotate(0deg);
-                    opacity: 1;
-                }
-
                 [data-theme="light"] .moon-icon {
+                    transform: rotate(0deg);
+                    opacity: 1;
+                }
+
+                [data-theme="dark"] .sun-icon {
+                    transform: rotate(0deg);
+                    opacity: 1;
+                }
+
+                [data-theme="dark"] .moon-icon {
                     transform: rotate(calc(-1 * var(--icon-rotation)));
                     opacity: 0;
                     position: absolute;
