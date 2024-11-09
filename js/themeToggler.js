@@ -17,11 +17,11 @@
 		 * @param {Object} config - Configuration object to customize themes and button behavior.
 		 */
 		init: function (config) {
-			if (ThemeToggler.initialized) {
-				console.warn('ThemeToggler is already initialized.');
-				return;
-			}
-			ThemeToggler.initialized = true;
+			// if (ThemeToggler.initialized) {
+			// 	console.warn('ThemeToggler is already initialized.');
+			// 	return;
+			// }
+			// ThemeToggler.initialized = true;
 
 			/**
 			 * Default configuration for the ThemeToggler library.
@@ -63,9 +63,15 @@
 			};
 
 			this.config = {
-				lightTheme: { ...defaultConfig.lightTheme, ...(config?.lightTheme || {}) },
+				lightTheme: {
+					...defaultConfig.lightTheme,
+					...(config?.lightTheme || {})
+				},
 				darkTheme: { ...defaultConfig.darkTheme, ...(config?.darkTheme || {}) },
-				themeButton: { ...defaultConfig.themeButton, ...(config?.themeButton || {}) },
+				themeButton: {
+					...defaultConfig.themeButton,
+					...(config?.themeButton || {})
+				},
 				targetId: config?.targetId || defaultConfig.targetId
 			};
 
