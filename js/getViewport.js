@@ -9,7 +9,7 @@ class GetViewport {
       xxl: 1400,
     };
 
-    // Inject CSS for breakpoints
+    // Inject CSS for breakpoints, using CSS to trigger MQ changes
     this.injectBreakpointStyles();
 
     // Listen to changes in viewport size
