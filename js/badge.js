@@ -15,7 +15,7 @@
 	badge.style.opacity = '1';
 	badge.style.transform = 'none';
 	badge.style.background = '#ffffff';
-	badge.style.border = '1px solid #cccccc';
+	badge.style.border = '1px solid #f5f5f5';
 	badge.style.borderRadius = '20px';
 	badge.style.boxShadow = '0 2px 4px rgba(0,0,0,0.1)';
 	badge.style.fontSize = '.6rem';
