@@ -123,8 +123,8 @@
 				'Content-Type': 'application/json'
 			},
 			body: JSON.stringify(visitData)
-		}).catch(error => {
-			console.error('Tracking error:', error);
+		}).catch(() => {
+			// Silently ignore tracking errors
 		});
 	}
 
