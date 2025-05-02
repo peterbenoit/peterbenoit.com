@@ -5,6 +5,7 @@
  * - data-position="top" | "bottom" - Badge position (default: "bottom")
  * - data-visible="true" | "false" - Show/hide badge (default: "true")
  * - data-mode="full" | "tracker" - Full badge or tracker-only (default: "full")
+ * - data-delay="500" - Milliseconds to delay tracking (default: "1000")
  * - Query params:
  *   - visible=false - Hide badge but still track
  *   - allow=true - Pass allow parameter to tracking API
@@ -17,7 +18,8 @@
 		mode: scriptTag.getAttribute('data-mode') === 'tracker' || getQueryParam('mode') === 'tracker' ? 'tracker' : 'full',
 		position: scriptTag.getAttribute('data-position') === 'top' ? 'top' : 'bottom',
 		visible: scriptTag.getAttribute('data-visible') !== 'false' && getQueryParam('visible') !== 'false',
-		allowBypass: getQueryParam('allow') === 'true'
+		allowBypass: getQueryParam('allow') === 'true',
+		delay: parseInt(scriptTag.getAttribute('data-delay') || '1000', 10)
 	};
 
 	// Create and show badge if visible and in full mode
@@ -25,8 +27,10 @@
 		createBadge(config.position);
 	}
 
-	// Always track visit
-	trackVisit(config.allowBypass);
+	// Delay tracking to allow dynamic content to load
+	setTimeout(() => {
+		trackVisit(config.allowBypass);
+	}, config.delay);
 
 	/**
 	 * Creates and appends the badge to the document
@@ -101,13 +105,38 @@
 	}
 
 	/**
+	 * Get a more reliable referrer source
+	 */
+	function getReferrerInfo() {
+		// Try different referrer sources in order of reliability
+		return document.referrer ||
+			sessionStorage.getItem('_previous_page') ||
+			null;
+	}
+
+	/**
+	 * Store current URL for future referrer tracking
+	 */
+	function storeCurrentPageAsReferrer() {
+		try {
+			sessionStorage.setItem('_previous_page', window.location.href);
+		} catch (e) {
+			// Handle private browsing mode errors silently
+		}
+	}
+
+	/**
 	 * Tracks the current page visit
 	 */
 	function trackVisit(allowBypass) {
+		// Store referrer info for next page view before sending the current data
+		const referrerInfo = getReferrerInfo();
+		storeCurrentPageAsReferrer();
+
 		const visitData = {
 			currentUrl: window.location.href,
-			pageTitle: document.title,
-			referrer: document.referrer || null,
+			pageTitle: document.title || window.location.pathname,
+			referrer: referrerInfo,
 			visitTime: new Date().toISOString(),
 			timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
 			viewportWidth: window.innerWidth,
@@ -115,8 +144,7 @@
 			platform: navigator.userAgentData?.platform || navigator.platform
 		};
 
-		const requestUrl = `https://vercel-email-sandy.vercel.app/api/track${allowBypass ? '?allow=true' : ''
-			}`;
+		const requestUrl = `https://vercel-email-sandy.vercel.app/api/track${allowBypass ? '?allow=true' : ''}`;
 
 		fetch(requestUrl, {
 			method: 'POST',
