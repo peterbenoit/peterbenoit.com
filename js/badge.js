@@ -107,6 +107,7 @@
 		const visitData = {
 			currentUrl: window.location.href,
 			pageTitle: document.title,
+			referrer: document.referrer || null,
 			visitTime: new Date().toISOString(),
 			timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
 			viewportWidth: window.innerWidth,
