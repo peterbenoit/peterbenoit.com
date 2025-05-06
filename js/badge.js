@@ -128,7 +128,7 @@
 	/**
 	 * Tracks the current page visit
 	 */
-	function trackVisit(allowBypass) {
+	async function trackVisit(allowBypass) {
 		// Store referrer info for next page view before sending the current data
 		const referrerInfo = getReferrerInfo();
 		storeCurrentPageAsReferrer();
@@ -146,15 +146,20 @@
 
 		const requestUrl = `https://vercel-email-sandy.vercel.app/api/track${allowBypass ? '?allow=true' : ''}`;
 
-		fetch(requestUrl, {
-			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json'
-			},
-			body: JSON.stringify(visitData)
-		}).catch(() => {
-			// Silently ignore tracking errors
-		});
+		try {
+			const response = await fetch(requestUrl, {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json'
+				},
+				body: JSON.stringify(visitData)
+			});
+			if (!response.ok) {
+				// Silently ignore non-OK HTTP statuses (429, 500, etc.)
+			}
+		} catch (e) {
+			// Silently ignore network errors
+		}
 	}
 
 	function getQueryParam(name) {
