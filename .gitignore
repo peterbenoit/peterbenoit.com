@@ -1,0 +1,8 @@
+.DS_Store
+console.log
+node_modules
+npm-debug.log
+package-lock.json
+yarn-error.log
+*.md
+.vercel
