@@ -1,0 +1,3 @@
+- this site renders fine locally using live server in vscode
+- loaded on Vercel all of the assets 404, is this a /public folder issue?
+- currently the site is hosted on github, but the gh-pages branch looks like it's been hacked by a 3rd party npm package, I'd like to remove the branch and get the site hosted on Vercel properly
