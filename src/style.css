@@ -1,0 +1,22 @@
+@import "tailwindcss";
+
+@theme {
+  --font-inter: "Inter", sans-serif;
+  --font-outfit: "Outfit", sans-serif;
+}
+
+@layer utilities {
+  .bento-card {
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .bento-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
+  }
+}
+
+/* Custom Selection Color */
+::selection {
+  background-color: rgb(99 102 241 / 0.3); /* indigo-500/30 */
+  color: white;
+}
