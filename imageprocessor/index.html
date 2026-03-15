@@ -1,0 +1,799 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>ImageProcessor.js — Client-Side Image Processing Library | Peter Benoit</title>
+	<meta name="description"
+		content="ImageProcessor.js is a lightweight, dependency-free JavaScript library for processing images directly in the browser — filters, crop, resize, rotate, and watermarks via the Canvas API.">
+	<meta name="author" content="Peter Benoit">
+	<meta name="robots" content="index, follow">
+	<meta name="theme-color" content="#020617">
+	<meta name="color-scheme" content="dark">
+
+	<link rel="canonical" href="https://peterbenoit.com/imageprocessor/">
+	<link rel="author" href="/humans.txt">
+	<link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
+
+	<!-- Open Graph -->
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://peterbenoit.com/imageprocessor/">
+	<meta property="og:title" content="ImageProcessor.js — Client-Side Image Processing Library">
+	<meta property="og:description"
+		content="Filters, crop, resize, rotate, and watermarks — entirely in the browser via the Canvas API. No server, no dependencies.">
+	<meta property="og:image" content="https://peterbenoit.com/logo.png">
+
+	<!-- Twitter -->
+	<meta property="twitter:card" content="summary_large_image">
+	<meta property="twitter:url" content="https://peterbenoit.com/imageprocessor/">
+	<meta property="twitter:title" content="ImageProcessor.js — Client-Side Image Processing Library">
+	<meta property="twitter:description"
+		content="Filters, crop, resize, rotate, and watermarks — entirely in the browser via the Canvas API. No server, no dependencies.">
+	<meta property="twitter:image" content="https://peterbenoit.com/logo.png">
+	<meta name="twitter:creator" content="@peterbenoit">
+
+	<!-- Favicons -->
+	<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+	<link rel="manifest" href="/site.webmanifest">
+
+	<!-- Structured Data -->
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "SoftwareSourceCode",
+		"name": "ImageProcessor.js",
+		"description": "A lightweight, dependency-free JavaScript library for processing images directly in the browser using the Canvas API.",
+		"url": "https://peterbenoit.com/imageprocessor/",
+		"codeRepository": "https://github.com/peterbenoit/ImageProcessor.js",
+		"programmingLanguage": "JavaScript",
+		"author": {
+			"@type": "Person",
+			"name": "Peter Benoit",
+			"url": "https://peterbenoit.com"
+		}
+	}
+	</script>
+
+	<!-- Google Fonts -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link
+		href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;800&display=swap"
+		rel="stylesheet">
+	<link rel="stylesheet" href="/src/style.css">
+
+	<style>
+		pre {
+			background: rgb(15 23 42 / 0.8);
+			border: 1px solid rgb(51 65 85 / 0.7);
+			border-radius: 0.75rem;
+			padding: 1.25rem 1.5rem;
+			overflow-x: auto;
+			font-size: 0.8125rem;
+			line-height: 1.75;
+			tab-size: 2;
+		}
+
+		code {
+			font-family: ui-monospace, "Cascadia Code", "Fira Code", Menlo, monospace;
+			color: #e2e8f0;
+		}
+
+		pre code {
+			font-size: inherit;
+		}
+
+		.tok-comment {
+			color: #64748b;
+		}
+
+		.tok-string {
+			color: #86efac;
+		}
+
+		.tok-kw {
+			color: #818cf8;
+		}
+
+		.tok-fn {
+			color: #67e8f9;
+		}
+
+		.tok-attr {
+			color: #fbbf24;
+		}
+
+		.tok-value {
+			color: #f472b6;
+		}
+
+		.tok-type {
+			color: #a78bfa;
+		}
+
+		.badge {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.375rem;
+			padding: 0.25rem 0.625rem;
+			border-radius: 9999px;
+			font-size: 0.7rem;
+			font-weight: 600;
+			letter-spacing: 0.05em;
+			text-transform: uppercase;
+		}
+
+		table {
+			width: 100%;
+			border-collapse: collapse;
+			font-size: 0.8125rem;
+		}
+
+		th {
+			text-align: left;
+			padding: 0.625rem 0.875rem;
+			color: #94a3b8;
+			font-weight: 500;
+			border-bottom: 1px solid rgb(51 65 85 / 0.6);
+		}
+
+		td {
+			padding: 0.625rem 0.875rem;
+			color: #cbd5e1;
+			border-bottom: 1px solid rgb(51 65 85 / 0.3);
+			vertical-align: top;
+		}
+
+		tr:last-child td {
+			border-bottom: none;
+		}
+
+		td code,
+		th code {
+			font-size: 0.775rem;
+			color: #67e8f9;
+			background: rgb(15 23 42 / 0.5);
+			padding: 0.1em 0.4em;
+			border-radius: 0.25rem;
+		}
+
+		td:first-child code {
+			color: #fbbf24;
+		}
+
+		.compare-yes {
+			color: #4ade80;
+		}
+
+		.compare-no {
+			color: #f87171;
+		}
+
+		.compare-part {
+			color: #fb923c;
+		}
+
+		.feature-icon {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 2rem;
+			height: 2rem;
+			border-radius: 0.5rem;
+			background: rgb(16 185 129 / 0.15);
+			color: #34d399;
+			flex-shrink: 0;
+		}
+	</style>
+</head>
+
+<body class="bg-slate-950 text-slate-200 font-inter antialiased selection:bg-emerald-500/30">
+	<div class="relative min-h-screen overflow-hidden flex flex-col items-center py-6 md:py-12 px-4 sm:px-6 lg:px-8">
+
+		<!-- Background Effects -->
+		<div class="fixed inset-0 z-0 pointer-events-none">
+			<div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-emerald-600/15 blur-[120px]">
+			</div>
+			<div class="absolute top-[40%] right-[-10%] w-[30%] h-[30%] rounded-full bg-teal-600/10 blur-[120px]"></div>
+		</div>
+
+		<div class="relative z-10 w-full max-w-4xl mx-auto flex flex-col gap-6">
+
+			<!-- Breadcrumb -->
+			<nav aria-label="Breadcrumb" class="text-sm text-slate-500">
+				<a href="/" class="hover:text-emerald-400 transition-colors">← Peter Benoit</a>
+				<span class="mx-2">/</span>
+				<span class="text-slate-300">ImageProcessor.js</span>
+			</nav>
+
+			<!-- Hero -->
+			<header
+				class="bento-card p-6 md:p-10 bg-slate-900/50 backdrop-blur-md border border-slate-800 rounded-3xl shadow-xl">
+				<div class="flex flex-wrap items-center gap-2 mb-4">
+					<span class="badge bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">Canvas
+						API</span>
+					<span class="badge bg-teal-500/20 text-teal-300 border border-teal-500/30">v1.0.1</span>
+					<span class="badge bg-slate-700/50 text-slate-300 border border-slate-700">Zero Dependencies</span>
+					<span class="badge bg-sky-500/20 text-sky-300 border border-sky-500/30">MIT License</span>
+				</div>
+				<h1 class="text-4xl md:text-5xl font-outfit font-bold tracking-tight text-white mb-3">
+					Image<span
+						class="text-transparent bg-clip-text bg-gradient-to-r from-emerald-400 to-teal-400">Processor</span><span
+						class="text-slate-500">.js</span>
+				</h1>
+				<p class="text-lg md:text-xl text-slate-300 leading-relaxed max-w-2xl mb-6">
+					A lightweight library for <strong class="text-white">client-side image processing</strong> using the
+					HTML5 Canvas API — filters, crop, resize, rotate, and watermarks entirely in the browser.
+					<strong class="text-white">No server, no dependencies.</strong>
+				</p>
+				<div class="flex flex-wrap gap-3">
+					<a href="https://imgprocessor.vercel.app/" target="_blank" rel="noopener noreferrer"
+						class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-medium transition-colors text-sm">
+						<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+								d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+						</svg>
+						Docs &amp; Site
+					</a>
+					<a href="https://github.com/peterbenoit/ImageProcessor.js" target="_blank" rel="noopener noreferrer"
+						class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium transition-colors text-sm border border-slate-700">
+						<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+							<path
+								d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+						</svg>
+						GitHub
+					</a>
+					<a href="https://codepen.io/peterbenoit/pen/XWLOmpj" target="_blank" rel="noopener noreferrer"
+						class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium transition-colors text-sm border border-slate-700">
+						<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+							<path
+								d="M18.144 13.067v-2.134L16.55 12zm1.276 1.194a.628.628 0 01-.006.083l-.005.028-.011.053-.01.031c-.005.016-.01.031-.017.047l-.014.03a.78.78 0 01-.021.043l-.019.03a.61.61 0 01-.08.1l-.026.025a.602.602 0 01-.036.03l-.029.022-.01.008-6.782 4.522a.628.628 0 01-.695 0L4.864 14.82l-.01-.008a.599.599 0 01-.065-.052l-.026-.025-.032-.034-.021-.028a.588.588 0 01-.067-.11l-.014-.031a.644.644 0 01-.017-.047l-.01-.031-.01-.053-.006-.028a.628.628 0 01-.006-.083V9.739a.628.628 0 01.006-.083l.005-.027.011-.054.01-.03a.574.574 0 01.12-.217l.031-.034.026-.025a.62.62 0 01.065-.052l.01-.008 6.782-4.521a.628.628 0 01.695 0l6.782 4.521.01.008.029.022.036.03.026.025a.605.605 0 01.08.1l.019.03a.758.758 0 01.021.043l.014.03c.007.016.012.031.017.047l.01.031.01.054.006.027a.619.619 0 01.006.083zM12 5.359l-3.849 2.566L12 10.49l3.849-2.566zm-5.091 4.51l-2.894 1.93 2.894 1.93V9.869zm10.182 0v3.86l2.894-1.93zm-6.91 4.42l-3.849 2.566L12 18.64l3.849-2.566z" />
+						</svg>
+						Live Demo
+					</a>
+				</div>
+			</header>
+
+			<!-- The Problem -->
+			<section
+				class="bento-card p-6 md:p-8 bg-slate-900/50 backdrop-blur-md border border-slate-800 rounded-3xl shadow-xl">
+				<h2 class="font-outfit font-semibold text-2xl text-white mb-3">CSS Filters Aren't Enough</h2>
+				<p class="text-slate-400 leading-relaxed mb-5">
+					CSS filters change how an image <em>looks</em> — they never touch the underlying pixel data.
+					That means you can't export the result, enforce a watermark, or generate a resized thumbnail.
+					Whenever you need the processed image to actually exist, you reach for the Canvas API — and that's
+					where the boilerplate piles up fast:
+				</p>
+				<pre><code><span class="tok-kw">const</span> img = <span class="tok-kw">new</span> <span class="tok-type">Image</span>();
+img.crossOrigin = <span class="tok-string">'anonymous'</span>;
+img.<span class="tok-fn">onload</span> = () => {
+  <span class="tok-kw">const</span> canvas = document.<span class="tok-fn">createElement</span>(<span class="tok-string">'canvas'</span>);
+  <span class="tok-kw">const</span> ctx = canvas.<span class="tok-fn">getContext</span>(<span class="tok-string">'2d'</span>);
+  canvas.width = <span class="tok-value">800</span>; canvas.height = <span class="tok-value">600</span>;
+  ctx.filter = <span class="tok-string">'grayscale(100%) brightness(1.2)'</span>;
+  ctx.<span class="tok-fn">drawImage</span>(img, <span class="tok-value">0</span>, <span class="tok-value">0</span>, <span class="tok-value">800</span>, <span class="tok-value">600</span>);
+  <span class="tok-comment">// ... watermark logic ...</span>
+  <span class="tok-comment">// ... inject into DOM ...</span>
+};
+img.src = url;</code></pre>
+
+				<p class="text-slate-400 leading-relaxed mt-5 mb-4">
+					Multiply that by every image on the page, add watermarks, rotation, batch processing, and error
+					callbacks — and you've reinvented ImageProcessor.js. Instead:
+				</p>
+
+				<pre><code><span class="tok-kw">new</span> <span class="tok-type">ImageProcessor</span>(<span class="tok-string">'https://example.com/photo.jpg'</span>, {
+  width: <span class="tok-value">800</span>,
+  grayscale: <span class="tok-string">'grayscale(100%)'</span>,
+  brightness: <span class="tok-string">'brightness(1.2)'</span>,
+  watermark: <span class="tok-string">'© 2026 Peter Benoit'</span>,
+  targetElement: document.<span class="tok-fn">getElementById</span>(<span class="tok-string">'output'</span>),
+});</code></pre>
+			</section>
+
+			<!-- CSS vs ImageProcessor comparison -->
+			<section
+				class="bento-card p-6 md:p-8 bg-slate-900/50 backdrop-blur-md border border-slate-800 rounded-3xl shadow-xl">
+				<h2 class="font-outfit font-semibold text-2xl text-white mb-1">CSS Filters vs. ImageProcessor</h2>
+				<p class="text-slate-400 text-sm mb-5">The key distinction: CSS is visual-only. ImageProcessor operates
+					on actual pixel data.</p>
+				<div class="overflow-x-auto">
+					<table>
+						<thead>
+							<tr>
+								<th>Capability</th>
+								<th>CSS Filters</th>
+								<th>ImageProcessor</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Apply visual effects (blur, brightness, etc.)</td>
+								<td class="compare-yes">✓</td>
+								<td class="compare-yes">✓</td>
+							</tr>
+							<tr>
+								<td>Export / save the modified image</td>
+								<td class="compare-no">✗</td>
+								<td class="compare-yes">✓</td>
+							</tr>
+							<tr>
+								<td>Crop or resize actual pixel data</td>
+								<td class="compare-no">✗</td>
+								<td class="compare-yes">✓</td>
+							</tr>
+							<tr>
+								<td>Bake in watermarks (not bypassable with DevTools)</td>
+								<td class="compare-no">✗</td>
+								<td class="compare-yes">✓</td>
+							</tr>
+							<tr>
+								<td>Batch-process multiple images</td>
+								<td class="compare-no">✗</td>
+								<td class="compare-yes">✓</td>
+							</tr>
+							<tr>
+								<td>Generate thumbnails before upload</td>
+								<td class="compare-no">✗</td>
+								<td class="compare-yes">✓</td>
+							</tr>
+							<tr>
+								<td>Consistent cross-browser output</td>
+								<td class="compare-part">Partial</td>
+								<td class="compare-yes">✓</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</section>
+
+			<!-- Feature grid -->
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+				<!-- Filters -->
+				<section
+					class="bento-card p-6 md:p-8 bg-slate-900/50 backdrop-blur-md border border-slate-800 rounded-3xl shadow-xl">
+					<div class="feature-icon mb-4">
+						<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+								d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
+						</svg>
+					</div>
+					<h2 class="font-outfit font-semibold text-xl text-white mb-3">CSS Filter Syntax</h2>
+					<p class="text-slate-400 text-sm leading-relaxed mb-4">
+						Filters use the native CSS filter function syntax you already know. They're applied via the
+						Canvas 2D <code>filter</code> property and baked into the output pixels.
+					</p>
+					<pre><code><span class="tok-kw">new</span> <span class="tok-type">ImageProcessor</span>(url, {
+  grayscale:  <span class="tok-string">'grayscale(100%)'</span>,
+  brightness: <span class="tok-string">'brightness(1.4)'</span>,
+  contrast:   <span class="tok-string">'contrast(1.2)'</span>,
+  blur:       <span class="tok-string">'blur(4px)'</span>,
+  sepia:      <span class="tok-string">'sepia(80%)'</span>,
+  targetElement: el,
+});</code></pre>
+				</section>
+
+				<!-- Watermarks -->
+				<section
+					class="bento-card p-6 md:p-8 bg-slate-900/50 backdrop-blur-md border border-slate-800 rounded-3xl shadow-xl">
+					<div class="feature-icon mb-4">
+						<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+								d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+						</svg>
+					</div>
+					<h2 class="font-outfit font-semibold text-xl text-white mb-3">Watermarks</h2>
+					<p class="text-slate-400 text-sm leading-relaxed mb-4">
+						Text or image watermarks, composited at the pixel level. Position, angle, repeat pattern, and
+						style are all configurable.
+					</p>
+					<pre><code><span class="tok-kw">new</span> <span class="tok-type">ImageProcessor</span>(url, {
+  watermark: <span class="tok-string">'© 2026 My Site'</span>,
+  watermarkPosition: <span class="tok-string">'bottom-right'</span>,
+  watermarkAngle: <span class="tok-value">-30</span>,
+  watermarkRepeat: <span class="tok-string">'repeat'</span>,
+  watermarkStyle: {
+    fontSize: <span class="tok-string">'18px'</span>,
+    color: <span class="tok-string">'rgba(255,255,255,0.4)'</span>,
+  },
+  targetElement: el,
+});</code></pre>
+				</section>
+
+				<!-- Crop & Resize -->
+				<section
+					class="bento-card p-6 md:p-8 bg-slate-900/50 backdrop-blur-md border border-slate-800 rounded-3xl shadow-xl">
+					<div class="feature-icon mb-4">
+						<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+								d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+						</svg>
+					</div>
+					<h2 class="font-outfit font-semibold text-xl text-white mb-3">Crop, Resize &amp; Rotate</h2>
+					<p class="text-slate-400 text-sm leading-relaxed mb-4">
+						Transforms are applied via the canvas coordinate system during <code>drawImage()</code> — no
+						intermediate copies, no quality loss from double-processing.
+					</p>
+					<pre><code><span class="tok-kw">new</span> <span class="tok-type">ImageProcessor</span>(url, {
+  width: <span class="tok-value">400</span>, height: <span class="tok-value">300</span>,
+  cropX: <span class="tok-value">50</span>, cropY: <span class="tok-value">50</span>,
+  cropWidth: <span class="tok-value">500</span>, cropHeight: <span class="tok-value">400</span>,
+  rotate: <span class="tok-value">90</span>,
+  targetElement: el,
+});</code></pre>
+				</section>
+
+				<!-- Batch & Data Attributes -->
+				<section
+					class="bento-card p-6 md:p-8 bg-slate-900/50 backdrop-blur-md border border-slate-800 rounded-3xl shadow-xl">
+					<div class="feature-icon mb-4">
+						<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+								d="M4 6h16M4 10h16M4 14h16M4 18h16" />
+						</svg>
+					</div>
+					<h2 class="font-outfit font-semibold text-xl text-white mb-3">Batch &amp; Data Attribute API</h2>
+					<p class="text-slate-400 text-sm leading-relaxed mb-4">
+						Process dozens of images with one call, or use <code>data-img</code> attributes for zero-JS
+						declarative usage — great for CMS-generated markup.
+					</p>
+					<pre><code><span class="tok-comment">&lt;!-- HTML-only, no JS needed per element --&gt;</span>
+&lt;div
+  <span class="tok-attr">data-img</span>=<span class="tok-string">"photo.jpg"</span>
+  <span class="tok-attr">data-grayscale</span>=<span class="tok-string">"true"</span>
+  <span class="tok-attr">data-watermark</span>=<span class="tok-string">"© My Site"</span>
+  <span class="tok-attr">data-width</span>=<span class="tok-string">"600"</span>
+&gt;&lt;/div&gt;
+
+<span class="tok-comment">// One line to process all</span>
+<span class="tok-kw">new</span> <span class="tok-type">ImageProcessor</span>();</code></pre>
+				</section>
+
+			</div>
+
+			<!-- How It Works -->
+			<section
+				class="bento-card p-6 md:p-8 bg-slate-900/50 backdrop-blur-md border border-slate-800 rounded-3xl shadow-xl">
+				<h2 class="font-outfit font-semibold text-2xl text-white mb-3">How It Works</h2>
+				<p class="text-slate-400 leading-relaxed mb-5">
+					No magic — just a thin wrapper around APIs your browser already ships with.
+				</p>
+				<ol class="flex flex-col gap-3 text-slate-400 text-sm leading-relaxed">
+					<li class="flex gap-3">
+						<span class="text-emerald-400 font-semibold mt-0.5 tabular-nums">1.</span>
+						<span>A hidden <code>&lt;img&gt;</code> loads the source URL with the configured
+							<code>crossOrigin</code>, <code>loading</code>, <code>decoding</code>, and
+							<code>referrerpolicy</code> attributes.</span>
+					</li>
+					<li class="flex gap-3">
+						<span class="text-emerald-400 font-semibold mt-0.5 tabular-nums">2.</span>
+						<span>On load, the image is drawn onto an off-screen <code>&lt;canvas&gt;</code> with the
+							composed CSS filter string applied via the Canvas 2D <code>filter</code> property.</span>
+					</li>
+					<li class="flex gap-3">
+						<span class="text-emerald-400 font-semibold mt-0.5 tabular-nums">3.</span>
+						<span>Crop, resize, and rotation transforms are applied during <code>drawImage()</code> using
+							the canvas coordinate system.</span>
+					</li>
+					<li class="flex gap-3">
+						<span class="text-emerald-400 font-semibold mt-0.5 tabular-nums">4.</span>
+						<span>If a watermark is specified, it is drawn on top — either as composited text or as a second
+							image via <code>drawImage()</code>.</span>
+					</li>
+					<li class="flex gap-3">
+						<span class="text-emerald-400 font-semibold mt-0.5 tabular-nums">5.</span>
+						<span>The canvas is exported via <code>canvas.toDataURL(format, quality)</code> and injected
+							into the target DOM element as an <code>&lt;img&gt;</code> tag.</span>
+					</li>
+					<li class="flex gap-3">
+						<span class="text-emerald-400 font-semibold mt-0.5 tabular-nums">6.</span>
+						<span>Lifecycle callbacks (<code>onProcessingStart</code>, <code>onProcessed</code>,
+							<code>onError</code>) fire at each step.</span>
+					</li>
+				</ol>
+				<p class="text-slate-500 text-xs mt-5 border-t border-slate-800 pt-4">
+					The original source image is never mutated. The output is a new, independent image that can be
+					saved, uploaded, or displayed separately.
+				</p>
+			</section>
+
+			<!-- Options Reference -->
+			<section
+				class="bento-card p-6 md:p-8 bg-slate-900/50 backdrop-blur-md border border-slate-800 rounded-3xl shadow-xl">
+				<h2 class="font-outfit font-semibold text-2xl text-white mb-1">Options Reference</h2>
+				<p class="text-slate-400 text-sm mb-6">All options passed as the second argument to
+					<code>new ImageProcessor(url, options)</code>.</p>
+
+				<h3 class="text-slate-300 font-medium text-sm mb-3 mt-2">Dimensions &amp; Transforms</h3>
+				<div class="overflow-x-auto mb-6">
+					<table>
+						<thead>
+							<tr>
+								<th>Option</th>
+								<th>Default</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><code>width</code></td>
+								<td><code>null</code></td>
+								<td>Output width in pixels. Uses source width if omitted.</td>
+							</tr>
+							<tr>
+								<td><code>height</code></td>
+								<td><code>null</code></td>
+								<td>Output height in pixels. Uses source height if omitted.</td>
+							</tr>
+							<tr>
+								<td><code>cropX</code></td>
+								<td><code>0</code></td>
+								<td>X offset of the crop region on the source image.</td>
+							</tr>
+							<tr>
+								<td><code>cropY</code></td>
+								<td><code>0</code></td>
+								<td>Y offset of the crop region on the source image.</td>
+							</tr>
+							<tr>
+								<td><code>cropWidth</code></td>
+								<td><code>null</code></td>
+								<td>Width of the crop region. Uses full image width if omitted.</td>
+							</tr>
+							<tr>
+								<td><code>cropHeight</code></td>
+								<td><code>null</code></td>
+								<td>Height of the crop region. Uses full image height if omitted.</td>
+							</tr>
+							<tr>
+								<td><code>rotate</code></td>
+								<td><code>0</code></td>
+								<td>Rotation angle in degrees.</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+				<h3 class="text-slate-300 font-medium text-sm mb-3">Filters <span
+						class="text-slate-500 font-normal">(CSS filter function syntax)</span></h3>
+				<div class="overflow-x-auto mb-6">
+					<table>
+						<thead>
+							<tr>
+								<th>Option</th>
+								<th>Default</th>
+								<th>Example value</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><code>grayscale</code></td>
+								<td><code>''</code></td>
+								<td><code>'grayscale(100%)'</code></td>
+							</tr>
+							<tr>
+								<td><code>sepia</code></td>
+								<td><code>''</code></td>
+								<td><code>'sepia(80%)'</code></td>
+							</tr>
+							<tr>
+								<td><code>invert</code></td>
+								<td><code>''</code></td>
+								<td><code>'invert(100%)'</code></td>
+							</tr>
+							<tr>
+								<td><code>brightness</code></td>
+								<td><code>'brightness(1)'</code></td>
+								<td><code>'brightness(1.5)'</code></td>
+							</tr>
+							<tr>
+								<td><code>contrast</code></td>
+								<td><code>'contrast(1)'</code></td>
+								<td><code>'contrast(1.2)'</code></td>
+							</tr>
+							<tr>
+								<td><code>blur</code></td>
+								<td><code>''</code></td>
+								<td><code>'blur(4px)'</code></td>
+							</tr>
+							<tr>
+								<td><code>saturation</code></td>
+								<td><code>'saturate(1)'</code></td>
+								<td><code>'saturate(2)'</code></td>
+							</tr>
+							<tr>
+								<td><code>hueRotate</code></td>
+								<td><code>''</code></td>
+								<td><code>'hue-rotate(90deg)'</code></td>
+							</tr>
+							<tr>
+								<td><code>opacity</code></td>
+								<td><code>'opacity(1)'</code></td>
+								<td><code>'opacity(0.6)'</code></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+				<h3 class="text-slate-300 font-medium text-sm mb-3">Watermark</h3>
+				<div class="overflow-x-auto mb-6">
+					<table>
+						<thead>
+							<tr>
+								<th>Option</th>
+								<th>Default</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><code>watermark</code></td>
+								<td><code>null</code></td>
+								<td>Text string or image URL to overlay as a watermark.</td>
+							</tr>
+							<tr>
+								<td><code>watermarkPosition</code></td>
+								<td><code>'bottom-right'</code></td>
+								<td><code>'top-left'</code>, <code>'top-right'</code>, <code>'center'</code>,
+									<code>'bottom-left'</code>, <code>'bottom-right'</code></td>
+							</tr>
+							<tr>
+								<td><code>watermarkRepeat</code></td>
+								<td><code>'no-repeat'</code></td>
+								<td><code>'no-repeat'</code>, <code>'repeat'</code>, or <code>'cover'</code></td>
+							</tr>
+							<tr>
+								<td><code>watermarkAngle</code></td>
+								<td><code>0</code></td>
+								<td>Rotation angle for text watermarks, in degrees.</td>
+							</tr>
+							<tr>
+								<td><code>watermarkStyle</code></td>
+								<td>See docs</td>
+								<td>Style object: <code>fontSize</code>, <code>fontFamily</code>, <code>color</code>,
+									<code>opacity</code>.</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+
+				<h3 class="text-slate-300 font-medium text-sm mb-3">Output, Loading &amp; Callbacks</h3>
+				<div class="overflow-x-auto">
+					<table>
+						<thead>
+							<tr>
+								<th>Option</th>
+								<th>Default</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><code>outputFormat</code></td>
+								<td><code>'image/png'</code></td>
+								<td>Canvas export format. Use <code>'image/jpeg'</code> for photos.</td>
+							</tr>
+							<tr>
+								<td><code>quality</code></td>
+								<td><code>0.92</code></td>
+								<td>Quality for lossy formats (0.0–1.0).</td>
+							</tr>
+							<tr>
+								<td><code>loading</code></td>
+								<td><code>'auto'</code></td>
+								<td><code>'lazy'</code>, <code>'eager'</code>, or <code>'auto'</code>.</td>
+							</tr>
+							<tr>
+								<td><code>crossorigin</code></td>
+								<td><code>'anonymous'</code></td>
+								<td><code>'anonymous'</code> or <code>'use-credentials'</code>.</td>
+							</tr>
+							<tr>
+								<td><code>altText</code></td>
+								<td><code>'Processed image'</code></td>
+								<td><code>alt</code> attribute for the output <code>&lt;img&gt;</code>. Always set a
+									meaningful value.</td>
+							</tr>
+							<tr>
+								<td><code>targetElement</code></td>
+								<td><code>null</code></td>
+								<td>DOM node where the processed image is injected. Required for programmatic use.</td>
+							</tr>
+							<tr>
+								<td><code>onProcessingStart</code></td>
+								<td>—</td>
+								<td>Fired when processing begins. Receives <code>{ imageUrl, targetElement }</code>.
+								</td>
+							</tr>
+							<tr>
+								<td><code>onProcessed</code></td>
+								<td>—</td>
+								<td>Fired when the image is in the DOM. Receives
+									<code>{ imageUrl, targetElement }</code>.</td>
+							</tr>
+							<tr>
+								<td><code>onError</code></td>
+								<td>—</td>
+								<td>Fired on failure. Receives <code>{ imageUrl, error, targetElement }</code>.</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</section>
+
+			<!-- Usage -->
+			<section
+				class="bento-card p-6 md:p-8 bg-slate-900/50 backdrop-blur-md border border-slate-800 rounded-3xl shadow-xl">
+				<h2 class="font-outfit font-semibold text-2xl text-white mb-1">Usage</h2>
+				<p class="text-slate-400 text-sm mb-6">A single script tag — no bundler, no build step.</p>
+
+				<h3 class="text-slate-300 font-medium text-sm mb-2">Include</h3>
+				<pre
+					class="mb-5"><code>&lt;script <span class="tok-attr">src</span>=<span class="tok-string">"path/to/ImageProcessor.js"</span>&gt;&lt;/script&gt;</code></pre>
+
+				<h3 class="text-slate-300 font-medium text-sm mb-2">Single image</h3>
+				<pre class="mb-5"><code><span class="tok-kw">new</span> <span class="tok-type">ImageProcessor</span>(<span class="tok-string">'photo.jpg'</span>, {
+  width: <span class="tok-value">400</span>, height: <span class="tok-value">300</span>,
+  brightness: <span class="tok-string">'brightness(1.4)'</span>,
+  contrast: <span class="tok-string">'contrast(1.2)'</span>,
+  watermark: <span class="tok-string">'© 2026'</span>,
+  altText: <span class="tok-string">'Enhanced landscape photo'</span>,
+  targetElement: document.<span class="tok-fn">getElementById</span>(<span class="tok-string">'output'</span>),
+  <span class="tok-fn">onProcessed</span>: ({ imageUrl }) => console.<span class="tok-fn">log</span>(<span class="tok-string">'Done:'</span>, imageUrl),
+});</code></pre>
+
+				<h3 class="text-slate-300 font-medium text-sm mb-2">Batch processing</h3>
+				<pre class="mb-5"><code><span class="tok-kw">new</span> <span class="tok-type">ImageProcessor</span>([
+  { url: <span class="tok-string">'img1.jpg'</span>, options: { grayscale: <span class="tok-string">'grayscale(100%)'</span>, targetElement: el1 } },
+  { url: <span class="tok-string">'img2.jpg'</span>, options: { sepia: <span class="tok-string">'sepia(80%)'</span>,         targetElement: el2 } },
+  { url: <span class="tok-string">'img3.jpg'</span>, options: { blur: <span class="tok-string">'blur(3px)'</span>,           targetElement: el3 } },
+]);</code></pre>
+
+				<h3 class="text-slate-300 font-medium text-sm mb-2">Sensitive image blurring</h3>
+				<pre><code><span class="tok-comment">&lt;!-- Blurred by default, click to reveal --&gt;</span>
+&lt;div <span class="tok-attr">class</span>=<span class="tok-string">"sensitive-image"</span> <span class="tok-attr">data-img</span>=<span class="tok-string">"photo.jpg"</span> <span class="tok-attr">data-alt</span>=<span class="tok-string">"..."</span>&gt;&lt;/div&gt;
+&lt;script&gt;<span class="tok-kw">new</span> <span class="tok-type">ImageProcessor</span>();&lt;/script&gt;</code></pre>
+				<p class="text-slate-500 text-xs mt-3">
+					The blur is applied at the canvas level — not a CSS class — so it can't be bypassed through
+					DevTools.
+				</p>
+
+				<div class="flex flex-wrap gap-3 mt-6">
+					<a href="https://imgprocessor.vercel.app/" target="_blank" rel="noopener noreferrer"
+						class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-medium transition-colors text-sm">
+						<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+								d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+						</svg>
+						Full Docs
+					</a>
+					<a href="https://github.com/peterbenoit/ImageProcessor.js" target="_blank" rel="noopener noreferrer"
+						class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium transition-colors text-sm border border-slate-700">
+						View Source on GitHub
+					</a>
+					<a href="https://codepen.io/peterbenoit/pen/XWLOmpj" target="_blank" rel="noopener noreferrer"
+						class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium transition-colors text-sm border border-slate-700">
+						Try on CodePen
+					</a>
+				</div>
+			</section>
+
+			<!-- Footer -->
+			<footer class="text-center text-slate-500 text-sm pb-8 mt-4">
+				<p>
+					Built by <a href="/" class="hover:text-emerald-400 transition-colors">Peter Benoit</a>.
+					&copy; 2026. <a href="https://imgprocessor.vercel.app/" target="_blank" rel="noopener noreferrer"
+						class="hover:text-emerald-400 transition-colors">imgprocessor.vercel.app</a>
+				</p>
+			</footer>
+
+		</div>
+	</div>
+</body>
+
+</html>

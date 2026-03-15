@@ -12,6 +12,7 @@ export default defineConfig({
 				main: resolve(__dirname, 'index.html'),
 				requery: resolve(__dirname, 'requery/index.html'),
 				resourceloader: resolve(__dirname, 'resourceloader/index.html'),
+				imageprocessor: resolve(__dirname, 'imageprocessor/index.html'),
 			},
 		},
 	},
