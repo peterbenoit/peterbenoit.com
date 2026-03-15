@@ -13,13 +13,17 @@ const experiments = [
 	{ title: "Youtube Subscribe Anim", url: "https://codepen.io/peterbenoit/full/QwjGmXp", desc: "A demo of the Youtube Subscribe Button Animation." },
 	{ title: "Github User Search", url: "https://codepen.io/peterbenoit/full/yLdrxbe", desc: "Search and explore GitHub profiles." },
 	{ title: "Doggo Image Slider", url: "https://codepen.io/peterbenoit/full/dyxXyYy", desc: "Image slider showcasing adorable dog images." },
-	{ title: "CSS Mask Manipulation", url: "https://codepen.io/peterbenoit/full/MWMNOYE", desc: "Interactive demo showcasing CSS mask manipulation." }
+	{ title: "CSS Mask Manipulation", url: "https://codepen.io/peterbenoit/full/MWMNOYE", desc: "Interactive demo showcasing CSS mask manipulation." },
+	{ title: "Flying Cicada Principle 🐛", url: "https://codepen.io/peterbenoit/debug/XJJBKmK", desc: "Fly a CSS cicacda around the page" },
+	{ title: "Realistic CSS Highlighter", url: "https://codepen.io/peterbenoit/full/xbxLmJR", desc: "Using CSS to create realistic text highlighting." },
+	{ title: "Lewis and Clark Expedition", url: "https://codepen.io/peterbenoit/full/VwodeqY", desc: "A demo build in Vue of the Lewis and Clark expedition." },
+	{ title: "Glassmorphism: Weather Widget", url: "https://codepen.io/peterbenoit/full/GRVoEpE", desc: "A weather widget demonstrating glassmorphism effects." }
 ];
 
 document.addEventListener('DOMContentLoaded', () => {
 	const container = document.getElementById('ui-experiments-container');
 	if (container) {
-		const experimentsHtml = experiments.slice(0, 12).map(exp => `
+		const experimentsHtml = experiments.map(exp => `
       <a href="${exp.url}" target="_blank" class="group block p-4 rounded-xl border border-slate-800 bg-slate-800/20 hover:bg-slate-800/60 transition-colors flex flex-col justify-between h-full">
         <div>
           <h4 class="font-medium text-cyan-300 mb-2 group-hover:text-cyan-200 transition-colors">${exp.title}</h4>
