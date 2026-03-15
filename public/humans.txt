@@ -1,0 +1,21 @@
+/* TEAM */
+
+Developer & Designer: Peter Benoit
+Email: hello@peterbenoit.com
+Twitter: @peterbenoit
+GitHub: https://github.com/peterbenoit
+Location: United States
+
+/* THANKS */
+
+Vite — https://vitejs.dev/
+Tailwind CSS — https://tailwindcss.com/
+Inter & Outfit by Google Fonts — https://fonts.google.com/
+
+/* SITE */
+
+Last update: 2026/03/14
+Language: English
+Doctype: HTML5
+IDE: Visual Studio Code
+Standards: HTML5, CSS3, ES2022

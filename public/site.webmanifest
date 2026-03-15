@@ -1,19 +1,30 @@
 {
-  "name": "Peter Benoit | UI Developer",
-  "short_name": "PB UI",
-  "icons": [
-    {
-      "src": "/android-chrome-192x192.png",
-      "sizes": "192x192",
-      "type": "image/png"
-    },
-    {
-      "src": "/android-chrome-512x512.png",
-      "sizes": "512x512",
-      "type": "image/png"
-    }
-  ],
-  "theme_color": "#020617",
-  "background_color": "#020617",
-  "display": "standalone"
+	"name": "Peter Benoit | UI Developer & Design Systems Engineer",
+	"short_name": "Peter Benoit",
+	"description": "UI Developer & Design Systems Engineer specializing in creating intuitive, accessible, and high-performance user interfaces.",
+	"lang": "en-US",
+	"start_url": "/",
+	"scope": "/",
+	"icons": [
+		{
+			"src": "/android-chrome-192x192.png",
+			"sizes": "192x192",
+			"type": "image/png",
+			"purpose": "any maskable"
+		},
+		{
+			"src": "/android-chrome-512x512.png",
+			"sizes": "512x512",
+			"type": "image/png",
+			"purpose": "any maskable"
+		}
+	],
+	"theme_color": "#020617",
+	"background_color": "#020617",
+	"display": "standalone",
+	"categories": [
+		"developer",
+		"portfolio",
+		"technology"
+	]
 }
