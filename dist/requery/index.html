@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>reQuery — Reactive jQuery Plugin | Peter Benoit</title>
+	<meta name="description"
+		content="reQuery is a small jQuery plugin that adds reactive state and declarative DOM binding — no build step, no virtual DOM, no component model.">
+	<meta name="author" content="Peter Benoit">
+	<meta name="robots" content="index, follow">
+	<meta name="theme-color" content="#020617">
+	<meta name="color-scheme" content="dark">
+
+	<link rel="canonical" href="https://peterbenoit.com/requery/">
+	<link rel="author" href="/humans.txt">
+	<link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
+
+	<!-- Open Graph -->
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://peterbenoit.com/requery/">
+	<meta property="og:title" content="reQuery — Reactive jQuery Plugin">
+	<meta property="og:description"
+		content="Reactive state and declarative DOM binding for jQuery — no build step, no virtual DOM, no component model.">
+	<meta property="og:image" content="https://peterbenoit.com/logo.png">
+
+	<!-- Twitter -->
+	<meta property="twitter:card" content="summary_large_image">
+	<meta property="twitter:url" content="https://peterbenoit.com/requery/">
+	<meta property="twitter:title" content="reQuery — Reactive jQuery Plugin">
+	<meta property="twitter:description"
+		content="Reactive state and declarative DOM binding for jQuery — no build step, no virtual DOM, no component model.">
+	<meta property="twitter:image" content="https://peterbenoit.com/logo.png">
+	<meta name="twitter:creator" content="@peterbenoit">
+
+	<!-- Favicons -->
+	<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+	<link rel="manifest" href="/site.webmanifest">
+
+	<!-- Structured Data -->
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "SoftwareSourceCode",
+		"name": "reQuery",
+		"description": "A jQuery plugin that adds reactive state and declarative DOM binding — without a build step, a virtual DOM, or a component model.",
+		"url": "https://peterbenoit.com/requery/",
+		"codeRepository": "https://github.com/peterbenoit/requery",
+		"programmingLanguage": "JavaScript",
+		"author": {
+			"@type": "Person",
+			"name": "Peter Benoit",
+			"url": "https://peterbenoit.com"
+		}
+	}
+	</script>
+
+	<!-- Google Fonts -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link
+		href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;800&display=swap"
+		rel="stylesheet">
+
+	<style>
+		pre {
+			background: rgb(15 23 42 / 0.8);
+			border: 1px solid rgb(51 65 85 / 0.7);
+			border-radius: 0.75rem;
+			padding: 1.25rem 1.5rem;
+			overflow-x: auto;
+			font-size: 0.8125rem;
+			line-height: 1.75;
+			tab-size: 2;
+		}
+
+		code {
+			font-family: ui-monospace, "Cascadia Code", "Fira Code", Menlo, monospace;
+			color: #e2e8f0;
+		}
+
+		pre code {
+			font-size: inherit;
+		}
+
+		/* Minimal syntax colouring — no JS needed */
+		.tok-comment {
+			color: #64748b;
+		}
+
+		.tok-string {
+			color: #86efac;
+		}
+
+		.tok-kw {
+			color: #818cf8;
+		}
+
+		.tok-fn {
+			color: #67e8f9;
+		}
+
+		.tok-attr {
+			color: #fbbf24;
+		}
+
+		.tok-value {
+			color: #f472b6;
+		}
+
+		.badge {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.375rem;
+			padding: 0.25rem 0.625rem;
+			border-radius: 9999px;
+			font-size: 0.7rem;
+			font-weight: 600;
+			letter-spacing: 0.05em;
+			text-transform: uppercase;
+		}
+
+		table {
+			width: 100%;
+			border-collapse: collapse;
+			font-size: 0.8125rem;
+		}
+
+		th {
+			text-align: left;
+			padding: 0.625rem 0.875rem;
+			color: #94a3b8;
+			font-weight: 500;
+			border-bottom: 1px solid rgb(51 65 85 / 0.6);
+		}
+
+		td {
+			padding: 0.625rem 0.875rem;
+			color: #cbd5e1;
+			border-bottom: 1px solid rgb(51 65 85 / 0.3);
+			vertical-align: top;
+		}
+
+		tr:last-child td {
+			border-bottom: none;
+		}
+
+		td code,
+		th code {
+			font-size: 0.775rem;
+			color: #67e8f9;
+			background: rgb(15 23 42 / 0.5);
+			padding: 0.1em 0.4em;
+			border-radius: 0.25rem;
+		}
+
+		td:first-child code {
+			color: #fbbf24;
+		}
+
+		.compare-yes {
+			color: #4ade80;
+		}
+
+		.compare-no {
+			color: #f87171;
+		}
+
+		.compare-part {
+			color: #fb923c;
+		}
+	</style>
+  <link rel="stylesheet" crossorigin href="/assets/style-CwuZHqcr.css">
+</head>
+
+<body class="bg-slate-950 text-slate-200 font-inter antialiased selection:bg-indigo-500/30">
+	<div class="relative min-h-screen overflow-hidden flex flex-col items-center py-6 md:py-12 px-4 sm:px-6 lg:px-8">
+
+		<!-- Background Effects -->
+		<div class="fixed inset-0 z-0 pointer-events-none">
+			<div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-indigo-600/20 blur-[120px]">
+			</div>
+			<div class="absolute top-[40%] right-[-10%] w-[30%] h-[30%] rounded-full bg-cyan-600/10 blur-[120px]"></div>
+		</div>
+
+		<div class="relative z-10 w-full max-w-4xl mx-auto flex flex-col gap-6">
+
+			<!-- Breadcrumb -->
+			<nav aria-label="Breadcrumb" class="text-sm text-slate-500">
+				<a href="/" class="hover:text-indigo-400 transition-colors">← Peter Benoit</a>
+				<span class="mx-2">/</span>
+				<span class="text-slate-300">reQuery</span>
+			</nav>
+
+			<!-- Hero -->
+			<header
+				class="bento-card p-6 md:p-10 bg-slate-900/50 backdrop-blur-md border border-slate-800 rounded-3xl shadow-xl">
+				<div class="flex flex-wrap items-center gap-2 mb-4">
+					<span class="badge bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">jQuery
+						Plugin</span>
+					<span class="badge bg-cyan-500/20 text-cyan-300 border border-cyan-500/30">~5 KB</span>
+					<span class="badge bg-slate-700/50 text-slate-300 border border-slate-700">No Build Step</span>
+				</div>
+				<h1 class="text-4xl md:text-5xl font-outfit font-bold tracking-tight text-white mb-3">
+					re<span
+						class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-cyan-400">Query</span>
+				</h1>
+				<p class="text-lg md:text-xl text-slate-300 leading-relaxed max-w-2xl mb-6">
+					A jQuery plugin that adds <strong class="text-white">reactive state</strong> and <strong
+						class="text-white">declarative DOM binding</strong> — without a build step, a virtual DOM, or a
+					component model.
+				</p>
+				<div class="flex flex-wrap gap-3">
+					<a href="https://requery.vercel.app/" target="_blank" rel="noopener noreferrer"
+						class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-medium transition-colors text-sm">
+						<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+								d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+						</svg>
+						Live Demo &amp; Docs
+					</a>
+					<a href="https://github.com/peterbenoit/requery" target="_blank" rel="noopener noreferrer"
+						class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium transition-colors text-sm border border-slate-700">
+						<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+							<path
+								d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+						</svg>
+						GitHub
+					</a>
+					<a href="https://www.npmjs.com/package/requery" target="_blank" rel="noopener noreferrer"
+						class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium transition-colors text-sm border border-slate-700">
+						<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+							<path
+								d="M0 7.334v8h6.666v1.332H12v-1.332h12v-8H0zm6.666 6.664H5.334v-4H3.999v4H1.335V8.667h5.331v5.331zm4 0v1.336H8.001V8.667h5.334v5.332h-2.669v-.001zm12.001 0h-1.33v-4h-1.336v4h-1.335v-4h-1.33v4h-2.671V8.667h8.002v5.331z" />
+						</svg>
+						npm
+					</a>
+				</div>
+			</header>
+
+			<!-- The Problem -->
+			<section
+				class="bento-card p-6 md:p-8 bg-slate-900/50 backdrop-blur-md border border-slate-800 rounded-3xl shadow-xl">
+				<h2 class="font-outfit font-semibold text-2xl text-white mb-3">The Problem</h2>
+				<p class="text-slate-400 leading-relaxed mb-6">
+					Most jQuery projects hit the same wall: a piece of UI depends on more than a couple of values, and
+					keeping the DOM manually in sync starts getting messy fast. You end up with code like this:
+				</p>
+
+				<pre><code><span class="tok-comment">// Vanilla jQuery — imperative, brittle</span>
+$(<span class="tok-string">'#inc'</span>).<span class="tok-fn">on</span>(<span class="tok-string">'click'</span>, <span class="tok-kw">function</span>() {
+  count++;
+  $(<span class="tok-string">'.counter-display'</span>).<span class="tok-fn">text</span>(count);
+  $(<span class="tok-string">'.step-tracker'</span>).<span class="tok-fn">text</span>(<span class="tok-string">`Step <span class="tok-value">${count}</span> of 10`</span>);
+  <span class="tok-kw">if</span> (count >= <span class="tok-value">10</span>) $(<span class="tok-string">'.done-msg'</span>).<span class="tok-fn">show</span>();
+  <span class="tok-fn">updateProgressBar</span>(count);
+});</code></pre>
+
+				<p class="text-slate-400 leading-relaxed mt-5 mb-6">
+					Every time <code>count</code> changes you have to remember every element that depends on it. Add a
+					new display element and you're back editing every event handler. Miss one and you have a
+					stale-display bug.
+				</p>
+				<p class="text-slate-400 leading-relaxed mb-6">
+					reQuery inverts that relationship. <strong class="text-slate-200">State is the source of
+						truth.</strong> HTML declares what depends on it:
+				</p>
+
+				<pre><code><span class="tok-comment">&lt;!-- HTML: declare what depends on state --&gt;</span>
+&lt;span <span class="tok-attr">data-rq-text</span>=<span class="tok-string">"count"</span>&gt;&lt;/span&gt;
+&lt;span <span class="tok-attr">data-rq-text</span>=<span class="tok-string">"count"</span> <span class="tok-attr">id</span>=<span class="tok-string">"step-tracker"</span>&gt;&lt;/span&gt;
+&lt;div <span class="tok-attr">data-rq-show</span>=<span class="tok-string">"isDone"</span>&gt;All done!&lt;/div&gt;</code></pre>
+
+				<pre class="mt-3"><code>$(<span class="tok-string">'#app'</span>).<span class="tok-fn">rqState</span>({ count: <span class="tok-value">0</span>, isDone: <span class="tok-kw">false</span> });
+
+$(<span class="tok-string">'#inc'</span>).<span class="tok-fn">on</span>(<span class="tok-string">'click'</span>, () =>
+  $(<span class="tok-string">'#app'</span>).<span class="tok-fn">rqMutate</span>(<span class="tok-string">'count'</span>, n => {
+    <span class="tok-kw">const</span> next = n + <span class="tok-value">1</span>;
+    $(<span class="tok-string">'#app'</span>).<span class="tok-fn">rqSet</span>(<span class="tok-string">'isDone'</span>, next >= <span class="tok-value">10</span>);
+    <span class="tok-kw">return</span> next;
+  })
+);</code></pre>
+
+				<p class="text-slate-400 leading-relaxed mt-5">
+					Adding a new element that displays <code>count</code>? One HTML attribute. No event handler edits.
+					The handlers only change state — they no longer care about the DOM.
+				</p>
+			</section>
+
+			<!-- Who it's for + Design decisions grid -->
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+				<!-- Who it's for -->
+				<section
+					class="bento-card p-6 md:p-8 bg-slate-900/50 backdrop-blur-md border border-slate-800 rounded-3xl shadow-xl">
+					<h2 class="font-outfit font-semibold text-xl text-white mb-4">Who It's For</h2>
+					<ul class="flex flex-col gap-3 text-slate-400 text-sm leading-relaxed">
+						<li class="flex gap-2">
+							<span class="text-indigo-400 mt-0.5">▸</span>
+							<span><strong class="text-slate-200">jQuery developers</strong> who want reactive binding
+								without abandoning the jQuery mental model.</span>
+						</li>
+						<li class="flex gap-2">
+							<span class="text-indigo-400 mt-0.5">▸</span>
+							<span><strong class="text-slate-200">Legacy codebases</strong> — WordPress themes, Laravel
+								Blade views, admin panels — needing reactive sections without a full rewrite.</span>
+						</li>
+						<li class="flex gap-2">
+							<span class="text-indigo-400 mt-0.5">▸</span>
+							<span><strong class="text-slate-200">CMS-driven or server-rendered HTML</strong> where a
+								full SPA framework would be overkill.</span>
+						</li>
+						<li class="flex gap-2">
+							<span class="text-indigo-400 mt-0.5">▸</span>
+							<span><strong class="text-slate-200">Transparency seekers</strong> — no compiler, no magic,
+								just readable source.</span>
+						</li>
+					</ul>
+					<p class="text-slate-500 text-xs mt-5 border-t border-slate-800 pt-4">
+						reQuery is <em>not</em> for greenfield SPA development. For that, use Vue, React, or Svelte.
+					</p>
+				</section>
+
+				<!-- Design decisions -->
+				<section
+					class="bento-card p-6 md:p-8 bg-slate-900/50 backdrop-blur-md border border-slate-800 rounded-3xl shadow-xl">
+					<h2 class="font-outfit font-semibold text-xl text-white mb-4">Core Design Decisions</h2>
+					<div class="flex flex-col gap-4 text-sm text-slate-400 leading-relaxed">
+						<div>
+							<h3 class="text-slate-200 font-medium mb-1">State is scoped to a DOM element</h3>
+							<p>State lives in a <code>WeakMap</code> keyed to the root element — not a global store. Two
+								widgets on the same page have fully independent state.</p>
+						</div>
+						<div>
+							<h3 class="text-slate-200 font-medium mb-1">No virtual DOM — direct writes</h3>
+							<p>When state changes, reQuery walks the subtree, finds <code>data-rq-*</code> bindings for
+								the changed key, and updates those nodes directly. No diffing, no reconciler.</p>
+						</div>
+						<div>
+							<h3 class="text-slate-200 font-medium mb-1">API follows jQuery conventions</h3>
+							<p>All methods on <code>$.fn</code>, selector-first, read methods return values, write
+								methods return <code>this</code> for chaining.</p>
+						</div>
+					</div>
+				</section>
+			</div>
+
+			<!-- Bindings reference -->
+			<section
+				class="bento-card p-6 md:p-8 bg-slate-900/50 backdrop-blur-md border border-slate-800 rounded-3xl shadow-xl">
+				<h2 class="font-outfit font-semibold text-2xl text-white mb-1">DOM Bindings</h2>
+				<p class="text-slate-400 text-sm mb-5">Add these attributes to any element inside your root and reQuery
+					keeps them in sync automatically.</p>
+				<div class="overflow-x-auto">
+					<table>
+						<thead>
+							<tr>
+								<th>Attribute</th>
+								<th>Effect</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><code>data-rq-text="key"</code></td>
+								<td>Sets <code>textContent</code></td>
+							</tr>
+							<tr>
+								<td><code>data-rq-html="key"</code></td>
+								<td>Sets <code>innerHTML</code></td>
+							</tr>
+							<tr>
+								<td><code>data-rq-val="key"</code></td>
+								<td>Sets input value; also wires <code>input</code>/<code>change</code> for two-way
+									binding</td>
+							</tr>
+							<tr>
+								<td><code>data-rq-show="key"</code></td>
+								<td>Toggles visibility via <code>display</code> based on truthiness</td>
+							</tr>
+							<tr>
+								<td><code>data-rq-attr-[name]="key"</code></td>
+								<td>Sets an HTML attribute; passes <code>null</code> to remove it</td>
+							</tr>
+							<tr>
+								<td><code>data-rq-class-[name]="key"</code></td>
+								<td>Adds or removes a CSS class based on truthiness</td>
+							</tr>
+							<tr>
+								<td><code>data-rq-each="key"</code></td>
+								<td>Clones a <code>&lt;template&gt;</code> child for each item in an array</td>
+							</tr>
+							<tr>
+								<td><code>data-rq-on-[event]="action"</code></td>
+								<td>Wires an event to a named handler from <code>opts.actions</code></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</section>
+
+			<!-- API reference -->
+			<section
+				class="bento-card p-6 md:p-8 bg-slate-900/50 backdrop-blur-md border border-slate-800 rounded-3xl shadow-xl">
+				<h2 class="font-outfit font-semibold text-2xl text-white mb-1">API Reference</h2>
+				<p class="text-slate-400 text-sm mb-5">All methods are registered on <code>$.fn</code> and follow
+					standard jQuery chaining patterns.</p>
+				<div class="overflow-x-auto">
+					<table>
+						<thead>
+							<tr>
+								<th>Method</th>
+								<th>Returns</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><code>rqState(obj, opts?)</code></td>
+								<td><code>this</code></td>
+								<td>Initialize state on an element; runs initial binding pass</td>
+							</tr>
+							<tr>
+								<td><code>rqGet(key)</code></td>
+								<td>value</td>
+								<td>Read a state value</td>
+							</tr>
+							<tr>
+								<td><code>rqSet(key, value)</code></td>
+								<td><code>this</code></td>
+								<td>Write a state value; triggers watchers and DOM update</td>
+							</tr>
+							<tr>
+								<td><code>rqMutate(key, fn)</code></td>
+								<td><code>this</code></td>
+								<td>Update state via callback — receives current value, returns next</td>
+							</tr>
+							<tr>
+								<td><code>rqWatch(key, fn)</code></td>
+								<td><code>this</code></td>
+								<td>Register a callback that fires after state is written</td>
+							</tr>
+							<tr>
+								<td><code>rqComputed(key, fn)</code></td>
+								<td><code>this</code></td>
+								<td>Register a derived value; re-runs whenever dependencies change</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</section>
+
+			<!-- Comparison -->
+			<section
+				class="bento-card p-6 md:p-8 bg-slate-900/50 backdrop-blur-md border border-slate-800 rounded-3xl shadow-xl">
+				<h2 class="font-outfit font-semibold text-2xl text-white mb-1">How It Compares</h2>
+				<p class="text-slate-400 text-sm mb-5">reQuery fills a specific gap. It's not trying to be React.</p>
+				<div class="overflow-x-auto">
+					<table>
+						<thead>
+							<tr>
+								<th></th>
+								<th>reQuery</th>
+								<th>Vanilla jQuery</th>
+								<th>Vue / React / Svelte</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Requires a build step</td>
+								<td class="compare-yes">No</td>
+								<td class="compare-yes">No</td>
+								<td class="compare-no">Yes</td>
+							</tr>
+							<tr>
+								<td>Requires rewriting existing code</td>
+								<td class="compare-yes">No</td>
+								<td class="compare-yes">—</td>
+								<td class="compare-no">Yes</td>
+							</tr>
+							<tr>
+								<td>Reactive data binding</td>
+								<td class="compare-yes">Yes</td>
+								<td class="compare-no">No</td>
+								<td class="compare-yes">Yes</td>
+							</tr>
+							<tr>
+								<td>Virtual DOM / diffing</td>
+								<td class="compare-yes">No</td>
+								<td class="compare-yes">No</td>
+								<td class="compare-part">Yes (React, Vue)</td>
+							</tr>
+							<tr>
+								<td>Works inside CMS-rendered HTML</td>
+								<td class="compare-yes">Yes</td>
+								<td class="compare-yes">Yes</td>
+								<td class="compare-no">Difficult</td>
+							</tr>
+							<tr>
+								<td>Full SPA capability</td>
+								<td class="compare-no">No</td>
+								<td class="compare-no">No</td>
+								<td class="compare-yes">Yes</td>
+							</tr>
+							<tr>
+								<td>Bundle size (approx.)</td>
+								<td>~5 KB</td>
+								<td>~30 KB</td>
+								<td>30–100+ KB</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</section>
+
+			<!-- Get started -->
+			<section
+				class="bento-card p-6 md:p-8 bg-slate-900/50 backdrop-blur-md border border-slate-800 rounded-3xl shadow-xl">
+				<h2 class="font-outfit font-semibold text-2xl text-white mb-1">Get Started</h2>
+				<p class="text-slate-400 text-sm mb-6">Drop it in via script tag — no bundler required.</p>
+
+				<h3 class="text-slate-300 font-medium text-sm mb-2">Script tag</h3>
+				<pre
+					class="mb-5"><code>&lt;script <span class="tok-attr">src</span>=<span class="tok-string">"https://code.jquery.com/jquery-4.0.0.min.js"</span>&gt;&lt;/script&gt;
+&lt;script <span class="tok-attr">src</span>=<span class="tok-string">"dist/requery.umd.js"</span>&gt;&lt;/script&gt;</code></pre>
+
+				<h3 class="text-slate-300 font-medium text-sm mb-2">ESM / npm</h3>
+				<pre class="mb-5"><code><span class="tok-kw">import</span> $ <span class="tok-kw">from</span> <span class="tok-string">'jquery'</span>;
+<span class="tok-kw">import</span> <span class="tok-string">'requery'</span>;</code></pre>
+
+				<h3 class="text-slate-300 font-medium text-sm mb-2">Minimal example</h3>
+				<pre><code>&lt;div <span class="tok-attr">id</span>=<span class="tok-string">"app"</span>&gt;
+  &lt;p&gt;Count: &lt;strong <span class="tok-attr">data-rq-text</span>=<span class="tok-string">"count"</span>&gt;&lt;/strong&gt;&lt;/p&gt;
+  &lt;button <span class="tok-attr">id</span>=<span class="tok-string">"inc"</span>&gt;+&lt;/button&gt;
+&lt;/div&gt;
+
+&lt;script&gt;
+  $(<span class="tok-string">'#app'</span>).<span class="tok-fn">rqState</span>({ count: <span class="tok-value">0</span> });
+  $(<span class="tok-string">'#inc'</span>).<span class="tok-fn">on</span>(<span class="tok-string">'click'</span>, () => $(<span class="tok-string">'#app'</span>).<span class="tok-fn">rqMutate</span>(<span class="tok-string">'count'</span>, n => n + <span class="tok-value">1</span>));
+&lt;/script&gt;</code></pre>
+
+				<p class="text-slate-500 text-sm mt-5">No compilation. No configuration. No framework to learn.</p>
+
+				<div class="flex flex-wrap gap-3 mt-6">
+					<a href="https://requery.vercel.app/" target="_blank" rel="noopener noreferrer"
+						class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-medium transition-colors text-sm">
+						<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+								d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+						</svg>
+						Full Docs &amp; Live Demo
+					</a>
+					<a href="https://github.com/peterbenoit/requery" target="_blank" rel="noopener noreferrer"
+						class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium transition-colors text-sm border border-slate-700">
+						View Source on GitHub
+					</a>
+				</div>
+			</section>
+
+			<!-- Footer -->
+			<footer class="text-center text-slate-500 text-sm pb-8 mt-4">
+				<p>
+					Built by <a href="/" class="hover:text-indigo-400 transition-colors">Peter Benoit</a>.
+					&copy; 2026. <a href="https://requery.vercel.app/" target="_blank" rel="noopener noreferrer"
+						class="hover:text-indigo-400 transition-colors">requery.vercel.app</a>
+				</p>
+			</footer>
+
+		</div>
+	</div>
+</body>
+
+</html>

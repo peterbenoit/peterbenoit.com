@@ -15,12 +15,13 @@
 	// Configuration
 	const scriptTag = document.currentScript;
 	const urlParams = new URLSearchParams(window.location.search);
+	const dataset = scriptTag ? scriptTag.dataset : {};
+	const rawDelay = parseInt(dataset.delay || '1000', 10);
 	const config = {
-		mode: (scriptTag.dataset.mode === 'tracker') || (urlParams.get('mode') === 'tracker') ? 'tracker' : 'full',
-		position: ['top', 'bottom', 'top-left', 'bottom-left'].includes(scriptTag.dataset.position) ? scriptTag.dataset.position : 'bottom',
-		visible: scriptTag.dataset.visible !== 'false' && urlParams.get('visible') !== 'false',
-		allowBypass: urlParams.get('allow') === 'true',
-		delay: parseInt(scriptTag.dataset.delay || '1000', 10)
+		mode: (dataset.mode === 'tracker') || (urlParams.get('mode') === 'tracker') ? 'tracker' : 'full',
+		position: ['top', 'bottom', 'top-left', 'bottom-left'].includes(dataset.position) ? dataset.position : 'bottom',
+		visible: dataset.visible !== 'false' && urlParams.get('visible') !== 'false',
+		delay: isNaN(rawDelay) ? 1000 : rawDelay
 	};
 
 	// Inject global author‑link and badge styles only once
@@ -34,7 +35,7 @@
 				display:flex;
 				align-items:center;
 				gap:2px;
-				font-family:Comic Sans, sans-serif;
+				font-family:"Comic Sans MS", cursive, sans-serif;
 				background:#ffffff;
 				border:1px solid #f5f5f5;
 				border-radius:20px;
@@ -69,6 +70,7 @@
 		badge.className = `ui-badge ${position}`;
 		badge.href = 'https://uiguy.dev';
 		badge.target = '_blank';
+		badge.setAttribute('rel', 'noopener noreferrer');
 		badge.setAttribute('role', 'button');
 		badge.setAttribute('aria-label', 'Visit uiguy.dev');
 		badge.innerHTML = BADGE_HTML;
@@ -100,7 +102,7 @@
 	/**
 	 * Tracks the current page visit
 	 */
-	async function trackVisit(allowBypass) {
+	async function trackVisit() {
 		// Store referrer info for next page view before sending the current data
 		const referrerInfo = getReferrerInfo();
 		storeCurrentPageAsReferrer();
@@ -116,7 +118,7 @@
 			platform: navigator.userAgentData?.platform || navigator.platform
 		};
 
-		const requestUrl = `https://vercel-email-sandy.vercel.app/api/track${allowBypass ? '?allow=true' : ''}`;
+		const requestUrl = 'https://vercel-email-sandy.vercel.app/api/track';
 
 		try {
 			const response = await fetch(requestUrl, {
@@ -139,7 +141,7 @@
 			createBadge(config.position);
 		}
 		setTimeout(() => {
-			trackVisit(config.allowBypass);
+			trackVisit();
 		}, config.delay);
 	}
 
