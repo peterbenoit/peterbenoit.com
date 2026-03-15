@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>ResourceLoader.js — Dynamic Asset Loading Library | Peter Benoit</title>
+	<meta name="description"
+		content="ResourceLoader.js is a lightweight, zero-dependency JavaScript library for dynamically loading scripts, styles, JSON, fonts, images, audio, video, and binary files through one unified Promise-based API.">
+	<meta name="author" content="Peter Benoit">
+	<meta name="robots" content="index, follow">
+	<meta name="theme-color" content="#020617">
+	<meta name="color-scheme" content="dark">
+
+	<link rel="canonical" href="https://peterbenoit.com/resourceloader/">
+	<link rel="author" href="/humans.txt">
+	<link rel="sitemap" type="application/xml" title="Sitemap" href="/sitemap.xml">
+
+	<!-- Open Graph -->
+	<meta property="og:type" content="website">
+	<meta property="og:url" content="https://peterbenoit.com/resourceloader/">
+	<meta property="og:title" content="ResourceLoader.js — Dynamic Asset Loading Library">
+	<meta property="og:description"
+		content="One unified Promise-based API for loading scripts, styles, JSON, fonts, images, and more — with retries, concurrency control, and deduplication built in.">
+	<meta property="og:image" content="https://peterbenoit.com/logo.png">
+
+	<!-- Twitter -->
+	<meta property="twitter:card" content="summary_large_image">
+	<meta property="twitter:url" content="https://peterbenoit.com/resourceloader/">
+	<meta property="twitter:title" content="ResourceLoader.js — Dynamic Asset Loading Library">
+	<meta property="twitter:description"
+		content="One unified Promise-based API for loading scripts, styles, JSON, fonts, images, and more — with retries, concurrency control, and deduplication built in.">
+	<meta property="twitter:image" content="https://peterbenoit.com/logo.png">
+	<meta name="twitter:creator" content="@peterbenoit">
+
+	<!-- Favicons -->
+	<link rel="icon" type="image/x-icon" href="/favicon.ico" />
+	<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+	<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+	<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+	<link rel="manifest" href="/site.webmanifest">
+
+	<!-- Structured Data -->
+	<script type="application/ld+json">
+	{
+		"@context": "https://schema.org",
+		"@type": "SoftwareSourceCode",
+		"name": "ResourceLoader.js",
+		"description": "A lightweight, zero-dependency JavaScript library for dynamically loading web resources through one unified Promise-based API.",
+		"url": "https://peterbenoit.com/resourceloader/",
+		"codeRepository": "https://github.com/peterbenoit/ResourceLoader.js",
+		"programmingLanguage": "JavaScript",
+		"author": {
+			"@type": "Person",
+			"name": "Peter Benoit",
+			"url": "https://peterbenoit.com"
+		}
+	}
+	</script>
+
+	<!-- Google Fonts -->
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link
+		href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;600;800&display=swap"
+		rel="stylesheet">
+	<link rel="stylesheet" href="/src/style.css">
+
+	<style>
+		pre {
+			background: rgb(15 23 42 / 0.8);
+			border: 1px solid rgb(51 65 85 / 0.7);
+			border-radius: 0.75rem;
+			padding: 1.25rem 1.5rem;
+			overflow-x: auto;
+			font-size: 0.8125rem;
+			line-height: 1.75;
+			tab-size: 2;
+		}
+
+		code {
+			font-family: ui-monospace, "Cascadia Code", "Fira Code", Menlo, monospace;
+			color: #e2e8f0;
+		}
+
+		pre code {
+			font-size: inherit;
+		}
+
+		.tok-comment {
+			color: #64748b;
+		}
+
+		.tok-string {
+			color: #86efac;
+		}
+
+		.tok-kw {
+			color: #818cf8;
+		}
+
+		.tok-fn {
+			color: #67e8f9;
+		}
+
+		.tok-attr {
+			color: #fbbf24;
+		}
+
+		.tok-value {
+			color: #f472b6;
+		}
+
+		.tok-type {
+			color: #a78bfa;
+		}
+
+		.badge {
+			display: inline-flex;
+			align-items: center;
+			gap: 0.375rem;
+			padding: 0.25rem 0.625rem;
+			border-radius: 9999px;
+			font-size: 0.7rem;
+			font-weight: 600;
+			letter-spacing: 0.05em;
+			text-transform: uppercase;
+		}
+
+		table {
+			width: 100%;
+			border-collapse: collapse;
+			font-size: 0.8125rem;
+		}
+
+		th {
+			text-align: left;
+			padding: 0.625rem 0.875rem;
+			color: #94a3b8;
+			font-weight: 500;
+			border-bottom: 1px solid rgb(51 65 85 / 0.6);
+		}
+
+		td {
+			padding: 0.625rem 0.875rem;
+			color: #cbd5e1;
+			border-bottom: 1px solid rgb(51 65 85 / 0.3);
+			vertical-align: top;
+		}
+
+		tr:last-child td {
+			border-bottom: none;
+		}
+
+		td code,
+		th code {
+			font-size: 0.775rem;
+			color: #67e8f9;
+			background: rgb(15 23 42 / 0.5);
+			padding: 0.1em 0.4em;
+			border-radius: 0.25rem;
+		}
+
+		td:first-child code {
+			color: #fbbf24;
+		}
+
+		.feature-icon {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			width: 2rem;
+			height: 2rem;
+			border-radius: 0.5rem;
+			background: rgb(99 102 241 / 0.15);
+			color: #818cf8;
+			flex-shrink: 0;
+		}
+	</style>
+</head>
+
+<body class="bg-slate-950 text-slate-200 font-inter antialiased selection:bg-indigo-500/30">
+	<div class="relative min-h-screen overflow-hidden flex flex-col items-center py-6 md:py-12 px-4 sm:px-6 lg:px-8">
+
+		<!-- Background Effects -->
+		<div class="fixed inset-0 z-0 pointer-events-none">
+			<div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] rounded-full bg-indigo-600/20 blur-[120px]">
+			</div>
+			<div class="absolute top-[40%] right-[-10%] w-[30%] h-[30%] rounded-full bg-violet-600/10 blur-[120px]">
+			</div>
+		</div>
+
+		<div class="relative z-10 w-full max-w-4xl mx-auto flex flex-col gap-6">
+
+			<!-- Breadcrumb -->
+			<nav aria-label="Breadcrumb" class="text-sm text-slate-500">
+				<a href="/" class="hover:text-indigo-400 transition-colors">← Peter Benoit</a>
+				<span class="mx-2">/</span>
+				<span class="text-slate-300">ResourceLoader.js</span>
+			</nav>
+
+			<!-- Hero -->
+			<header
+				class="bento-card p-6 md:p-10 bg-slate-900/50 backdrop-blur-md border border-slate-800 rounded-3xl shadow-xl">
+				<div class="flex flex-wrap items-center gap-2 mb-4">
+					<span class="badge bg-indigo-500/20 text-indigo-300 border border-indigo-500/30">Vanilla JS</span>
+					<span class="badge bg-violet-500/20 text-violet-300 border border-violet-500/30">~17 KB</span>
+					<span class="badge bg-slate-700/50 text-slate-300 border border-slate-700">Zero Dependencies</span>
+					<span class="badge bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">MIT
+						License</span>
+				</div>
+				<h1 class="text-4xl md:text-5xl font-outfit font-bold tracking-tight text-white mb-3">
+					Resource<span
+						class="text-transparent bg-clip-text bg-gradient-to-r from-indigo-400 to-violet-400">Loader</span><span
+						class="text-slate-500">.js</span>
+				</h1>
+				<p class="text-lg md:text-xl text-slate-300 leading-relaxed max-w-2xl mb-6">
+					A lightweight library for <strong class="text-white">dynamically loading any web resource</strong>
+					through one unified <strong class="text-white">Promise-based API</strong> — scripts, stylesheets,
+					JSON,
+					fonts, images, audio, video, and binary files.
+				</p>
+				<div class="flex flex-wrap gap-3">
+					<a href="https://resourceloader.com/" target="_blank" rel="noopener noreferrer"
+						class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-medium transition-colors text-sm">
+						<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+								d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+						</svg>
+						Docs &amp; Site
+					</a>
+					<a href="https://github.com/peterbenoit/ResourceLoader.js" target="_blank" rel="noopener noreferrer"
+						class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium transition-colors text-sm border border-slate-700">
+						<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+							<path
+								d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z" />
+						</svg>
+						GitHub
+					</a>
+					<a href="https://www.npmjs.com/package/resourceloader-js" target="_blank" rel="noopener noreferrer"
+						class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium transition-colors text-sm border border-slate-700">
+						<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+							<path
+								d="M0 7.334v8h6.666v1.332H12v-1.332h12v-8H0zm6.666 6.664H5.334v-4H3.999v4H1.335V8.667h5.331v5.331zm4 0v1.336H8.001V8.667h5.334v5.332h-2.669v-.001zm12.001 0h-1.33v-4h-1.336v4h-1.335v-4h-1.33v4h-2.671V8.667h8.002v5.331z" />
+						</svg>
+						npm
+					</a>
+					<a href="https://codepen.io/peterbenoit/pen/gOVLWXZ" target="_blank" rel="noopener noreferrer"
+						class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium transition-colors text-sm border border-slate-700">
+						<svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+							<path
+								d="M18.144 13.067v-2.134L16.55 12zm1.276 1.194a.628.628 0 01-.006.083l-.005.028-.011.053-.01.031c-.005.016-.01.031-.017.047l-.014.03a.78.78 0 01-.021.043l-.019.03a.61.61 0 01-.08.1l-.026.025a.602.602 0 01-.036.03l-.029.022-.01.008-6.782 4.522a.628.628 0 01-.695 0L4.864 14.82l-.01-.008a.599.599 0 01-.065-.052l-.026-.025-.032-.034-.021-.028a.588.588 0 01-.067-.11l-.014-.031a.644.644 0 01-.017-.047l-.01-.031-.01-.053-.006-.028a.628.628 0 01-.006-.083V9.739a.628.628 0 01.006-.083l.005-.027.011-.054.01-.03a.574.574 0 01.12-.217l.031-.034.026-.025a.62.62 0 01.065-.052l.01-.008 6.782-4.521a.628.628 0 01.695 0l6.782 4.521.01.008.029.022.036.03.026.025a.605.605 0 01.08.1l.019.03a.758.758 0 01.021.043l.014.03c.007.016.012.031.017.047l.01.031.01.054.006.027a.619.619 0 01.006.083zM12 5.359l-3.849 2.566L12 10.49l3.849-2.566zm-5.091 4.51l-2.894 1.93 2.894 1.93V9.869zm10.182 0v3.86l2.894-1.93zm-6.91 4.42l-3.849 2.566L12 18.64l3.849-2.566z" />
+						</svg>
+						Live Demo
+					</a>
+				</div>
+			</header>
+
+			<!-- The Problem -->
+			<section
+				class="bento-card p-6 md:p-8 bg-slate-900/50 backdrop-blur-md border border-slate-800 rounded-3xl shadow-xl">
+				<h2 class="font-outfit font-semibold text-2xl text-white mb-3">The Problem</h2>
+				<p class="text-slate-400 leading-relaxed mb-5">
+					Loading resources programmatically in the browser is surprisingly messy. The platform gives you
+					several different mechanisms depending on resource type — each with its own quirks around load
+					events,
+					error handling, and caching:
+				</p>
+				<pre><code><span class="tok-comment">// A script</span>
+<span class="tok-kw">const</span> s = document.<span class="tok-fn">createElement</span>(<span class="tok-string">'script'</span>);
+s.src = url; s.<span class="tok-fn">onload</span> = resolve; s.<span class="tok-fn">onerror</span> = reject;
+document.head.<span class="tok-fn">appendChild</span>(s);
+
+<span class="tok-comment">// A stylesheet</span>
+<span class="tok-kw">const</span> l = document.<span class="tok-fn">createElement</span>(<span class="tok-string">'link'</span>);
+l.rel = <span class="tok-string">'stylesheet'</span>; l.href = url;
+document.head.<span class="tok-fn">appendChild</span>(l);
+
+<span class="tok-comment">// JSON data</span>
+<span class="tok-kw">const</span> data = <span class="tok-kw">await</span> <span class="tok-fn">fetch</span>(url).<span class="tok-fn">then</span>(r => r.<span class="tok-fn">json</span>());
+
+<span class="tok-comment">// A font</span>
+<span class="tok-kw">const</span> font = <span class="tok-kw">new</span> <span class="tok-type">FontFace</span>(<span class="tok-string">'MyFont'</span>, <span class="tok-string">`url(<span class="tok-value">${url}</span>)`</span>);
+<span class="tok-kw">await</span> font.<span class="tok-fn">load</span>();
+document.fonts.<span class="tok-fn">add</span>(font);</code></pre>
+
+				<p class="text-slate-400 leading-relaxed mt-5 mb-4">
+					Then add retries, timeouts, deduplication, and concurrency limits. You're writing the same
+					boilerplate
+					on every project. ResourceLoader.js solves all of it with one call:
+				</p>
+
+				<pre><code><span class="tok-kw">await</span> ResourceLoader.<span class="tok-fn">include</span>([
+  <span class="tok-string">'https://example.com/app.css'</span>,
+  <span class="tok-string">'https://example.com/app.js'</span>,
+  <span class="tok-string">'https://api.example.com/config.json'</span>,
+]);
+<span class="tok-comment">// All three loaded. Start your app.</span></code></pre>
+			</section>
+
+			<!-- Why / Features grid -->
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+
+				<!-- Retries & Timeouts -->
+				<section
+					class="bento-card p-6 md:p-8 bg-slate-900/50 backdrop-blur-md border border-slate-800 rounded-3xl shadow-xl">
+					<div class="feature-icon mb-4">
+						<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+								d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+						</svg>
+					</div>
+					<h2 class="font-outfit font-semibold text-xl text-white mb-3">Retries &amp; Timeouts</h2>
+					<p class="text-slate-400 text-sm leading-relaxed mb-4">
+						Transient failures are handled automatically. Configure retries, delay between attempts, and a
+						per-attempt timeout — each retry gets its own fresh clock.
+					</p>
+					<pre><code>ResourceLoader.<span class="tok-fn">include</span>([url], {
+  retries: <span class="tok-value">3</span>,
+  retryDelay: <span class="tok-value">2000</span>,
+  timeout: <span class="tok-value">5000</span>,
+});</code></pre>
+				</section>
+
+				<!-- Concurrency & Priority -->
+				<section
+					class="bento-card p-6 md:p-8 bg-slate-900/50 backdrop-blur-md border border-slate-800 rounded-3xl shadow-xl">
+					<div class="feature-icon mb-4">
+						<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+								d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+						</svg>
+					</div>
+					<h2 class="font-outfit font-semibold text-xl text-white mb-3">Concurrency &amp; Priority</h2>
+					<p class="text-slate-400 text-sm leading-relaxed mb-4">
+						Limit simultaneous loads to avoid saturating the browser's connection pool. When queue slots are
+						limited, higher-priority resources load first.
+					</p>
+					<pre><code><span class="tok-comment">// Critical font loads first</span>
+ResourceLoader.<span class="tok-fn">include</span>([font], { priority: <span class="tok-value">10</span> });
+ResourceLoader.<span class="tok-fn">include</span>([img], {
+  priority: <span class="tok-value">1</span>,
+  maxConcurrency: <span class="tok-value">4</span>,
+});</code></pre>
+				</section>
+
+				<!-- Deduplication -->
+				<section
+					class="bento-card p-6 md:p-8 bg-slate-900/50 backdrop-blur-md border border-slate-800 rounded-3xl shadow-xl">
+					<div class="feature-icon mb-4">
+						<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+								d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+						</svg>
+					</div>
+					<h2 class="font-outfit font-semibold text-xl text-white mb-3">State &amp; Deduplication</h2>
+					<p class="text-slate-400 text-sm leading-relaxed mb-4">
+						An internal registry tracks every URL. Requesting something already loaded or loading returns
+						the
+						existing Promise — no duplicate network requests, ever.
+					</p>
+					<pre><code>ResourceLoader.<span class="tok-fn">getResourceState</span>(<span class="tok-string">'app.js'</span>);
+<span class="tok-comment">// → 'loading' | 'loaded' | 'unloaded'</span></code></pre>
+				</section>
+
+				<!-- Error handling -->
+				<section
+					class="bento-card p-6 md:p-8 bg-slate-900/50 backdrop-blur-md border border-slate-800 rounded-3xl shadow-xl">
+					<div class="feature-icon mb-4">
+						<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+								d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z" />
+						</svg>
+					</div>
+					<h2 class="font-outfit font-semibold text-xl text-white mb-3">Structured Errors</h2>
+					<p class="text-slate-400 text-sm leading-relaxed mb-4">
+						Every failure surfaces as a typed error object so you always know exactly what went wrong and
+						why — not an opaque DOM event or a raw network rejection.
+					</p>
+					<pre><code><span class="tok-kw">try</span> {
+  <span class="tok-kw">await</span> ResourceLoader.<span class="tok-fn">include</span>([urls]);
+} <span class="tok-kw">catch</span> (err) {
+  <span class="tok-comment">// err.type: 'network' | 'timeout'</span>
+  <span class="tok-comment">//          | 'abort' | 'unsupported'</span>
+  <span class="tok-comment">// err.results — per-URL breakdown</span>
+}</code></pre>
+				</section>
+
+			</div>
+
+			<!-- Resource type table -->
+			<section
+				class="bento-card p-6 md:p-8 bg-slate-900/50 backdrop-blur-md border border-slate-800 rounded-3xl shadow-xl">
+				<h2 class="font-outfit font-semibold text-2xl text-white mb-1">Universal Resource Support</h2>
+				<p class="text-slate-400 text-sm mb-5">
+					Extension detection picks the right loading mechanism automatically. No configuration needed.
+				</p>
+				<div class="overflow-x-auto">
+					<table>
+						<thead>
+							<tr>
+								<th>Category</th>
+								<th>Extensions</th>
+								<th>Loaded via</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td>Scripts</td>
+								<td><code>.js</code></td>
+								<td><code>&lt;script&gt;</code> element</td>
+							</tr>
+							<tr>
+								<td>Stylesheets</td>
+								<td><code>.css</code></td>
+								<td><code>&lt;link&gt;</code> element</td>
+							</tr>
+							<tr>
+								<td>JSON data</td>
+								<td><code>.json</code></td>
+								<td><code>fetch()</code> + <code>response.json()</code></td>
+							</tr>
+							<tr>
+								<td>Images</td>
+								<td><code>.jpg .png .gif .svg .webp</code></td>
+								<td><code>&lt;img&gt;</code> element</td>
+							</tr>
+							<tr>
+								<td>Fonts</td>
+								<td><code>.woff .woff2</code></td>
+								<td><code>FontFace</code> API</td>
+							</tr>
+							<tr>
+								<td>Audio</td>
+								<td><code>.mp3 .ogg .wav</code></td>
+								<td><code>fetch()</code> + <code>response.blob()</code></td>
+							</tr>
+							<tr>
+								<td>Video</td>
+								<td><code>.mp4 .avi .webm</code></td>
+								<td><code>fetch()</code> + <code>response.blob()</code></td>
+							</tr>
+							<tr>
+								<td>Binary / PDF</td>
+								<td><code>.pdf .zip .bin</code></td>
+								<td><code>fetch()</code> + <code>response.blob()</code></td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</section>
+
+			<!-- API Reference -->
+			<section
+				class="bento-card p-6 md:p-8 bg-slate-900/50 backdrop-blur-md border border-slate-800 rounded-3xl shadow-xl">
+				<h2 class="font-outfit font-semibold text-2xl text-white mb-1">API Reference</h2>
+				<p class="text-slate-400 text-sm mb-5">
+					The entire public API. After inclusion, everything lives on <code>window.ResourceLoader</code>.
+				</p>
+				<div class="overflow-x-auto">
+					<table>
+						<thead>
+							<tr>
+								<th>Method</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><code>include(urls, opts?)</code></td>
+								<td>Load one or more resources. Returns a Promise that resolves when all succeed or
+									rejects with a structured aggregate error.</td>
+							</tr>
+							<tr>
+								<td><code>getResourceState(url)</code></td>
+								<td>Returns <code>'loading'</code>, <code>'loaded'</code>, or <code>'unloaded'</code>.
+								</td>
+							</tr>
+							<tr>
+								<td><code>cancelResource(url)</code></td>
+								<td>Abort an in-flight load.</td>
+							</tr>
+							<tr>
+								<td><code>cancelAll()</code></td>
+								<td>Abort all pending loads at once.</td>
+							</tr>
+							<tr>
+								<td><code>unloadResource(url)</code></td>
+								<td>Remove a loaded resource from the DOM and clear it from the state registry.</td>
+							</tr>
+							<tr>
+								<td><code>setLoggingLevel(level)</code></td>
+								<td>Set global log verbosity: <code>'silent'</code>, <code>'warn'</code>, or
+									<code>'verbose'</code>.</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</section>
+
+			<!-- Options -->
+			<section
+				class="bento-card p-6 md:p-8 bg-slate-900/50 backdrop-blur-md border border-slate-800 rounded-3xl shadow-xl">
+				<h2 class="font-outfit font-semibold text-2xl text-white mb-1">Options</h2>
+				<p class="text-slate-400 text-sm mb-5">Pass an options object as the second argument to
+					<code>include()</code>.</p>
+				<div class="overflow-x-auto">
+					<table>
+						<thead>
+							<tr>
+								<th>Option</th>
+								<th>Default</th>
+								<th>Description</th>
+							</tr>
+						</thead>
+						<tbody>
+							<tr>
+								<td><code>retries</code></td>
+								<td><code>0</code></td>
+								<td>Number of additional attempts after a <code>network</code> or <code>timeout</code>
+									failure.</td>
+							</tr>
+							<tr>
+								<td><code>retryDelay</code></td>
+								<td><code>0</code></td>
+								<td>Milliseconds to wait between retry attempts.</td>
+							</tr>
+							<tr>
+								<td><code>timeout</code></td>
+								<td><code>0</code></td>
+								<td>Per-attempt timeout in ms. <code>0</code> means no limit.</td>
+							</tr>
+							<tr>
+								<td><code>maxConcurrency</code></td>
+								<td><code>3</code></td>
+								<td>Maximum simultaneous loads.</td>
+							</tr>
+							<tr>
+								<td><code>priority</code></td>
+								<td><code>0</code></td>
+								<td>Queue priority — higher numbers load first when slots are limited.</td>
+							</tr>
+							<tr>
+								<td><code>cacheBusting</code></td>
+								<td><code>false</code></td>
+								<td>Append a timestamp query string to prevent stale cache hits.</td>
+							</tr>
+							<tr>
+								<td><code>cacheBustingTypes</code></td>
+								<td><code>['js','css']</code></td>
+								<td>Which extensions to apply cache-busting to.</td>
+							</tr>
+							<tr>
+								<td><code>restrictCacheBustingToLocal</code></td>
+								<td><code>true</code></td>
+								<td>Only bust same-origin URLs.</td>
+							</tr>
+							<tr>
+								<td><code>onSuccess</code></td>
+								<td>—</td>
+								<td>Callback fired for each successful load: <code>(data, url) => void</code>.</td>
+							</tr>
+							<tr>
+								<td><code>onError</code></td>
+								<td>—</td>
+								<td>Callback fired for each failure: <code>(error, url) => void</code>.</td>
+							</tr>
+							<tr>
+								<td><code>logLevel</code></td>
+								<td><code>'warn'</code></td>
+								<td><code>'silent'</code>, <code>'warn'</code>, or <code>'verbose'</code>.</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+			</section>
+
+			<!-- Installation -->
+			<section
+				class="bento-card p-6 md:p-8 bg-slate-900/50 backdrop-blur-md border border-slate-800 rounded-3xl shadow-xl">
+				<h2 class="font-outfit font-semibold text-2xl text-white mb-1">Installation</h2>
+				<p class="text-slate-400 text-sm mb-6">No bundler required. Pick the delivery method that fits your
+					workflow.</p>
+
+				<h3 class="text-slate-300 font-medium text-sm mb-2">CDN — pinned version (recommended for production)
+				</h3>
+				<pre
+					class="mb-5"><code>&lt;script <span class="tok-attr">src</span>=<span class="tok-string">"https://cdn.jsdelivr.net/npm/resourceloader-js@1.0.2/resourceLoader.js"</span>&gt;&lt;/script&gt;</code></pre>
+
+				<h3 class="text-slate-300 font-medium text-sm mb-2">CDN — always latest</h3>
+				<pre
+					class="mb-5"><code>&lt;script <span class="tok-attr">src</span>=<span class="tok-string">"https://cdn.jsdelivr.net/npm/resourceloader-js/resourceLoader.js"</span>&gt;&lt;/script&gt;
+&lt;script <span class="tok-attr">src</span>=<span class="tok-string">"https://unpkg.com/resourceloader-js/resourceLoader.js"</span>&gt;&lt;/script&gt;</code></pre>
+
+				<h3 class="text-slate-300 font-medium text-sm mb-2">npm</h3>
+				<pre class="mb-5"><code>npm install resourceloader-js</code></pre>
+
+				<pre
+					class="mb-5"><code><span class="tok-comment">// CommonJS</span>
+<span class="tok-kw">const</span> ResourceLoader = <span class="tok-fn">require</span>(<span class="tok-string">'resourceloader-js'</span>);
+
+<span class="tok-comment">// ESM</span>
+<span class="tok-kw">import</span> ResourceLoader <span class="tok-kw">from</span> <span class="tok-string">'resourceloader-js'</span>;</code></pre>
+
+				<p class="text-slate-500 text-xs border-t border-slate-800 pt-4">
+					After inclusion the library is available as <code>window.ResourceLoader</code> in browser
+					environments.
+					It is not designed for server-side use — it targets browser APIs (<code>document</code>,
+					<code>FontFace</code>, <code>fetch</code>, DOM elements).
+				</p>
+			</section>
+
+			<!-- Full example -->
+			<section
+				class="bento-card p-6 md:p-8 bg-slate-900/50 backdrop-blur-md border border-slate-800 rounded-3xl shadow-xl">
+				<h2 class="font-outfit font-semibold text-2xl text-white mb-1">Full Example</h2>
+				<p class="text-slate-400 text-sm mb-6">Everything running together — parallel loads, retries, callbacks,
+					and error handling.</p>
+
+				<pre><code>&lt;!DOCTYPE html&gt;
+&lt;html&gt;
+&lt;head&gt;
+  &lt;script <span class="tok-attr">src</span>=<span class="tok-string">"https://cdn.jsdelivr.net/npm/resourceloader-js/resourceLoader.js"</span>&gt;&lt;/script&gt;
+&lt;/head&gt;
+&lt;body&gt;
+  &lt;script&gt;
+    ResourceLoader.<span class="tok-fn">include</span>([
+      <span class="tok-string">'https://cdn.example.com/theme.css'</span>,
+      <span class="tok-string">'https://cdn.example.com/vendor.js'</span>,
+      <span class="tok-string">'https://api.example.com/config.json'</span>,
+    ], {
+      retries: <span class="tok-value">2</span>,
+      timeout: <span class="tok-value">8000</span>,
+      logLevel: <span class="tok-string">'verbose'</span>,
+      <span class="tok-fn">onSuccess</span>: (data, url) => console.<span class="tok-fn">log</span>(<span class="tok-string">'Ready:'</span>, url),
+      <span class="tok-fn">onError</span>: (err, url) => console.<span class="tok-fn">warn</span>(<span class="tok-string">'Failed:'</span>, url, err.message),
+    })
+    .<span class="tok-fn">then</span>(() => {
+      <span class="tok-fn">initApp</span>(); <span class="tok-comment">// all resources ready</span>
+    })
+    .<span class="tok-fn">catch</span>((err) => {
+      console.<span class="tok-fn">error</span>(<span class="tok-string">'Load failed:'</span>, err);
+    });
+  &lt;/script&gt;
+&lt;/body&gt;
+&lt;/html&gt;</code></pre>
+
+				<div class="flex flex-wrap gap-3 mt-6">
+					<a href="https://resourceloader.com/" target="_blank" rel="noopener noreferrer"
+						class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-medium transition-colors text-sm">
+						<svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+							<path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+								d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+						</svg>
+						Full Docs
+					</a>
+					<a href="https://github.com/peterbenoit/ResourceLoader.js" target="_blank" rel="noopener noreferrer"
+						class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium transition-colors text-sm border border-slate-700">
+						View Source on GitHub
+					</a>
+					<a href="https://codepen.io/peterbenoit/pen/gOVLWXZ" target="_blank" rel="noopener noreferrer"
+						class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-medium transition-colors text-sm border border-slate-700">
+						Try on CodePen
+					</a>
+				</div>
+			</section>
+
+			<!-- Footer -->
+			<footer class="text-center text-slate-500 text-sm pb-8 mt-4">
+				<p>
+					Built by <a href="/" class="hover:text-indigo-400 transition-colors">Peter Benoit</a>.
+					&copy; 2026. <a href="https://resourceloader.com/" target="_blank" rel="noopener noreferrer"
+						class="hover:text-indigo-400 transition-colors">resourceloader.com</a>
+				</p>
+			</footer>
+
+		</div>
+	</div>
+</body>
+
+</html>

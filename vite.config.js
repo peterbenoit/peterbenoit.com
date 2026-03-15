@@ -11,6 +11,7 @@ export default defineConfig({
 			input: {
 				main: resolve(__dirname, 'index.html'),
 				requery: resolve(__dirname, 'requery/index.html'),
+				resourceloader: resolve(__dirname, 'resourceloader/index.html'),
 			},
 		},
 	},
